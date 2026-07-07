@@ -1,3 +1,4 @@
+import 'dotenv/config';
 import { NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
@@ -8,22 +9,22 @@ async function bootstrap() {
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
-      forbidNonWhitelisted: true, //allow extra fields
+      forbidNonWhitelisted: true,
       transform: true,
     }),
   );
   app.enableCors({
-    origin: ['http://localhost:5173' ],
+    origin: ['http://localhost:3000'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
   const config = new DocumentBuilder()
-    .setTitle('Event Platform API')
-    .setDescription('API documentation for the Event Platform application')
+    .setTitle('Quiz Builder API')
+    .setDescription('API documentation for the Quiz Builder application')
     .setVersion('1.0')
     .addTag('auth')
-    .addTag('events')
     .addTag('users')
+    .addTag('quizzes')
     .addBearerAuth()
     .build();
 

@@ -27,7 +27,7 @@ export class AuthService {
       data: {
         email: registerDto.email,
         password: hashedPassword,
-        name: registerDto.name,
+        name: registerDto.name || 'Anonymous User',
       },
       select: {
         id: true,

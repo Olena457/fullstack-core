@@ -1,66 +1,61 @@
-import Image from "next/image";
-import styles from "./page.module.css";
+"use client";
+
+import { Box, Typography, Button, Stack } from "@mui/material";
+import Link from "next/link";
+import { Plus, List } from "lucide-react";
 
 export default function Home() {
   return (
-    <div className={styles.page}>
-      <main className={styles.main}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className={styles.intro}>
-          <h1>To get started, edit the page.tsx file.</h1>
-          <p>
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className={styles.ctas}>
-          <a
-            className={styles.primary}
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className={styles.logo}
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className={styles.secondary}
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        minHeight: "100vh",
+        textAlign: "center",
+        p: 3,
+      }}
+    >
+      <Typography
+        variant="h2"
+        component="h1"
+        gutterBottom
+        sx={{ fontWeight: "bold" }}
+      >
+        Welcome to Quiz Builder
+      </Typography>
+
+      <Typography
+        variant="h6"
+        color="text.secondary"
+        sx={{ mb: 6, maxWidth: 600 }}
+      >
+        Create, manage, and take interactive quizzes effortlessly. Get started
+        by creating a new quiz or exploring available ones.
+      </Typography>
+
+      <Stack direction={{ xs: "column", sm: "row" }} spacing={3}>
+        <Button
+          component={Link}
+          href="/quizzes"
+          variant="contained"
+          size="large"
+          startIcon={<List />}
+        >
+          View All Quizzes
+        </Button>
+
+        <Button
+          component={Link}
+          href="/create"
+          variant="outlined"
+          size="large"
+          startIcon={<Plus />}
+        >
+          Create New Quiz
+        </Button>
+      </Stack>
+    </Box>
   );
 }
