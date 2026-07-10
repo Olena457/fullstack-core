@@ -7,34 +7,68 @@ generator client {
 }
 
 model User {
-  id        String   @id @default(uuid())
-  email     String   @unique
-  password  String
-  name      String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id           String    @id @default(uuid())
+  email        String    @unique
+  password     String
+  name         String?
+  refreshToken String?   @map("refresh_token")
+  createdAt    DateTime  @default(now()) @map("created_at")
+  updatedAt    DateTime  @updatedAt @map("updated_at")
+
+  orders       Order[]
+  reviews      Review[]
+
+  @@map("users")
 }
 
-enum QuestionType {
-  BOOLEAN
-  INPUT
-  CHECKBOX
+model Product {
+  id          String   @id @default(uuid())
+  title       String
+  price       Float
+  imageUrl    String   @map("image_url")
+  description String?
+  sizes       String[]
+  colors      String[]
+
+  orderItems  OrderItem[]
+  reviews     Review[]
+
+  @@map("products")
 }
 
-model Quiz {
-  id        Int        @id @default(autoincrement())
-  title     String
-  questions Question[]
-  createdAt DateTime   @default(now())
-  updatedAt DateTime   @updatedAt
+model Review {
+  id        Int      @id @default(autoincrement())
+  text      String
+  rating    Int
+  userId    String   @map("user_id")
+  productId String   @map("product_id")
+  user      User     @relation(fields: [userId], references: [id])
+  product   Product  @relation(fields: [productId], references: [id])
+  createdAt DateTime @default(now()) @map("created_at")
+
+  @@map("reviews")
 }
 
-model Question {
-  id            Int          @id @default(autoincrement())
-  quizId        Int
-  quiz          Quiz         @relation(fields: [quizId], references: [id], onDelete: Cascade)
-  type          QuestionType
-  text          String
-  options       String[]     @default([])
-  correctAnswer String[]
+model Order {
+  id         String   @id @default(uuid())
+  userId     String   @map("user_id")
+  user       User     @relation(fields: [userId], references: [id])
+  totalPrice Float    @map("total_price")
+  status     String   @default("PENDING")
+  invoiceId  String?  @map("invoice_id")
+  items      OrderItem[]
+  createdAt  DateTime @default(now()) @map("created_at")
+
+  @@map("orders")
+}
+
+model OrderItem {
+  id        String  @id @default(uuid())
+  orderId   String  @map("order_id")
+  productId String  @map("product_id")
+  order     Order   @relation(fields: [orderId], references: [id])
+  product   Product @relation(fields: [productId], references: [id])
+  quantity  Int
+
+  @@map("order_items")
 }
