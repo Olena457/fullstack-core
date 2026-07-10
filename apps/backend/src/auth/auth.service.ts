@@ -1,4 +1,9 @@
-import { Injectable, ConflictException, UnauthorizedException } from '@nestjs/common';
+import {
+  Injectable,
+  ConflictException,
+  UnauthorizedException,
+  ForbiddenException,
+} from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import * as bcrypt from 'bcrypt';
 import { PrismaService } from '../prisma/prisma.service';
@@ -37,25 +42,64 @@ export class AuthService {
       },
     });
 
-    const token = this.generateToken(user.id, user.email);
+    const tokens = await this.generateTokens(user.id, user.email);
+    await this.updateRefreshTokenHash(user.id, tokens.refreshToken);
+
     return {
       user,
-      access_token: token,
+      ...tokens,
     };
   }
 
   async login(loginDto: LoginDto) {
     const user = await this.validateUser(loginDto.email, loginDto.password);
 
-    const token = this.generateToken(user.id, user.email);
+    const tokens = await this.generateTokens(user.id, user.email);
+    await this.updateRefreshTokenHash(user.id, tokens.refreshToken);
+
     return {
       user: {
         id: user.id,
         email: user.email,
         name: user.name,
       },
-      access_token: token,
+      ...tokens,
     };
+  }
+
+  async logout(userId: string) {
+    await this.prisma.user.updateMany({
+      where: {
+        id: userId,
+        refreshToken: { not: null },
+      },
+      data: {
+        refreshToken: null,
+      },
+    });
+
+    return { message: 'Logged out successfully' };
+  }
+
+  async refreshTokens(userId: string, refreshToken: string) {
+    const user = await this.prisma.user.findUnique({
+      where: { id: userId },
+    });
+
+    if (!user || !user.refreshToken) {
+      throw new ForbiddenException('Access Denied');
+    }
+
+    const refreshTokenMatches = await bcrypt.compare(refreshToken, user.refreshToken);
+
+    if (!refreshTokenMatches) {
+      throw new ForbiddenException('Access Denied');
+    }
+
+    const tokens = await this.generateTokens(user.id, user.email);
+    await this.updateRefreshTokenHash(user.id, tokens.refreshToken);
+
+    return tokens;
   }
 
   async validateUser(email: string, password: string) {
@@ -94,8 +138,22 @@ export class AuthService {
     return user;
   }
 
-  private generateToken(userId: string, email: string): string {
+  private async generateTokens(userId: string, email: string) {
     const payload = { sub: userId, email };
-    return this.jwtService.sign(payload);
+
+    const [accessToken, refreshToken] = await Promise.all([
+      this.jwtService.signAsync(payload, { expiresIn: '15m' }),
+      this.jwtService.signAsync(payload, { expiresIn: '7d' }),
+    ]);
+
+    return { accessToken, refreshToken };
+  }
+
+  private async updateRefreshTokenHash(userId: string, refreshToken: string) {
+    const hash = await bcrypt.hash(refreshToken, 10);
+    await this.prisma.user.update({
+      where: { id: userId },
+      data: { refreshToken: hash },
+    });
   }
 }

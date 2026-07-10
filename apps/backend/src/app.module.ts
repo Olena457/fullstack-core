@@ -6,9 +6,9 @@ import { AppService } from './app.service';
 import { PrismaModule } from './prisma/prisma.module';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { QuizzesModule } from './quizzes/quizzes.module';
 import { ProductModule } from './product/product.module';
 import { ReviewsModule } from './reviews/reviews.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
   imports: [
@@ -19,9 +19,9 @@ import { ReviewsModule } from './reviews/reviews.module';
     PrismaModule,
     AuthModule,
     UsersModule,
-    QuizzesModule,
     ProductModule,
     ReviewsModule,
+    OrdersModule,
   ],
   controllers: [AppController],
   providers: [AppService],
