@@ -4,30 +4,33 @@ import { useState } from "react";
 import { Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "../../store/authStore";
-import { LoginForm, LoginFormData } from "../../components/LoginForm";
+import { RegisterForm, RegisterFormData } from "../../components/RegisterForm";
 
-export default function LoginPage() {
+export default function RegisterPage() {
   const router = useRouter();
   const loginToStore = useAuthStore((state) => state.login);
 
   const [isLoading, setIsLoading] = useState(false);
   const [apiError, setApiError] = useState<string | null>(null);
 
-  const handleLogin = async (data: LoginFormData) => {
+  const handleRegister = async (data: RegisterFormData) => {
     setIsLoading(true);
     setApiError(null);
 
     try {
-      const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/auth/login`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(data),
-      });
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_URL}/auth/register`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify(data),
+        },
+      );
 
       const result = await res.json();
 
       if (!res.ok) {
-        throw new Error(result.message || "Failed to login");
+        throw new Error(result.message || "Failed to register");
       }
 
       loginToStore(result.user, result.access_token);
@@ -53,8 +56,8 @@ export default function LoginPage() {
         p: 4,
       }}
     >
-      <LoginForm
-        onSubmit={handleLogin}
+      <RegisterForm
+        onSubmit={handleRegister}
         isLoading={isLoading}
         apiError={apiError}
       />

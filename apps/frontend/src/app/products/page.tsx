@@ -21,7 +21,7 @@ export default function ProductsPage() {
     const fetchProducts = async () => {
       try {
         const res = await fetch(
-          `http://localhost:3000/products?page=${page}&limit=8`,
+          `${process.env.NEXT_PUBLIC_API_URL}/products?page=${page}&limit=8`,
         );
         const data = await res.json();
         setProducts(data.data);

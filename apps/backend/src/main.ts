@@ -6,6 +6,7 @@ import { ValidationPipe } from '@nestjs/common';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
+
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -13,18 +14,22 @@ async function bootstrap() {
       transform: true,
     }),
   );
+
   app.enableCors({
     origin: ['http://localhost:3000'],
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
     credentials: true,
   });
+
   const config = new DocumentBuilder()
-    .setTitle('Quiz Builder API')
-    .setDescription('API documentation for the Quiz Builder application')
+    .setTitle('ENTROPIC API')
+    .setDescription('API documentation for the ENTROPIC streetwear store')
     .setVersion('1.0')
-    .addTag('auth')
-    .addTag('users')
-    .addTag('quizzes')
+    .addTag('auth', 'Authentication endpoints')
+    .addTag('users', 'User management')
+    .addTag('products', 'Product catalog')
+    .addTag('orders', 'Order processing')
+    .addTag('reviews', 'Product reviews')
     .addBearerAuth()
     .build();
 
