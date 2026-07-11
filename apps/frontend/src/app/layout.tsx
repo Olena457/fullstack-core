@@ -3,6 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
+import { Header } from "../components/Header"; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,8 +16,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Quiz Builder",
-  description: "Create and manage interactive quizzes",
+  title: "ENTROPIC | Streetwear",
+  description: "Define your style. No compromises.",
 };
 
 export default function RootLayout({
@@ -26,9 +27,17 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${geistSans.variable} ${geistMono.variable}`}>
-      <body>
-        {children}
-        <ToastContainer position="top-center" autoClose={3000} />
+      <body style={{ margin: 0, padding: 0, backgroundColor: "#ffffff" }}>
+        <Header />
+
+        <main>{children}</main>
+
+        <ToastContainer
+          position="bottom-right"
+          autoClose={3000}
+          theme="dark"
+          hideProgressBar={false}
+        />
       </body>
     </html>
   );
