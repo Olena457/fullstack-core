@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "../../store/authStore";
-import { RegisterForm, RegisterFormData } from "../../components/RegisterForm";
+import { RegisterForm, RegisterFormData } from "../../components/auth/RegisterForm";
 
 export default function RegisterPage() {
   const router = useRouter();

@@ -3,7 +3,7 @@ import { Geist, Geist_Mono } from "next/font/google";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
-import { Header } from "../components/Header"; 
+import { Header } from "../components/navigation/Header"; 
 
 const geistSans = Geist({
   variable: "--font-geist-sans",

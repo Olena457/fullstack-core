@@ -4,8 +4,8 @@ import { Box, Badge, IconButton, Typography } from "@mui/material";
 import { ShoppingCart, Clock, User, LogOut } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useCartStore } from "../store/cartStore";
-import { useAuthStore } from "../store/authStore";
+import { useCartStore } from "../../store/cartStore";
+import { useAuthStore } from "../../store/authStore";
 
 export const HeaderActions = () => {
   const router = useRouter();

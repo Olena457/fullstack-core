@@ -4,7 +4,7 @@ import { useState } from "react";
 import { Box } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "../../store/authStore";
-import { LoginForm, LoginFormData } from "../../components/LoginForm";
+import { LoginForm, LoginFormData } from "../../components/auth/LoginForm";
 
 export default function LoginPage() {
   const router = useRouter();

@@ -3,16 +3,14 @@
 import { Box, Button, TextField, Typography, Stack } from "@mui/material";
 import { Plus, Save } from "lucide-react";
 import { useCreateQuiz } from "../../hooks/useCreateQuiz";
-import { QuestionItem } from "../../components/QuestionItem";
 
 export default function CreateQuizPage() {
-  const { methods, fields, append, remove, onSubmit, isSubmitting } =
+  const { methods, append,onSubmit, isSubmitting } =
     useCreateQuiz();
   const {
     register,
     handleSubmit,
     formState: { errors },
-    watch,
   } = methods;
 
   return (
@@ -36,23 +34,7 @@ export default function CreateQuizPage() {
           sx={{ mb: 4 }}
         />
 
-        <Stack spacing={3} sx={{ mb: 4 }}>
-          {fields.map((field, index) => {
-            const currentType = watch(`questions.${index}.type`);
-
-            return (
-              <QuestionItem
-                key={field.id}
-                index={index}
-                register={register}
-                errors={errors}
-                remove={remove}
-                canRemove={fields.length > 1}
-                currentType={currentType}
-              />
-            );
-          })}
-        </Stack>
+        
 
         <Stack direction="row" spacing={2}>
           <Button

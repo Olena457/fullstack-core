@@ -8,9 +8,9 @@ import Link from "next/link";
 import { useCartStore } from "../../../store/cartStore";
 import { useAuthStore } from "../../../store/authStore"; 
 
-import { ReviewSection } from "../../../components/ReviewSection";
-import { ReviewForm } from "../../../components/ReviewForm.js"; 
-import { ProductOptions } from "../../../components/ProductOptions"; 
+import { ReviewSection } from "../../../components/review/ReviewSection";
+import { ReviewForm } from "../../../components/review/ReviewForm.js"; 
+import { ProductOptions } from "../../../components/product/ProductOptions"; 
 import type { Product } from "../../../types/product";
 import type { Review } from "../../../types/review";
 
