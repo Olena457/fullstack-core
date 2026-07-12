@@ -1,18 +1,13 @@
+
 "use client";
 
 import { useEffect, useState, use } from "react";
-import { Box, Typography, Grid, Button } from "@mui/material";
+import { Box, Typography, Grid, Button, Alert } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
-
 import { useCartStore } from "../../../store/cartStore";
-import { useAuthStore } from "../../../store/authStore"; 
-
-import { ReviewSection } from "../../../components/review/ReviewSection";
-import { ReviewForm } from "../../../components/review/ReviewForm.js"; 
-import { ProductOptions } from "../../../components/product/ProductOptions"; 
+import { ProductOptions } from "../../../components/product/ProductOptions";
 import type { Product } from "../../../types/product";
-import type { Review } from "../../../types/review";
 
 interface ProductPageProps {
   params: Promise<{ id: string }>;
@@ -20,36 +15,23 @@ interface ProductPageProps {
 
 export default function ProductDetailPage({ params }: ProductPageProps) {
   const { id } = use(params);
-
   const addToCart = useCartStore((state) => state.addToCart);
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated());
-  const token = useAuthStore((state) => state.token);
 
   const [product, setProduct] = useState<Product | null>(null);
-  const [reviews, setReviews] = useState<Review[]>([]);
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
+  const [errorMsg, setErrorMsg] = useState("");
 
   useEffect(() => {
     const fetchProductData = async () => {
       try {
-        const [productRes, reviewsRes] = await Promise.all([
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`),
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews?productId=${id}`),
-        ]);
-
-        if (productRes.ok) {
-          const productData = await productRes.json();
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`,
+        );
+        if (res.ok) {
+          const productData = await res.json();
           setProduct(productData);
-          if (productData.sizes?.length) setSelectedSize(productData.sizes[0]);
-          if (productData.colors?.length)
-            setSelectedColor(productData.colors[0]);
-        }
-
-        if (reviewsRes.ok) {
-          const reviewsData = await reviewsRes.json();
-          setReviews(reviewsData);
         }
       } catch (error) {
         console.error("Failed to fetch product data", error);
@@ -61,48 +43,56 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
     fetchProductData();
   }, [id]);
 
-  // Функція для відправки нового відгуку
-  const handleReviewSubmit = async (data: {
-    rating: number;
-    comment: string;
-  }) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`, // Передаємо токен для перевірки на бекенді
-      },
-      body: JSON.stringify({
-        productId: id,
-        rating: data.rating,
-        comment: data.comment,
-      }),
-    });
-
-    if (!res.ok) {
-      const errorData = await res.json();
-      throw new Error(errorData.message || "Failed to submit review");
+  const handleAddToCart = () => {
+    if (!selectedSize || !selectedColor) {
+      setErrorMsg("Please select both size and color before adding to cart.");
+      return;
     }
 
-    const newReview = await res.json();
-    setReviews((prev) => [newReview, ...prev]); // Миттєво додаємо відгук на екран
+    setErrorMsg("");
+    if (product) {
+      addToCart(product, selectedSize, selectedColor);
+    }
   };
 
-  if (isLoading)
+  if (isLoading) {
     return (
       <Box sx={{ p: 4, textAlign: "center", mt: 10 }}>
-        Loading product details...
+        LOADING PRODUCT DETAILS...
       </Box>
     );
-  if (!product)
+  }
+
+  if (!product) {
     return (
-      <Box sx={{ p: 4, textAlign: "center", mt: 10 }}>Product not found.</Box>
+      <Box sx={{ p: 3, textAlign: "center", mt: 10 }}>PRODUCT NOT FOUND.</Box>
     );
+  }
+
+  const isReadyToCart = selectedSize !== "" && selectedColor !== "";
 
   return (
-    <Box sx={{ p: 4, maxWidth: "1200px", margin: "0 auto" }}>
+    <Box sx={{ p: 2, maxWidth: "1200px", margin: "0 auto" }}>
+      <Box sx={{ mb: 1 }}>
+        <Link
+          href="/products"
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <Typography
+            sx={{
+              fontWeight: 900,
+              fontSize: "0.7rem",
+              textTransform: "uppercase",
+              display: "inline-block",
+              "&:hover": { textDecoration: "underline" },
+            }}
+          >
+            ← Back to Catalog
+          </Typography>
+        </Link>
+      </Box>
+
       <Grid container spacing={6}>
-        {/* ЛІВА КОЛОНКА: Велике фото */}
         <Grid size={{ xs: 12, md: 6 }}>
           <Image
             src={product.imageUrl}
@@ -111,33 +101,32 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
             height={500}
             style={{
               width: "100%",
-              height: "auto",
+              height: "600px",
               objectFit: "cover",
               border: "1px solid black",
             }}
           />
         </Grid>
 
-        {/* ПРАВА КОЛОНКА: Інформація */}
         <Grid
           size={{ xs: 12, md: 6 }}
-          sx={{ display: "flex", flexDirection: "column", gap: 3 }}
+          sx={{ display: "flex", flexDirection: "column", gap: 2 }}
         >
           <Box>
             <Typography
-              variant="h3"
+              variant="h4"
               sx={{
                 fontWeight: 900,
                 textTransform: "uppercase",
                 letterSpacing: "-0.03em",
-                mb: 1,
+                mb: 4,
               }}
             >
               {product.title}
             </Typography>
             <Typography
               variant="h4"
-              sx={{ fontWeight: "bold", color: "error.main" }}
+              sx={{ fontWeight: "bold", color: "black", mb: 1 }}
             >
               ${product.price.toFixed(2)}
             </Typography>
@@ -151,7 +140,6 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
               "No description provided for this exclusive piece."}
           </Typography>
 
-          {/* Використовуємо наш винесений компонент для вибору опцій */}
           <ProductOptions
             sizes={product.sizes}
             colors={product.colors}
@@ -161,76 +149,34 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
             onColorChange={setSelectedColor}
           />
 
+          {errorMsg && (
+            <Alert severity="error" sx={{ mt: 1, borderRadius: 0 }}>
+              {errorMsg}
+            </Alert>
+          )}
+
           <Button
             variant="contained"
             fullWidth
-            onClick={() =>
-              addToCart({
-                ...product,
-                sizes: [selectedSize],
-                colors: [selectedColor],
-              })
-            }
+            onClick={handleAddToCart}
             sx={{
               borderRadius: 0,
-              bgcolor: "black",
+              bgcolor: isReadyToCart ? "black" : "grey.400",
               color: "white",
               py: 2,
               fontWeight: "bold",
               fontSize: "1.1rem",
               textTransform: "uppercase",
               mt: 2,
-              "&:hover": { bgcolor: "rgba(0,0,0,0.8)" },
+              "&:hover": {
+                bgcolor: isReadyToCart ? "rgba(0,0,0,0.8)" : "grey.400",
+              },
             }}
           >
-            Add to Cart
+            {isReadyToCart ? "Add to Cart" : "Select Options"}
           </Button>
         </Grid>
       </Grid>
-
-      {/* БЛОК ВІДГУКІВ */}
-      <Box sx={{ mt: 8 }}>
-        {isAuthenticated ? (
-          <ReviewForm onSubmit={handleReviewSubmit} />
-        ) : (
-          <Box
-            sx={{
-              border: "1px solid black",
-              p: 4,
-              mb: 4,
-              textAlign: "center",
-              bgcolor: "grey.50",
-            }}
-          >
-            <Typography
-              variant="h6"
-              sx={{ fontWeight: 900, textTransform: "uppercase", mb: 1 }}
-            >
-              Want to share your thoughts?
-            </Typography>
-            <Typography sx={{ mb: 3 }}>
-              You need to be logged in to leave a review.
-            </Typography>
-            <Link href="/login" passHref>
-              <Button
-                variant="outlined"
-                sx={{
-                  borderRadius: 0,
-                  borderColor: "black",
-                  color: "black",
-                  fontWeight: "bold",
-                  px: 4,
-                  "&:hover": { bgcolor: "black", color: "white" },
-                }}
-              >
-                Log In
-              </Button>
-            </Link>
-          </Box>
-        )}
-
-        <ReviewSection reviews={reviews} />
-      </Box>
     </Box>
   );
 }

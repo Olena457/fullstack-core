@@ -7,3 +7,9 @@ export interface Product {
   sizes: string[];
   colors: string[];
 }
+
+export interface CartItem extends Product {
+  cartQuantity: number;
+  selectedSize?: string;
+  selectedColor?: string;
+}

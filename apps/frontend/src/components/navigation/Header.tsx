@@ -15,10 +15,9 @@ export const Header = () => {
       }}
     >
       <Toolbar sx={{ justifyContent: "space-between", py: 1 }}>
-        {/* ЛІВА ЧАСТИНА: Логотип */}
         <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>
           <Typography
-            variant="h4"
+            variant="h5"
             sx={{
               fontWeight: 900,
               textTransform: "uppercase",
@@ -29,10 +28,8 @@ export const Header = () => {
           </Typography>
         </Link>
 
-        {/* ЦЕНТР: Навігація */}
         <DesktopNav />
 
-        {/* ПРАВА ЧАСТИНА: Іконки та Авторизація */}
         <HeaderActions />
       </Toolbar>
     </AppBar>
