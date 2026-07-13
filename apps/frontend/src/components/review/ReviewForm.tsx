@@ -35,7 +35,6 @@ export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
 
     try {
       await onSubmit({ rating, comment });
-      // Очищаємо форму після успішної відправки
       setComment("");
       setRating(5);
     } catch (err: unknown) {
@@ -71,7 +70,7 @@ export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
           onChange={(_, newValue) => setRating(newValue)}
           size="large"
           sx={{
-            color: "black", // Чорні зірки
+            color: "black", 
             "& .MuiRating-iconEmpty": { color: "rgba(0,0,0,0.2)" },
           }}
         />
@@ -87,7 +86,7 @@ export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
         disabled={isLoading}
         sx={{
           mb: 3,
-          "& .MuiOutlinedInput-root": { borderRadius: 0 }, // Квадратні кути
+          "& .MuiOutlinedInput-root": { borderRadius: 0 }, 
         }}
       />
 
