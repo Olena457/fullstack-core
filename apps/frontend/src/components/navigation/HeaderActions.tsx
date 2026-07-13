@@ -1,40 +1,48 @@
+
 "use client";
 
 import { Box, Badge, IconButton, Typography } from "@mui/material";
-import { ShoppingCart, Clock, User, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "../../store/cartStore";
 import { useAuthStore } from "../../store/authStore";
 
+const MenuButton = ({
+  children,
+  href,
+}: {
+  children: React.ReactNode;
+  href: string;
+}) => (
+  <Link href={href} style={{ textDecoration: "none" }}>
+    <IconButton
+      sx={{
+        borderRadius: 0,
+        px: 2,
+        py: 1,
+        "&:hover": { bgcolor: "rgba(0,0,0,0.1)" },
+        color: "black",
+      }}
+    >
+      <Typography sx={{ fontWeight: 500, textTransform: "uppercase" }}>
+        {children}
+      </Typography>
+    </IconButton>
+  </Link>
+);
+
 export const HeaderActions = () => {
   const router = useRouter();
-
   const items = useCartStore((state) => state.items);
   const totalItems = items.reduce((sum, item) => sum + item.cartQuantity, 0);
-
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
 
-  const handleLogout = () => {
-    logout();
-    router.push("/login");
-  };
-
   return (
-    <Box sx={{ display: "flex", gap: 2, alignItems: "center" }}>
-      <Link href="/orders">
-        <IconButton
-          sx={{
-            color: "black",
-            borderRadius: 0,
-            "&:hover": { bgcolor: "rgba(0,0,0,0.1)" },
-          }}
-        >
-          <Clock size={26} strokeWidth={2.5} />
-        </IconButton>
-      </Link>
-
+    <Box
+      sx={{ display: "flex", gap: 1, alignItems: "center", fontSize: "16px" }}
+    >
       <Link href="/cart">
         <IconButton
           sx={{
@@ -54,56 +62,51 @@ export const HeaderActions = () => {
               },
             }}
           >
-            <ShoppingCart size={26} strokeWidth={2.5} />
+            <Typography sx={{ fontWeight: 500, textTransform: "uppercase" }}>
+              ORDER
+            </Typography>
           </Badge>
         </IconButton>
       </Link>
+
+      <MenuButton href="/story">STORY</MenuButton>
 
       {user ? (
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
-            gap: 2,
-            ml: { xs: 0, md: 2 },
-            borderLeft: { xs: "none", md: "2px solid black" },
-            pl: { xs: 0, md: 3 },
+            borderLeft: "2px solid black",
+            ml: 1,
+            pl: 2,
           }}
         >
           <Typography
             sx={{
-              fontWeight: 900,
+              fontWeight: 500,
               textTransform: "uppercase",
+              mr: 2,
               display: { xs: "none", sm: "block" },
             }}
           >
-            HELLO, {user.name ? user.name.split(" ")[0] : "USER"}
+            HELLO, {user.name?.split(" ")[0]}
           </Typography>
           <IconButton
-            onClick={handleLogout}
+            onClick={() => {
+              logout();
+              router.push("/login");
+            }}
             sx={{
               color: "black",
               borderRadius: 0,
               "&:hover": { bgcolor: "rgba(0,0,0,0.1)" },
             }}
-            title="Logout"
           >
             <LogOut size={26} strokeWidth={2.5} />
           </IconButton>
         </Box>
       ) : (
-        <Link href="/login">
-          <IconButton
-            sx={{
-              color: "black",
-              borderRadius: 0,
-              "&:hover": { bgcolor: "rgba(0,0,0,0.1)" },
-            }}
-            title="Login"
-          >
-            <User size={26} strokeWidth={2.5} />
-          </IconButton>
-        </Link>
+        <MenuButton href="/login">LOGIN</MenuButton>
       )}
     </Box>
   );

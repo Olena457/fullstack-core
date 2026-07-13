@@ -2,7 +2,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Box, Typography, Grid } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import { PaginationControls } from "../../components/product/PaginationControls";
 import { FilterSidebar } from "../../components/product/FilterSidebar";
 import { ProductCard } from "../../components/product/ProductCard";
@@ -18,7 +18,6 @@ export default function ProductsPage() {
   const [gender, setGender] = useState("");
   const [color, setColor] = useState("");
   const [size, setSize] = useState("");
-
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -42,7 +41,7 @@ export default function ProductsPage() {
     };
 
     fetchProducts();
-  }, [page, search, sort, gender, color, size]); 
+  }, [page, search, sort, gender, color, size]);
 
   const handleFilterChange = (
     setter: React.Dispatch<React.SetStateAction<string>>,
@@ -54,17 +53,6 @@ export default function ProductsPage() {
 
   return (
     <Box sx={{ p: 4, maxWidth: "1400px", margin: "0 auto" }}>
-      <Typography
-        variant="h4"
-        sx={{
-          fontWeight: 800,
-          mb: 4,
-          textTransform: "uppercase",
-          letterSpacing: "-0.05em",
-        }}
-      >
-        Find Your Style
-      </Typography>
       <Box
         sx={{
           display: "flex",
@@ -72,7 +60,20 @@ export default function ProductsPage() {
           flexDirection: { xs: "column", md: "row" },
         }}
       >
+        {/* LEFT filters*/}
         <Box sx={{ width: { xs: "100%", md: "260px" }, flexShrink: 0 }}>
+          <Typography
+            variant="h5"
+            sx={{
+              fontWeight: 900,
+              mb: 4,
+              textTransform: "uppercase",
+              letterSpacing: "-0.05em",
+            }}
+          >
+            Find Your Style
+          </Typography>
+
           <FilterSidebar
             search={search}
             onSearchChange={(val) => handleFilterChange(setSearch, val)}
@@ -87,19 +88,30 @@ export default function ProductsPage() {
           />
         </Box>
 
-        <Box sx={{ flexGrow: 1 }}>
+        {/* RIGHT products */}
+        <Box sx={{ flexGrow: 1,  mt: 1}}>
           {products.length === 0 ? (
-            <Typography sx={{ mt: 4, textAlign: "center", fontWeight: "bold" }}>
+            <Typography sx={{ mt: 5, textAlign: "center", fontWeight: "bold" }}>
               NO PRODUCTS FOUND.
             </Typography>
           ) : (
-            <Grid container spacing={3}>
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "repeat(1, 1fr)", 
+                  sm: "repeat(2, 1fr)", 
+                  md: "repeat(3, 1fr)", 
+                },
+                gap: 3, 
+              }}
+            >
               {products.map((product) => (
-                <Grid size={{ xs: 12, sm: 6, md: 4, lg: 4 }} key={product.id}>
+                <Box key={product.id}>
                   <ProductCard product={product} />
-                </Grid>
+                </Box>
               ))}
-            </Grid>
+            </Box>
           )}
 
           {totalPages > 0 && (

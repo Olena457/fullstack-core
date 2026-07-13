@@ -16,7 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ENTROPIC | Streetwear",
+  title: "ALTEREGO| Streetwear",
   description: "Define your style. No compromises.",
 };
 
