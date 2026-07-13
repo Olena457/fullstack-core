@@ -2,9 +2,18 @@
 "use client";
 
 import { useEffect, useState, use } from "react";
-import { Box, Typography, Button, Alert } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Button,
+  Alert,
+  Accordion,
+  AccordionSummary,
+  AccordionDetails,
+} from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
+import { ChevronDown } from "lucide-react";
 import { useCartStore } from "../../../store/cartStore";
 import { ProductOptions } from "../../../components/product/ProductOptions";
 import type { Product } from "../../../types/product";
@@ -84,7 +93,7 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
               fontSize: "0.7rem",
               textTransform: "uppercase",
               display: "inline-block",
-              "&:hover": { textDecoration: "underline" },
+              "&:hover": { color: "#bdbdbd" },
             }}
           >
             ← Back to Catalog
@@ -96,17 +105,16 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
         sx={{
           display: "grid",
           gridTemplateColumns: { xs: "1fr", md: "5fr 7fr" },
-          gap: 8, 
+          gap: 8,
         }}
       >
-        {/* left photo*/}
         <Box>
           <Box
             sx={{
               position: "relative",
               width: "100%",
               maxWidth: "650px",
-              aspectRatio: "1/1", 
+              aspectRatio: "1/1",
               border: "1px solid black",
             }}
           >
@@ -114,46 +122,102 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
               src={product.imageUrl}
               alt={product.title}
               fill
-              priority 
+              priority
               sizes="(max-width: 768px) 100vw, 650px"
               style={{
                 objectFit: "cover",
-                objectPosition: "top", 
+                objectPosition: "top",
               }}
             />
           </Box>
+          {product.gender && (
+            <Typography
+              variant="overline"
+              sx={{
+                fontWeight: 900,
+                color: "#FF4500",
+                letterSpacing: "0.1em",
+                display: "block",
+                lineHeight: 1,
+                mt: 1.5,
+              }}
+            >
+              {product.gender}
+            </Typography>
+          )}
         </Box>
 
-        {/* right side details */}
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 2 }}>
+        {/* details */}
+        <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
           <Box>
             <Typography
-              variant="h4"
+              variant="h5"
               sx={{
                 fontWeight: 900,
                 textTransform: "uppercase",
-                letterSpacing: "-0.03em",
-                mb: 4,
+                letterSpacing: "-0.02em",
+                mb: 1,
+                mt: { xs: 2, md: 0 },
               }}
             >
               {product.title}
             </Typography>
+
             <Typography
-              variant="h4"
-              sx={{ fontWeight: "bold", color: "black", mb: 1 }}
+              variant="h6"
+              sx={{ fontWeight: "bold", color: "black", mb: 2 }}
             >
               ${product.price.toFixed(2)}
             </Typography>
           </Box>
 
-          <Typography
-            variant="body1"
-            sx={{ lineHeight: 1.7, color: "text.primary" }}
-          >
-            {product.description ||
-              "No description provided for this exclusive piece."}
-          </Typography>
+          {/* accordion*/}
+          <Box sx={{ mt: -1, mb: 1 }}>
+            <Accordion
+              disableGutters
+              elevation={0}
+              square
+              sx={{
+                borderTop: "1px solid gray",
+                borderBottom: "1px solid gray",
+                "&:before": { display: "none" },
+                bgcolor: "transparent",
+              }}
+            >
+              <AccordionSummary
+                expandIcon={<ChevronDown size={20} color="gray" />}
+                sx={{
+                  px: 0,
+                  minHeight: "48px",
+                  "&.Mui-expanded": { minHeight: "48px" },
+                  "& .MuiAccordionSummary-content": { my: 1 },
+                  "& .MuiAccordionSummary-content.Mui-expanded": { my: 1 },
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: 900,
+                    textTransform: "uppercase",
+                    letterSpacing: "0.05em",
+                    fontSize: "0.9rem",
+                  }}
+                >
+                  Description
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails sx={{ px: 0, pt: 0, pb: 2 }}>
+                <Typography
+                  variant="body1"
+                  sx={{ lineHeight: 1.6, color: "text.secondary" }}
+                >
+                  {product.description ||
+                    "No description provided for this exclusive piece."}
+                </Typography>
+              </AccordionDetails>
+            </Accordion>
+          </Box>
 
+          {/* options */}
           <ProductOptions
             sizes={product.sizes}
             colors={product.colors}
@@ -169,26 +233,28 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
             </Alert>
           )}
 
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={handleAddToCart}
-            sx={{
-              borderRadius: 0,
-              bgcolor: isReadyToCart ? "black" : "grey.400",
-              color: "white",
-              py: 2,
-              fontWeight: "bold",
-              fontSize: "1.1rem",
-              textTransform: "uppercase",
-              mt: 2,
-              "&:hover": {
-                bgcolor: isReadyToCart ? "rgba(0,0,0,0.8)" : "grey.400",
-              },
-            }}
-          >
-            {isReadyToCart ? "Add to Cart" : "Select Options"}
-          </Button>
+          {/* button add */}
+          <Box sx={{ mt: 1 }}>
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={handleAddToCart}
+              sx={{
+                borderRadius: 0,
+                bgcolor: isReadyToCart ? "black" : "grey.400",
+                color: "white",
+                py: 2,
+                fontWeight: "bold",
+                fontSize: "1.1rem",
+                textTransform: "uppercase",
+                "&:hover": {
+                  bgcolor: isReadyToCart ? "rgba(0,0,0,0.8)" : "grey.400",
+                },
+              }}
+            >
+              {isReadyToCart ? "Add to Cart" : "Select Options"}
+            </Button>
+          </Box>
         </Box>
       </Box>
     </Box>

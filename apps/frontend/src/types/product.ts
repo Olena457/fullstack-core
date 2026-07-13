@@ -6,6 +6,7 @@ export interface Product {
   description?: string;
   sizes: string[];
   colors: string[];
+  gender: string;
 }
 
 export interface CartItem extends Product {

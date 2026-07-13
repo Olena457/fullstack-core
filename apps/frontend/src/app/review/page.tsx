@@ -130,6 +130,7 @@ export default function ReviewPage() {
                 color: "white",
                 fontWeight: "bold",
                 px: 4,
+                "&:hover": { bgcolor: "#bdbdbd", color: "black" },
               }}
             >
               LOG IN

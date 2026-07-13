@@ -29,6 +29,7 @@ model Product {
   description String?
   sizes       String[]
   colors      String[]
+  gender      String   @default("Unisex")
 
   orderItems  OrderItem[]
   reviews     Review[]

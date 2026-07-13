@@ -1,3 +1,5 @@
+
+
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { Search, X } from "lucide-react";
 
@@ -8,18 +10,22 @@ interface SearchInputProps {
 
 export const SearchInput = ({ value, onChange }: SearchInputProps) => {
   const inputStyles = {
-    borderRadius: 0,
-    "& .MuiOutlinedInput-notchedOutline": {
-      borderColor: "black",
-      borderWidth: "1px",
-    },
-    "&:hover .MuiOutlinedInput-notchedOutline": {
-      borderColor: "black",
-      borderWidth: "2px",
-    },
-    "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "black",
-      borderWidth: "2px",
+    "& .MuiOutlinedInput-root": {
+      borderRadius: 0,
+      
+      "& .MuiOutlinedInput-notchedOutline": {
+        borderColor: "black",
+        borderWidth: "1px",
+      },
+        "&:hover .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#bdbdbd",
+        borderWidth: "2px",
+      },
+      
+      "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
+        borderColor: "#bdbdbd", 
+        borderWidth: "2px",
+      },
     },
   };
 

@@ -25,14 +25,14 @@ export const PaginationControls = ({ page, count, onChange }: Props) => {
             fontWeight: "bold",
             fontFamily: "inherit",
             "&:hover": {
-              backgroundColor: "black",
+              backgroundColor: "#bdbdbd",
               color: "white",
             },
             "&.Mui-selected": {
               backgroundColor: "black",
               color: "white",
               "&:hover": {
-                backgroundColor: "rgba(0,0,0,0.8)",
+                backgroundColor: "#bdbdbd",
               },
             },
           },

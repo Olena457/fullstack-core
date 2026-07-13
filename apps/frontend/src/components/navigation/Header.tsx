@@ -16,6 +16,7 @@ export const Header = () => {
   return (
     <AppBar
       position="sticky"
+      elevation={0}
       sx={{ bgcolor: "white", color: "black", boxShadow: "none" }}
     >
       <Toolbar
@@ -27,7 +28,6 @@ export const Header = () => {
         }}
       >
         <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>
-          
           <Typography
             variant="h2"
             sx={{

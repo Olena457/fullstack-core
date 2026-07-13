@@ -109,7 +109,7 @@ export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
           px: 5,
           py: 1.5,
           textTransform: "uppercase",
-          "&:hover": { bgcolor: "rgba(0,0,0,0.8)" },
+          "&:hover": { bgcolor: "#bdbdbd" },
         }}
       >
         {isLoading ? "Submitting..." : "Submit Review"}

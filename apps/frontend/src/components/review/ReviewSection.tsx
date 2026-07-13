@@ -1,5 +1,5 @@
 import { Box, Typography, Rating } from "@mui/material";
-import type { Review } from "../types/review";
+import type { Review } from "../../types/review";
 
 interface ReviewSectionProps {
   reviews: Review[];
