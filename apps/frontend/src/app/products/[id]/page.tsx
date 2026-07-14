@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useEffect, useState, use } from "react";
@@ -10,11 +11,13 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Snackbar, 
 } from "@mui/material";
 import Image from "next/image";
 import Link from "next/link";
 import { ChevronDown } from "lucide-react";
 import { useCartStore } from "../../../store/cartStore";
+import { useAuthStore } from "../../../store/authStore";
 import { ProductOptions } from "../../../components/product/ProductOptions";
 import type { Product } from "../../../types/product";
 
@@ -25,12 +28,18 @@ interface ProductPageProps {
 export default function ProductDetailPage({ params }: ProductPageProps) {
   const { id } = use(params);
   const addToCart = useCartStore((state) => state.addToCart);
+  const token = useAuthStore((state) => state.token);
 
   const [product, setProduct] = useState<Product | null>(null);
   const [selectedSize, setSelectedSize] = useState<string>("");
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
-  const [errorMsg, setErrorMsg] = useState("");
+
+  const [snackbarOpen, setSnackbarOpen] = useState(false);
+  const [snackbarMessage, setSnackbarMessage] = useState("");
+  const [snackbarSeverity, setSnackbarSeverity] = useState<
+    "error" | "warning" | "success"
+  >("error");
 
   useEffect(() => {
     const fetchProductData = async () => {
@@ -53,15 +62,38 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
   }, [id]);
 
   const handleAddToCart = () => {
-    if (!selectedSize || !selectedColor) {
-      setErrorMsg("Please select both size and color before adding to cart.");
+    if (!token) {
+      setSnackbarMessage("Please log in or register to make a purchase.");
+      setSnackbarSeverity("warning");
+      setSnackbarOpen(true);
       return;
     }
 
-    setErrorMsg("");
+    if (!selectedSize || !selectedColor) {
+      setSnackbarMessage(
+        "Please select both size and color before adding to cart.",
+      );
+      setSnackbarSeverity("error");
+      setSnackbarOpen(true);
+      return;
+    }
+
     if (product) {
       addToCart(product, selectedSize, selectedColor);
+      setSnackbarMessage("Product added to cart!");
+      setSnackbarSeverity("success");
+      setSnackbarOpen(true);
     }
+  };
+
+  const handleCloseSnackbar = (
+    event?: React.SyntheticEvent | Event,
+    reason?: string,
+  ) => {
+    if (reason === "clickaway") {
+      return;
+    }
+    setSnackbarOpen(false);
   };
 
   if (isLoading) {
@@ -108,6 +140,7 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
           gap: 8,
         }}
       >
+        {/* image */}
         <Box>
           <Box
             sx={{
@@ -147,7 +180,7 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
           )}
         </Box>
 
-        {/* details */}
+        {/* detail */}
         <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
           <Box>
             <Typography
@@ -171,21 +204,20 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
             </Typography>
           </Box>
 
-          {/* accordion*/}
           <Box sx={{ mt: -1, mb: 1 }}>
             <Accordion
               disableGutters
               elevation={0}
               square
               sx={{
-                borderTop: "1px solid gray",
-                borderBottom: "1px solid gray",
+                borderTop: "1px solid black",
+                borderBottom: "1px solid black",
                 "&:before": { display: "none" },
                 bgcolor: "transparent",
               }}
             >
               <AccordionSummary
-                expandIcon={<ChevronDown size={20} color="gray" />}
+                expandIcon={<ChevronDown size={20} color="black" />}
                 sx={{
                   px: 0,
                   minHeight: "48px",
@@ -217,7 +249,6 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
             </Accordion>
           </Box>
 
-          {/* options */}
           <ProductOptions
             sizes={product.sizes}
             colors={product.colors}
@@ -227,13 +258,6 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
             onColorChange={setSelectedColor}
           />
 
-          {errorMsg && (
-            <Alert severity="error" sx={{ mt: 1, borderRadius: 0 }}>
-              {errorMsg}
-            </Alert>
-          )}
-
-          {/* button add */}
           <Box sx={{ mt: 1 }}>
             <Button
               variant="contained"
@@ -257,6 +281,22 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
           </Box>
         </Box>
       </Box>
+
+      <Snackbar
+        open={snackbarOpen}
+        autoHideDuration={4000} 
+        onClose={handleCloseSnackbar}
+        anchorOrigin={{ vertical: "bottom", horizontal: "center" }}
+      >
+        <Alert
+          onClose={handleCloseSnackbar}
+          severity={snackbarSeverity}
+          variant="filled" 
+          sx={{ width: "100%", borderRadius: 0, fontWeight: "bold" }}
+        >
+          {snackbarMessage}
+        </Alert>
+      </Snackbar>
     </Box>
   );
 }

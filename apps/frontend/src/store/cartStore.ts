@@ -3,7 +3,7 @@ import { persist } from "zustand/middleware";
 import type { Product } from "../types/product";
 import type { CartItem } from "../types/cart";
 
-interface CartStore {
+export interface CartStore {
   items: CartItem[];
   addToCart: (product: Product, size?: string, color?: string) => void;
   removeItem: (productId: string) => void;

@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { Box, Badge, IconButton, Typography } from "@mui/material";
@@ -69,8 +70,13 @@ export const HeaderActions = () => {
         </IconButton>
       </Link>
 
-      <MenuButton href="/story">STORY</MenuButton>
+      <MenuButton href="/history">HISTORY</MenuButton>
 
+      {user && (
+        <MenuButton href="/history">HISTORY</MenuButton>
+      )}
+
+      {/* register */}
       {user ? (
         <Box
           sx={{
@@ -89,7 +95,7 @@ export const HeaderActions = () => {
               display: { xs: "none", sm: "block" },
             }}
           >
-            HELLO, {user.name?.split(" ")[0]}
+            HELLO, {user.name?.split(" ")[0] || "USER"}
           </Typography>
           <IconButton
             onClick={() => {
