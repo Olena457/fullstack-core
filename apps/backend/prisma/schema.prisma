@@ -23,8 +23,10 @@ model User {
 
 model Product {
   id          String   @id @default(uuid())
+  sku         String   @unique
   title       String
   price       Float
+  oldPrice    Float?   @map("old_price")
   imageUrl    String   @map("image_url")
   description String?
   sizes       String[]
@@ -51,14 +53,21 @@ model Review {
 }
 
 model Order {
-  id         String   @id @default(uuid())
-  userId     String   @map("user_id")
-  user       User     @relation(fields: [userId], references: [id])
-  totalPrice Float    @map("total_price")
-  status     String   @default("PENDING")
-  invoiceId  String?  @map("invoice_id")
-  items      OrderItem[]
-  createdAt  DateTime @default(now()) @map("created_at")
+  id                String      @id @default(uuid())
+  userId            String      @map("user_id")
+  user              User        @relation(fields: [userId], references: [id])
+  totalPrice        Float       @map("total_price")
+  status            String      @default("PENDING")
+  invoiceId         String?     @map("invoice_id")
+  stripeSessionId   String?     @map("stripe_session_id")
+  phone             String?
+  deliveryCity      String?     @map("delivery_city")
+  deliveryCityRef   String?     @map("delivery_city_ref")
+  deliveryWarehouse String?     @map("delivery_warehouse")
+  warehouseRef      String?     @map("warehouse_ref")
+  ttn               String?
+  items             OrderItem[]
+  createdAt         DateTime    @default(now()) @map("created_at")
 
   @@map("orders")
 }
@@ -70,6 +79,8 @@ model OrderItem {
   order     Order   @relation(fields: [orderId], references: [id])
   product   Product @relation(fields: [productId], references: [id])
   quantity  Int
+  size      String?
+  color     String?
 
   @@map("order_items")
 }
