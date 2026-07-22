@@ -6,12 +6,14 @@ import { Box, Typography } from "@mui/material";
 import { PaginationControls } from "../../components/product/PaginationControls";
 import { FilterSidebar } from "../../components/product/FilterSidebar";
 import { ProductCard } from "../../components/product/ProductCard";
+import { ProductSkeletonCard } from "../../components/product/ProductSkeletonCard"; 
 import type { Product } from "../../types/product";
 
 export default function ProductsPage() {
   const [products, setProducts] = useState<Product[]>([]);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(1);
+  const [isLoading, setIsLoading] = useState(true); 
 
   const [search, setSearch] = useState("");
   const [sort, setSort] = useState("newest");
@@ -21,6 +23,7 @@ export default function ProductsPage() {
 
   useEffect(() => {
     const fetchProducts = async () => {
+      setIsLoading(true); 
       try {
         let url = `${process.env.NEXT_PUBLIC_API_URL}/products?page=${page}&limit=6`;
 
@@ -37,6 +40,8 @@ export default function ProductsPage() {
         setTotalPages(data.meta?.totalPages || 1);
       } catch (error) {
         console.error("Failed to fetch products", error);
+      } finally {
+        setIsLoading(false); 
       }
     };
 
@@ -89,8 +94,26 @@ export default function ProductsPage() {
         </Box>
 
         {/* RIGHT products */}
-        <Box sx={{ flexGrow: 1,  mt: 1}}>
-          {products.length === 0 ? (
+        <Box sx={{ flexGrow: 1, mt: 1 }}>
+          {isLoading ? (
+            <Box
+              sx={{
+                display: "grid",
+                gridTemplateColumns: {
+                  xs: "repeat(1, 1fr)",
+                  sm: "repeat(2, 1fr)",
+                  md: "repeat(3, 1fr)",
+                },
+                gap: 3,
+              }}
+            >
+              {Array.from(new Array(6)).map((_, index) => (
+                <Box key={index}>
+                  <ProductSkeletonCard />
+                </Box>
+              ))}
+            </Box>
+          ) : products.length === 0 ? (
             <Typography sx={{ mt: 5, textAlign: "center", fontWeight: "bold" }}>
               NO PRODUCTS FOUND.
             </Typography>
@@ -99,11 +122,11 @@ export default function ProductsPage() {
               sx={{
                 display: "grid",
                 gridTemplateColumns: {
-                  xs: "repeat(1, 1fr)", 
-                  sm: "repeat(2, 1fr)", 
-                  md: "repeat(3, 1fr)", 
+                  xs: "repeat(1, 1fr)",
+                  sm: "repeat(2, 1fr)",
+                  md: "repeat(3, 1fr)",
                 },
-                gap: 3, 
+                gap: 3,
               }}
             >
               {products.map((product) => (
@@ -114,7 +137,7 @@ export default function ProductsPage() {
             </Box>
           )}
 
-          {totalPages > 0 && (
+          {!isLoading && totalPages > 0 && (
             <Box sx={{ mt: 4 }}>
               <PaginationControls
                 page={page}

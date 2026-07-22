@@ -1,13 +1,11 @@
 
-
-
 "use client";
 
-import { AppBar, Toolbar, Typography,Box } from "@mui/material";
-import Link from "next/link";
+import { AppBar, Toolbar } from "@mui/material";
 import { usePathname } from "next/navigation";
 import { DesktopNav } from "./DesktopNav";
 import { HeaderActions } from "./HeaderActions";
+import { Logo } from "../ui/Logo"; 
 
 export const Header = () => {
   const pathname = usePathname();
@@ -27,21 +25,7 @@ export const Header = () => {
           py: 1,
         }}
       >
-        <Link href="/" style={{ textDecoration: "none", color: "inherit" }}>
-          <Typography
-            variant="h2"
-            sx={{
-              fontWeight: 900,
-              textTransform: "uppercase",
-              letterSpacing: "-0.02em",
-            }}
-          >
-            ALTER
-            <Box component="span" sx={{ color: "#FF4500" }}>
-              EGO
-            </Box>
-          </Typography>
-        </Link>
+        <Logo />
       </Toolbar>
 
       {!isHome && (
