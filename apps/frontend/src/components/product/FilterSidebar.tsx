@@ -1,9 +1,6 @@
-
 import { Box, FormControl, InputLabel, Select, MenuItem } from "@mui/material";
 import { SearchInput } from "./SearchInput";
 import type { FilterSidebarProps } from "../../types/filters";
-
-const BRAND_COLOR = "#FF4500"; 
 
 const filters = {
   sort: [
@@ -31,25 +28,29 @@ export const FilterSidebar = ({
 }: FilterSidebarProps) => {
   const selectStyles = {
     borderRadius: 0,
+    color: "text.primary",
     "& .MuiOutlinedInput-notchedOutline": {
-      borderColor: "black",
+      borderColor: "divider",
       borderWidth: "1px",
     },
     "&:hover .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#bdbdbd",
+      borderColor: "text.primary",
       borderWidth: "2px",
     },
     "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-      borderColor: "#bdbdbd",
+      borderColor: "primary.main",
       borderWidth: "2px",
+    },
+    "& .MuiSvgIcon-root": {
+      color: "text.primary",
     },
   };
 
   const labelStyles = {
-    color: "black",
+    color: "text.primary",
     fontWeight: "bold",
     "&.Mui-focused": {
-      color: BRAND_COLOR,
+      color: "secondary.main",
     },
   };
 
@@ -57,7 +58,6 @@ export const FilterSidebar = ({
     <Box sx={{ pr: { md: 4 } }}>
       <SearchInput value={search} onChange={onSearchChange} />
 
-      {/* Sort*/}
       <FormControl fullWidth sx={{ mb: 4 }}>
         <InputLabel id="sort-select-label" sx={labelStyles}>
           Sort By
@@ -78,7 +78,6 @@ export const FilterSidebar = ({
         </Select>
       </FormControl>
 
-      {/* gender */}
       <FormControl fullWidth sx={{ mb: 4 }}>
         <InputLabel id="gender-select-label" sx={labelStyles}>
           Gender
@@ -102,7 +101,6 @@ export const FilterSidebar = ({
         </Select>
       </FormControl>
 
-      {/* 3. КОЛІР */}
       <FormControl fullWidth sx={{ mb: 4 }}>
         <InputLabel id="color-select-label" sx={labelStyles}>
           Color
@@ -126,7 +124,6 @@ export const FilterSidebar = ({
         </Select>
       </FormControl>
 
-      {/* 4. РОЗМІР */}
       <FormControl fullWidth sx={{ mb: 4 }}>
         <InputLabel id="size-select-label" sx={labelStyles}>
           Size

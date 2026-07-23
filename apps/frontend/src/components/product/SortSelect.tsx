@@ -3,17 +3,22 @@ import { Box, MenuItem, Select, Typography } from "@mui/material";
 export const SortSelect = () => {
   return (
     <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 4 }}>
-      <Typography sx={{ fontWeight: "bold" }}>Sort:</Typography>
+      <Typography sx={{ fontWeight: "bold", color: "text.primary" }}>
+        Sort:
+      </Typography>
       <Select
         defaultValue="name_asc"
         size="small"
         sx={{
           borderRadius: 0,
-          border: "1px solid black",
+          border: 1,
+          borderColor: "divider",
           minWidth: 200,
+          color: "text.primary",
           "& .MuiOutlinedInput-notchedOutline": { border: "none" },
-          "&:hover": { borderColor: "black" },
-          "&.Mui-focused": { borderColor: "black" },
+          "&:hover": { borderColor: "text.primary" },
+          "&.Mui-focused": { borderColor: "primary.main" },
+          "& .MuiSvgIcon-root": { color: "text.primary" }, 
         }}
       >
         <MenuItem value="name_asc">Name: A → Z</MenuItem>

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { memo } from "react";
@@ -17,17 +16,18 @@ type Props = {
   product: Product;
 };
 
-
 export const ProductCard = memo(function ProductCard({ product }: Props) {
   return (
     <Card
       sx={{
         borderRadius: 0,
-        border: "1px solid black",
+        border: 1,
+        borderColor: "divider",
         boxShadow: "none",
         height: "100%",
         display: "flex",
         flexDirection: "column",
+        bgcolor: "background.paper",
       }}
     >
       <Link
@@ -43,7 +43,8 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
             objectFit: "cover",
             objectPosition: "50% 20%",
             cursor: "pointer",
-            borderBottom: "1px solid black",
+            borderBottom: 1,
+            borderColor: "divider",
             transition: "transform 0.4s ease-out, filter 0.4s ease-out",
             "&:hover": {
               transform: "scale(1.05)",
@@ -60,7 +61,7 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          bgcolor: "white",
+          bgcolor: "background.paper",
         }}
       >
         <Box>
@@ -76,15 +77,23 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
                 mb: 0.5,
                 lineHeight: 1.2,
                 cursor: "pointer",
+                color: "text.primary",
                 "&:hover": {
-                  color: "#FF4500",
+                  color: "secondary.main",
                 },
               }}
             >
               {product.title}
             </Typography>
           </Link>
-          <Typography variant="body1" sx={{ mb: 2, fontWeight: "bold" }}>
+          <Typography
+            variant="body1"
+            sx={{
+              mb: 2,
+              fontWeight: "bold",
+              color: "text.primary",
+            }}
+          >
             ${product.price.toFixed(2)}
           </Typography>
         </Box>
@@ -99,15 +108,16 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
             variant="outlined"
             sx={{
               borderRadius: 0,
-              border: "1px solid black",
-              color: "black",
+              border: 1,
+              borderColor: "primary.main",
+              color: "primary.main",
               fontWeight: "bold",
               textTransform: "uppercase",
               transition: "all 0.2s ease",
               "&:hover": {
-                bgcolor: "#bdbdbd",
-                borderColor: "black",
-                color: "#ffffff",
+                bgcolor: "primary.main",
+                borderColor: "primary.main",
+                color: "background.paper",
               },
             }}
           >

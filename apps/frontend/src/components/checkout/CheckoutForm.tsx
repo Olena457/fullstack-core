@@ -1,47 +1,53 @@
 "use client";
 
 import { Box, Typography, TextField, Button } from "@mui/material";
+import { useForm } from "react-hook-form";
+import { yupResolver } from "@hookform/resolvers/yup";
+
+import { checkoutSchema } from "../auth/schemas/checkout";
+import type {CheckoutFormData} from "../auth/schemas/checkout"
 
 interface CheckoutFormProps {
-  formData: {
-    firstName: string;
-    lastName: string;
-    email: string;
-    phone: string;
-    address: string;
-    city: string;
-    postalCode: string;
-  };
-  handleChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: React.FormEvent) => void;
+  onSubmit: (data: CheckoutFormData) => void;
   isLoading: boolean;
 }
 
-export const CheckoutForm = ({
-  formData,
-  handleChange,
-  onSubmit,
-  isLoading,
-}: CheckoutFormProps) => {
+export const CheckoutForm = ({ onSubmit, isLoading }: CheckoutFormProps) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<CheckoutFormData>({
+    resolver: yupResolver(checkoutSchema),
+  });
+
   const inputStyles = {
     "& .MuiOutlinedInput-root": {
       borderRadius: 0,
-      "& fieldset": { borderColor: "black" },
-      "&:hover fieldset": { borderColor: "black", borderWidth: "2px" },
-      "&.Mui-focused fieldset": { borderColor: "#FF4500", borderWidth: "2px" },
+      "& fieldset": { borderColor: "divider" }, 
+      "&:hover fieldset": { borderColor: "text.primary", borderWidth: "2px" }, 
+      "&.Mui-focused fieldset": {
+        borderColor: "secondary.main",
+        borderWidth: "2px",
+      }, 
     },
-    "& .MuiInputLabel-root.Mui-focused": { color: "#FF4500" },
+    "& .MuiInputLabel-root.Mui-focused": { color: "secondary.main" }, 
   };
 
   return (
     <Box
       component="form"
-      onSubmit={onSubmit}
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
       sx={{ display: "flex", flexDirection: "column", gap: 3 }}
     >
       <Typography
         variant="h6"
-        sx={{ fontWeight: 900, textTransform: "uppercase" }}
+        sx={{
+          fontWeight: 900,
+          textTransform: "uppercase",
+          color: "text.primary",
+        }}
       >
         1. Shipping Information
       </Typography>
@@ -54,21 +60,21 @@ export const CheckoutForm = ({
         }}
       >
         <TextField
+          {...register("firstName")}
           fullWidth
-          required
           label="First Name"
-          name="firstName"
-          value={formData.firstName}
-          onChange={handleChange}
+          error={!!errors.firstName}
+          helperText={errors.firstName?.message}
+          disabled={isLoading}
           sx={inputStyles}
         />
         <TextField
+          {...register("lastName")}
           fullWidth
-          required
           label="Last Name"
-          name="lastName"
-          value={formData.lastName}
-          onChange={handleChange}
+          error={!!errors.lastName}
+          helperText={errors.lastName?.message}
+          disabled={isLoading}
           sx={inputStyles}
         />
       </Box>
@@ -81,34 +87,34 @@ export const CheckoutForm = ({
         }}
       >
         <TextField
+          {...register("email")}
           fullWidth
-          required
           type="email"
           label="Email Address"
-          name="email"
-          value={formData.email}
-          onChange={handleChange}
+          error={!!errors.email}
+          helperText={errors.email?.message}
+          disabled={isLoading}
           sx={inputStyles}
         />
         <TextField
+          {...register("phone")}
           fullWidth
-          required
           type="tel"
           label="Phone Number"
-          name="phone"
-          value={formData.phone}
-          onChange={handleChange}
+          error={!!errors.phone}
+          helperText={errors.phone?.message}
+          disabled={isLoading}
           sx={inputStyles}
         />
       </Box>
 
       <TextField
+        {...register("address")}
         fullWidth
-        required
         label="Street Address"
-        name="address"
-        value={formData.address}
-        onChange={handleChange}
+        error={!!errors.address}
+        helperText={errors.address?.message}
+        disabled={isLoading}
         sx={inputStyles}
       />
 
@@ -120,21 +126,21 @@ export const CheckoutForm = ({
         }}
       >
         <TextField
+          {...register("city")}
           fullWidth
-          required
           label="City"
-          name="city"
-          value={formData.city}
-          onChange={handleChange}
+          error={!!errors.city}
+          helperText={errors.city?.message}
+          disabled={isLoading}
           sx={inputStyles}
         />
         <TextField
+          {...register("postalCode")}
           fullWidth
-          required
           label="Postal Code"
-          name="postalCode"
-          value={formData.postalCode}
-          onChange={handleChange}
+          error={!!errors.postalCode}
+          helperText={errors.postalCode?.message}
+          disabled={isLoading}
           sx={inputStyles}
         />
       </Box>
@@ -146,14 +152,20 @@ export const CheckoutForm = ({
         sx={{
           mt: 2,
           borderRadius: 0,
-          bgcolor: "black",
-          color: "white",
+          bgcolor: "primary.main", 
+          color: "background.paper",
           py: 2,
           fontWeight: "bold",
           fontSize: "1.1rem",
           textTransform: "uppercase",
-          "&:hover": { bgcolor: "rgba(0,0,0,0.8)" },
-          "&.Mui-disabled": { bgcolor: "grey.500", color: "white" },
+          "&:hover": {
+            bgcolor: "action.hover", 
+            color: "text.primary",
+          },
+          "&.Mui-disabled": {
+            bgcolor: "action.disabledBackground", 
+            color: "action.disabled",
+          },
         }}
       >
         {isLoading ? "Redirecting to Stripe..." : "Pay with Stripe"}

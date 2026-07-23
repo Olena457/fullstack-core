@@ -19,20 +19,21 @@ export const PaginationControls = ({ page, count, onChange }: Props) => {
         variant="outlined"
         sx={{
           "& .MuiPaginationItem-root": {
-            border: "1px solid black",
-            borderRadius: 0, 
-            color: "black",
+            border: 1,
+            borderColor: "divider",
+            borderRadius: 0,
+            color: "text.primary",
             fontWeight: "bold",
             fontFamily: "inherit",
             "&:hover": {
-              backgroundColor: "#bdbdbd",
-              color: "white",
+              backgroundColor: "action.hover",
             },
             "&.Mui-selected": {
-              backgroundColor: "black",
-              color: "white",
+              backgroundColor: "primary.main",
+              color: "background.paper", 
               "&:hover": {
-                backgroundColor: "#bdbdbd",
+                backgroundColor: "action.hover",
+                color: "text.primary",
               },
             },
           },

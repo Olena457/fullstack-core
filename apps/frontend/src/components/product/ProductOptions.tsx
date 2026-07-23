@@ -1,9 +1,9 @@
-
 import {
   Box,
   Typography,
   ToggleButton,
   ToggleButtonGroup,
+  useTheme,
 } from "@mui/material";
 
 interface ProductOptionsProps {
@@ -14,8 +14,6 @@ interface ProductOptionsProps {
   onSizeChange: (size: string) => void;
   onColorChange: (color: string) => void;
 }
-
-const BRAND_COLOR = "#FF4500";
 
 const colorMap: Record<string, { bg: string; text: string }> = {
   white: { bg: "#FFFFFF", text: "#000000" },
@@ -35,12 +33,19 @@ export const ProductOptions = ({
   onSizeChange,
   onColorChange,
 }: ProductOptionsProps) => {
+  const theme = useTheme();
+
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
       {sizes && sizes.length > 0 && (
         <Box>
           <Typography
-            sx={{ fontWeight: "bold", mb: 1, textTransform: "uppercase" }}
+            sx={{
+              fontWeight: "bold",
+              mb: 1,
+              textTransform: "uppercase",
+              color: "text.primary",
+            }}
           >
             Size:
           </Typography>
@@ -56,14 +61,15 @@ export const ProductOptions = ({
                 value={size}
                 sx={{
                   borderRadius: 0,
-                  border: "1px solid black !important",
-                  color: "black",
+                  border: "1px solid",
+                  borderColor: "divider !important",
+                  color: "text.primary",
                   fontWeight: "bold",
                   px: 3,
                   "&.Mui-selected": {
-                    bgcolor: "black",
-                    color: "white",
-                    "&:hover": { bgcolor: "black" },
+                    bgcolor: "primary.main",
+                    color: "background.paper",
+                    "&:hover": { bgcolor: "primary.main" },
                   },
                 }}
               >
@@ -77,7 +83,12 @@ export const ProductOptions = ({
       {colors && colors.length > 0 && (
         <Box>
           <Typography
-            sx={{ fontWeight: "bold", mb: 1, textTransform: "uppercase" }}
+            sx={{
+              fontWeight: "bold",
+              mb: 1,
+              textTransform: "uppercase",
+              color: "text.primary",
+            }}
           >
             Color:
           </Typography>
@@ -88,7 +99,10 @@ export const ProductOptions = ({
             sx={{ gap: 1.5, flexWrap: "wrap" }}
           >
             {colors.map((color) => {
-              const colorInfo = colorMap[color.toLowerCase()] || { bg: "#EEEEEE", text: "#000" };
+              const colorInfo = colorMap[color.toLowerCase()] || {
+                bg: "#EEEEEE",
+                text: "#000",
+              };
               const isSelected = selectedColor === color;
 
               return (
@@ -97,17 +111,20 @@ export const ProductOptions = ({
                   value={color}
                   sx={{
                     borderRadius: 0,
-                    border: "1px solid black !important",
+                    border: "1px solid",
+                    borderColor: "divider !important",
                     bgcolor: colorInfo.bg,
                     color: colorInfo.text,
                     textTransform: "none",
                     fontWeight: isSelected ? "bold" : "normal",
                     px: 3,
                     py: 1,
-                    boxShadow: isSelected ? `0 0 0 2px white, 0 0 0 4px ${BRAND_COLOR}` : "none",
-                    "&:hover": { 
+                    boxShadow: isSelected
+                      ? `0 0 0 2px ${theme.palette.background.default}, 0 0 0 4px ${theme.palette.secondary.main}`
+                      : "none",
+                    "&:hover": {
                       bgcolor: colorInfo.bg,
-                      opacity: 0.8 
+                      opacity: 0.8,
                     },
                     "&.Mui-selected": {
                       bgcolor: colorInfo.bg,

@@ -1,62 +1,23 @@
+
 "use client";
 
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import Link from "next/link";
 import { useAuthStore } from "../../store/authStore";
 import { ReviewSection } from "../../components/review/ReviewSection";
 import { ReviewForm } from "../../components/review/ReviewForm";
-import type { Review } from "../../types/review";
+import { useReviews } from "../../hooks/useReviews"; 
 
 export default function ReviewPage() {
   const isAuthenticated = useAuthStore((state) => state.isAuthenticated());
   const token = useAuthStore((state) => state.token);
 
-  const [reviews, setReviews] = useState<Review[]>([]);
   const [showForm, setShowForm] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const { reviews, isLoading, error, handleReviewSubmit } = useReviews(token);
 
-  useEffect(() => {
-    const fetchReviews = async () => {
-      try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews`);
-        if (res.ok) {
-          const data = await res.json();
-          setReviews(Array.isArray(data) ? data : []);
-        }
-      } catch (err) {
-        console.error(err);
-        setError("COULD NOT LOAD REVIEWS.");
-      } finally {
-        setIsLoading(false);
-      }
-    };
-    fetchReviews();
-  }, []);
-
-  const handleReviewSubmit = async (data: {
-    rating: number;
-    comment: string;
-  }) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify({
-        rating: data.rating,
-        comment: data.comment,
-      }),
-    });
-
-    if (!res.ok) {
-      throw new Error("Failed to submit review");
-    }
-
-    const newReview = await res.json();
-    setReviews((prev) => [newReview, ...prev]);
+  const onSubmitReview = async (data: { rating: number; comment: string }) => {
+    await handleReviewSubmit(data);
     setShowForm(false);
   };
 
@@ -72,7 +33,11 @@ export default function ReviewPage() {
       >
         <Typography
           variant="h3"
-          sx={{ fontWeight: 900, textTransform: "uppercase" }}
+          sx={{
+            fontWeight: 900,
+            textTransform: "uppercase",
+            color: "text.primary",
+          }}
         >
           Store Reviews
         </Typography>
@@ -83,12 +48,12 @@ export default function ReviewPage() {
             onClick={() => setShowForm(!showForm)}
             sx={{
               borderRadius: 0,
-              bgcolor: "black",
-              color: "white",
+              bgcolor: "primary.main",
+              color: "background.paper",
               fontWeight: "bold",
               px: 3,
               py: 1,
-              "&:hover": { bgcolor: "rgba(0,0,0,0.8)" },
+              "&:hover": { bgcolor: "action.hover", color: "text.primary" },
             }}
           >
             {showForm ? "CANCEL" : "WRITE A REVIEW"}
@@ -97,28 +62,42 @@ export default function ReviewPage() {
       </Box>
 
       {showForm && isAuthenticated && (
-        <Box sx={{ mb: 6, border: "2px solid black", p: 3 }}>
-          <ReviewForm onSubmit={handleReviewSubmit} />
+        <Box
+          sx={{
+            mb: 6,
+            border: 2,
+            borderColor: "text.primary",
+            p: 3,
+            bgcolor: "background.paper",
+          }}
+        >
+          <ReviewForm onSubmit={onSubmitReview} />
         </Box>
       )}
 
       {!isAuthenticated && (
         <Box
           sx={{
-            border: "1px solid black",
+            border: 1,
+            borderColor: "divider",
             p: 4,
             mb: 6,
             textAlign: "center",
-            bgcolor: "#f5f5f5",
+            bgcolor: "background.default", 
           }}
         >
           <Typography
             variant="h6"
-            sx={{ fontWeight: 900, textTransform: "uppercase", mb: 1 }}
+            sx={{
+              fontWeight: 900,
+              textTransform: "uppercase",
+              mb: 1,
+              color: "text.primary",
+            }}
           >
             Share your feedback
           </Typography>
-          <Typography sx={{ mb: 3 }}>
+          <Typography sx={{ mb: 3, color: "text.secondary" }}>
             You must be logged in to leave a store review.
           </Typography>
           <Link href="/login" passHref style={{ textDecoration: "none" }}>
@@ -126,11 +105,11 @@ export default function ReviewPage() {
               variant="contained"
               sx={{
                 borderRadius: 0,
-                bgcolor: "black",
-                color: "white",
+                bgcolor: "primary.main",
+                color: "background.paper",
                 fontWeight: "bold",
                 px: 4,
-                "&:hover": { bgcolor: "#bdbdbd", color: "black" },
+                "&:hover": { bgcolor: "action.hover", color: "text.primary" },
               }}
             >
               LOG IN
@@ -140,13 +119,15 @@ export default function ReviewPage() {
       )}
 
       {isLoading ? (
-        <Typography sx={{ fontWeight: "bold" }}>LOADING REVIEWS...</Typography>
+        <Typography sx={{ fontWeight: "bold", color: "text.primary" }}>
+          LOADING REVIEWS...
+        </Typography>
       ) : error ? (
         <Typography sx={{ color: "error.main", fontWeight: "bold" }}>
           {error}
         </Typography>
       ) : reviews.length === 0 ? (
-        <Typography sx={{ fontWeight: "bold" }}>
+        <Typography sx={{ fontWeight: "bold", color: "text.secondary" }}>
           NO REVIEWS YET. BE THE FIRST TO LEAVE ONE!
         </Typography>
       ) : (

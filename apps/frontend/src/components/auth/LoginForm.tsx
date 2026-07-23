@@ -1,7 +1,9 @@
+
+"use client";
+
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { yupResolver } from "@hookform/resolvers/yup";
-import * as yup from "yup";
 import {
   Box,
   Button,
@@ -14,14 +16,8 @@ import {
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 
-const loginSchema = yup
-  .object({
-    email: yup.string().email("Invalid email").required("Email is required"),
-    password: yup.string().required("Password is required"),
-  })
-  .required();
-
-export type LoginFormData = yup.InferType<typeof loginSchema>;
+import { loginSchema } from "../auth/schemas/login";
+import type {LoginFormData} from "../auth/schemas/login"
 
 interface LoginFormProps {
   onSubmit: (data: LoginFormData) => void;
@@ -45,7 +41,16 @@ export const LoginForm = ({
   });
 
   return (
-    <Box sx={{ width: "100%", maxWidth: 400, border: "1px solid black", p: 4 }}>
+    <Box
+      sx={{
+        width: "100%",
+        maxWidth: 400,
+        border: 1,
+        borderColor: "divider",
+        p: 4,
+        bgcolor: "background.paper",
+      }}
+    >
       <Typography
         variant="h4"
         sx={{
@@ -53,6 +58,7 @@ export const LoginForm = ({
           textTransform: "uppercase",
           mb: 4,
           textAlign: "center",
+          color: "text.primary",
         }}
       >
         Login
@@ -90,6 +96,7 @@ export const LoginForm = ({
                   <IconButton
                     onClick={() => setShowPassword(!showPassword)}
                     edge="end"
+                    sx={{ color: "text.secondary" }}
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </IconButton>
@@ -114,19 +121,25 @@ export const LoginForm = ({
             mt: 2,
             py: 1.5,
             borderRadius: 0,
-            bgcolor: "black",
-            color: "white",
+            bgcolor: "primary.main",
+            color: "background.paper",
             fontWeight: "bold",
             textTransform: "uppercase",
-            "&:hover": { bgcolor: "rgba(0,0,0,0.8)" },
+            "&:hover": {
+              bgcolor: "action.hover",
+              color: "text.primary",
+            },
           }}
         >
           {isLoading ? "Signing in..." : "Sign In"}
         </Button>
 
-        <Typography sx={{ textAlign: "center", mt: 2 }}>
-          Don&#39;t have an account?
-          <Link href="/register" style={{ fontWeight: "bold", color: "black" }}>
+        <Typography sx={{ textAlign: "center", mt: 2, color: "text.primary" }}>
+          Don&#39;t have an account?{" "}
+          <Link
+            href="/register"
+            style={{ fontWeight: "bold", color: "inherit" }}
+          >
             Register
           </Link>
         </Typography>

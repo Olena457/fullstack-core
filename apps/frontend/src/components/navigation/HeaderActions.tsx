@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { Box, Badge, IconButton, Typography } from "@mui/material";
@@ -22,8 +20,8 @@ const MenuButton = ({
         borderRadius: 0,
         px: 2,
         py: 1,
-        "&:hover": { bgcolor: "rgba(0,0,0,0.1)" },
-        color: "black",
+        color: "text.primary", 
+        "&:hover": { bgcolor: "action.hover" },
       }}
     >
       <Typography sx={{ fontWeight: 500, textTransform: "uppercase" }}>
@@ -47,9 +45,9 @@ export const HeaderActions = () => {
       <Link href="/cart">
         <IconButton
           sx={{
-            color: "black",
+            color: "text.primary",
             borderRadius: 0,
-            "&:hover": { bgcolor: "rgba(0,0,0,0.1)" },
+            "&:hover": { bgcolor: "action.hover" },
           }}
         >
           <Badge
@@ -59,7 +57,8 @@ export const HeaderActions = () => {
               "& .MuiBadge-badge": {
                 borderRadius: 0,
                 fontWeight: "bold",
-                border: "1px solid black",
+                border: 1, 
+                borderColor: "divider", 
               },
             }}
           >
@@ -70,19 +69,15 @@ export const HeaderActions = () => {
         </IconButton>
       </Link>
 
-      <MenuButton href="/history">HISTORY</MenuButton>
+      {user && <MenuButton href="/history">HISTORY</MenuButton>}
 
-      {user && (
-        <MenuButton href="/history">HISTORY</MenuButton>
-      )}
-
-      {/* register */}
       {user ? (
         <Box
           sx={{
             display: "flex",
             alignItems: "center",
-            borderLeft: "2px solid black",
+            borderLeft: 2,
+            borderColor: "divider", 
             ml: 1,
             pl: 2,
           }}
@@ -93,6 +88,7 @@ export const HeaderActions = () => {
               textTransform: "uppercase",
               mr: 2,
               display: { xs: "none", sm: "block" },
+              color: "text.primary",
             }}
           >
             HELLO, {user.name?.split(" ")[0] || "USER"}
@@ -103,9 +99,9 @@ export const HeaderActions = () => {
               router.push("/login");
             }}
             sx={{
-              color: "black",
+              color: "text.primary",
               borderRadius: 0,
-              "&:hover": { bgcolor: "rgba(0,0,0,0.1)" },
+              "&:hover": { bgcolor: "action.hover" },
             }}
           >
             <LogOut size={26} strokeWidth={2.5} />

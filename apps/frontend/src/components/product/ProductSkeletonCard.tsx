@@ -1,24 +1,28 @@
 "use client";
 
-import { Card, CardContent, Box, Skeleton } from "@mui/material";
+import { Card, CardContent, Box, Skeleton, useTheme } from "@mui/material";
 
 export const ProductSkeletonCard = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
   return (
     <Card
       sx={{
         borderRadius: 0,
-        border: "1px solid #e0e0e0", 
+        border: `1px solid ${isDark ? "#333333" : "#e0e0e0"}`,
         boxShadow: "none",
         height: "100%",
         display: "flex",
         flexDirection: "column",
+        bgcolor: isDark ? "background.paper" : "white",
       }}
     >
       <Skeleton
         variant="rectangular"
         height={350}
         animation="wave"
-        sx={{ bgcolor: "grey.200" }}
+        sx={{ bgcolor: isDark ? "grey.800" : "grey.200" }}
       />
 
       <CardContent
@@ -28,7 +32,7 @@ export const ProductSkeletonCard = () => {
           display: "flex",
           flexDirection: "column",
           justifyContent: "space-between",
-          bgcolor: "white",
+          bgcolor: isDark ? "background.paper" : "white",
         }}
       >
         <Box>
@@ -37,14 +41,14 @@ export const ProductSkeletonCard = () => {
             width="80%"
             height={24}
             animation="wave"
-            sx={{ mb: 0.5, bgcolor: "grey.200" }}
+            sx={{ mb: 0.5, bgcolor: isDark ? "grey.800" : "grey.200" }}
           />
           <Skeleton
             variant="text"
             width="40%"
             height={24}
             animation="wave"
-            sx={{ mb: 2, bgcolor: "grey.200" }}
+            sx={{ mb: 2, bgcolor: isDark ? "grey.800" : "grey.200" }}
           />
         </Box>
 
@@ -53,7 +57,7 @@ export const ProductSkeletonCard = () => {
           width="100%"
           height={38}
           animation="wave"
-          sx={{ bgcolor: "grey.200" }}
+          sx={{ bgcolor: isDark ? "grey.800" : "grey.200" }}
         />
       </CardContent>
     </Card>

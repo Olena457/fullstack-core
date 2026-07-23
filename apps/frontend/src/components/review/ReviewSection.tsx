@@ -7,10 +7,15 @@ interface ReviewSectionProps {
 
 export const ReviewSection = ({ reviews }: ReviewSectionProps) => {
   return (
-    <Box sx={{ mt: 8, borderTop: "2px solid black", pt: 4 }}>
+    <Box sx={{ mt: 8, borderTop: 2, borderColor: "divider", pt: 4 }}>
       <Typography
         variant="h5"
-        sx={{ fontWeight: 900, textTransform: "uppercase", mb: 4 }}
+        sx={{
+          fontWeight: 900,
+          textTransform: "uppercase",
+          mb: 4,
+          color: "text.primary",
+        }}
       >
         Reviews ({reviews.length})
       </Typography>
@@ -24,7 +29,12 @@ export const ReviewSection = ({ reviews }: ReviewSectionProps) => {
           {reviews.map((review) => (
             <Box
               key={review.id}
-              sx={{ border: "1px solid black", p: 3, borderRadius: 0 }}
+              sx={{
+                border: 1,
+                borderColor: "divider",
+                p: 3,
+                borderRadius: 0,
+              }}
             >
               <Box
                 sx={{
@@ -35,7 +45,11 @@ export const ReviewSection = ({ reviews }: ReviewSectionProps) => {
                 }}
               >
                 <Typography
-                  sx={{ fontWeight: "bold", textTransform: "uppercase" }}
+                  sx={{
+                    fontWeight: "bold",
+                    textTransform: "uppercase",
+                    color: "text.primary",
+                  }}
                 >
                   {review.userName}
                 </Typography>
@@ -49,12 +63,15 @@ export const ReviewSection = ({ reviews }: ReviewSectionProps) => {
                 readOnly
                 size="small"
                 sx={{
-                  color: "black", 
-                  "& .MuiRating-iconEmpty": { color: "rgba(0,0,0,0.2)" },
+                  color: "text.primary",
+                  "& .MuiRating-iconEmpty": { color: "action.disabled" },
                 }}
               />
 
-              <Typography variant="body2" sx={{ mt: 1.5, lineHeight: 1.6 }}>
+              <Typography
+                variant="body2"
+                sx={{ mt: 1.5, lineHeight: 1.6, color: "text.primary" }}
+              >
                 {review.comment}
               </Typography>
             </Box>

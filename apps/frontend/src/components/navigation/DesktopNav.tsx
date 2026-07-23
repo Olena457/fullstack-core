@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Box, IconButton, Typography } from "@mui/material";
@@ -9,8 +8,10 @@ export const DesktopNav = ({ isHome }: { isHome: boolean }) => {
     borderRadius: 0,
     px: 2,
     py: 0,
-    "&:hover": { bgcolor: "rgba(0,0,0,0.1)" },
-    color: "black",
+    color: "text.primary", 
+    "&:hover": {
+      bgcolor: "action.hover", 
+    },
   };
 
   const navItems = ["HOME", "PRODUCTS", "REVIEW"];

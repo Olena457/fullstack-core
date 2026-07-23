@@ -52,17 +52,34 @@ export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
     <Box
       component="form"
       onSubmit={handleSubmit}
-      sx={{ mt: 4, mb: 6, border: "1px solid black", p: 4 }}
+      sx={{
+        mt: 4,
+        mb: 6,
+        border: 1,
+        borderColor: "divider",
+        p: 4,
+      }}
     >
       <Typography
         variant="h6"
-        sx={{ fontWeight: 900, textTransform: "uppercase", mb: 3 }}
+        sx={{
+          fontWeight: 900,
+          textTransform: "uppercase",
+          mb: 3,
+          color: "text.primary",
+        }}
       >
         Write a Review
       </Typography>
 
       <Box sx={{ display: "flex", alignItems: "center", gap: 2, mb: 3 }}>
-        <Typography sx={{ fontWeight: "bold", textTransform: "uppercase" }}>
+        <Typography
+          sx={{
+            fontWeight: "bold",
+            textTransform: "uppercase",
+            color: "text.primary",
+          }}
+        >
           Rating:
         </Typography>
         <Rating
@@ -70,8 +87,8 @@ export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
           onChange={(_, newValue) => setRating(newValue)}
           size="large"
           sx={{
-            color: "black", 
-            "& .MuiRating-iconEmpty": { color: "rgba(0,0,0,0.2)" },
+            color: "text.primary",
+            "& .MuiRating-iconEmpty": { color: "action.disabled" },
           }}
         />
       </Box>
@@ -86,7 +103,7 @@ export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
         disabled={isLoading}
         sx={{
           mb: 3,
-          "& .MuiOutlinedInput-root": { borderRadius: 0 }, 
+          "& .MuiOutlinedInput-root": { borderRadius: 0 },
         }}
       />
 
@@ -102,13 +119,16 @@ export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
         disabled={isLoading}
         sx={{
           borderRadius: 0,
-          bgcolor: "black",
-          color: "white",
+          bgcolor: "primary.main",
+          color: "background.paper",
           fontWeight: "bold",
           px: 5,
           py: 1.5,
           textTransform: "uppercase",
-          "&:hover": { bgcolor: "#bdbdbd" },
+          "&:hover": {
+            bgcolor: "action.hover",
+            color: "text.primary",
+          },
         }}
       >
         {isLoading ? "Submitting..." : "Submit Review"}
