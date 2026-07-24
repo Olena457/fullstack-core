@@ -3,11 +3,15 @@
 import { useEffect, useState } from "react";
 import { useCartStore } from "../store/cartStore";
 import { useAuthStore } from "../store/authStore";
+import { useFavoritesStore } from "../store/favoritesStore"; 
 import type { Product } from "../types/product";
 
 export const useProductDetail = (id: string) => {
   const addToCart = useCartStore((state) => state.addToCart);
-  const token = useAuthStore((state) => state.token);
+  const token = useAuthStore((state) => state.token); 
+
+  const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
+  const isFav = useFavoritesStore((state) => state.isFavorite(id));
 
   const [product, setProduct] = useState<Product | null>(null);
   const [selectedSize, setSelectedSize] = useState<string>("");
@@ -17,7 +21,7 @@ export const useProductDetail = (id: string) => {
   const [snackbarOpen, setSnackbarOpen] = useState(false);
   const [snackbarMessage, setSnackbarMessage] = useState("");
   const [snackbarSeverity, setSnackbarSeverity] = useState<
-    "error" | "warning" | "success"
+    "error" | "warning" | "success" | "info"
   >("error");
 
   useEffect(() => {
@@ -65,6 +69,26 @@ export const useProductDetail = (id: string) => {
     }
   };
 
+  const handleToggleFavorite = () => {
+    if (!token) {
+      setSnackbarMessage("Please log in to add items to favorites.");
+      setSnackbarSeverity("warning");
+      setSnackbarOpen(true);
+      return;
+    }
+
+    toggleFavorite(id);
+
+    if (!isFav) {
+      setSnackbarMessage("Added to favorites!");
+      setSnackbarSeverity("success");
+    } else {
+      setSnackbarMessage("Removed from favorites.");
+      setSnackbarSeverity("info");
+    }
+    setSnackbarOpen(true);
+  };
+
   const handleCloseSnackbar = (
     event?: React.SyntheticEvent | Event,
     reason?: string,
@@ -73,6 +97,11 @@ export const useProductDetail = (id: string) => {
       return;
     }
     setSnackbarOpen(false);
+  };
+
+  const handleClearSelection = () => {
+    setSelectedSize("");
+    setSelectedColor("");
   };
 
   const isReadyToCart = selectedSize !== "" && selectedColor !== "";
@@ -86,9 +115,12 @@ export const useProductDetail = (id: string) => {
     snackbarMessage,
     snackbarSeverity,
     isReadyToCart,
+    isFav, 
     setSelectedSize,
     setSelectedColor,
     handleAddToCart,
     handleCloseSnackbar,
+    handleClearSelection,
+    handleToggleFavorite, 
   };
 };

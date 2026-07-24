@@ -1,3 +1,4 @@
+
 import {
   Box,
   Typography,
@@ -19,7 +20,7 @@ interface ProductInfoProps {
   isReadyToCart: boolean;
   snackbarOpen: boolean;
   snackbarMessage: string;
-  snackbarSeverity: "error" | "warning" | "success";
+  snackbarSeverity: "error" | "warning" | "success" | "info"; // <- "info" додано тут
   onSizeChange: (size: string) => void;
   onColorChange: (color: string) => void;
   onAddToCart: () => void;
@@ -27,6 +28,7 @@ interface ProductInfoProps {
     event?: React.SyntheticEvent | Event,
     reason?: string,
   ) => void;
+  onClearSelection: () => void; // <- Додано функцію очищення
 }
 
 export const ProductInfo = ({
@@ -41,6 +43,7 @@ export const ProductInfo = ({
   onColorChange,
   onAddToCart,
   onCloseSnackbar,
+  onClearSelection, // <- Дістаємо функцію очищення з пропсів
 }: ProductInfoProps) => (
   <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
     <Box>
@@ -122,12 +125,14 @@ export const ProductInfo = ({
       onColorChange={onColorChange}
     />
 
-    <Box sx={{ mt: 1 }}>
+    {/* Оновлений блок кнопок: Flex-контейнер для "Додати" та "Скасувати" */}
+    <Box sx={{ mt: 1, display: "flex", gap: 2 }}>
       <Button
         variant="contained"
         fullWidth
         onClick={onAddToCart}
         sx={{
+          flex: 1,
           borderRadius: 0,
           bgcolor: isReadyToCart ? "primary.main" : "action.disabledBackground",
           color: isReadyToCart ? "background.paper" : "text.secondary",
@@ -144,6 +149,25 @@ export const ProductInfo = ({
       >
         {isReadyToCart ? "Add to Cart" : "Select Options"}
       </Button>
+
+      {/* Кнопка скасування з'являється тільки якщо користувач обрав розмір або колір */}
+      {(selectedSize || selectedColor) && (
+        <Button
+          variant="outlined"
+          onClick={onClearSelection}
+          sx={{
+            borderRadius: 0,
+            py: 2,
+            px: 4,
+            fontWeight: "bold",
+            borderColor: "divider",
+            color: "text.primary",
+            "&:hover": { borderColor: "text.primary" },
+          }}
+        >
+          CANCEL
+        </Button>
+      )}
     </Box>
 
     <Snackbar

@@ -2,11 +2,12 @@
 "use client";
 
 import { use } from "react";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 import Link from "next/link";
 import { ProductImage } from "../../../components/product/ProductImage";
 import { ProductInfo } from "../../../components/product/ProductInfo";
 import { useProductDetail } from "../../../hooks/useProductDetail";
+import { FavoriteIcon } from "../../../components/ui/FavoriteIcon";
 
 interface ProductPageProps {
   params: Promise<{ id: string }>;
@@ -24,10 +25,13 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
     snackbarMessage,
     snackbarSeverity,
     isReadyToCart,
+    isFav,
     setSelectedSize,
     setSelectedColor,
     handleAddToCart,
     handleCloseSnackbar,
+    handleClearSelection,
+    handleToggleFavorite, 
   } = useProductDetail(id);
 
   if (isLoading) {
@@ -50,7 +54,14 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
     <Box
       sx={{ p: 2, maxWidth: "1200px", margin: "0 auto", color: "text.primary" }}
     >
-      <Box sx={{ mb: 1 }}>
+      <Box
+        sx={{
+          mb: 2,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+        }}
+      >
         <Link href="/products" style={{ textDecoration: "none" }}>
           <Typography
             sx={{
@@ -65,6 +76,24 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
             ← Back to Catalog
           </Typography>
         </Link>
+
+        <IconButton
+          onClick={handleToggleFavorite} // <- Тепер викликаємо оновлену функцію з перевіркою
+          aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
+          sx={{
+            border: "1px solid",
+            borderColor: "divider",
+            borderRadius: 0,
+            opacity: isFav ? 1 : 0.4,
+            transition: "all 0.2s ease-in-out",
+            "&:hover": {
+              opacity: 1,
+              borderColor: "text.primary",
+            },
+          }}
+        >
+          <FavoriteIcon />
+        </IconButton>
       </Box>
 
       <Box
@@ -92,6 +121,7 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
           onColorChange={setSelectedColor}
           onAddToCart={handleAddToCart}
           onCloseSnackbar={handleCloseSnackbar}
+          onClearSelection={handleClearSelection}
         />
       </Box>
     </Box>
