@@ -1,6 +1,8 @@
 
+
 "use client";
 import { useEffect, useState } from "react";
+import { toast } from "react-toastify"; 
 import { useCartStore } from "../store/cartStore";
 import { useAuthStore } from "../store/authStore";
 import { useFavoritesStore } from "../store/favoritesStore"; 
@@ -9,7 +11,6 @@ import type { Product } from "../types/product";
 export const useProductDetail = (id: string) => {
   const addToCart = useCartStore((state) => state.addToCart);
   const token = useAuthStore((state) => state.token); 
-
   const toggleFavorite = useFavoritesStore((state) => state.toggleFavorite);
   const isFav = useFavoritesStore((state) => state.isFavorite(id));
 
@@ -18,18 +19,10 @@ export const useProductDetail = (id: string) => {
   const [selectedColor, setSelectedColor] = useState<string>("");
   const [isLoading, setIsLoading] = useState(true);
 
-  const [snackbarOpen, setSnackbarOpen] = useState(false);
-  const [snackbarMessage, setSnackbarMessage] = useState("");
-  const [snackbarSeverity, setSnackbarSeverity] = useState<
-    "error" | "warning" | "success" | "info"
-  >("error");
-
   useEffect(() => {
     const fetchProductData = async () => {
       try {
-        const res = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`,
-        );
+        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`);
         if (res.ok) {
           const productData = await res.json();
           setProduct(productData);
@@ -40,63 +33,35 @@ export const useProductDetail = (id: string) => {
         setIsLoading(false);
       }
     };
-
     fetchProductData();
   }, [id]);
 
   const handleAddToCart = () => {
     if (!token) {
-      setSnackbarMessage("Please log in or register to make a purchase.");
-      setSnackbarSeverity("warning");
-      setSnackbarOpen(true);
+      toast.warning("Please log in or register to make a purchase.");
       return;
     }
-
     if (!selectedSize || !selectedColor) {
-      setSnackbarMessage(
-        "Please select both size and color before adding to cart.",
-      );
-      setSnackbarSeverity("error");
-      setSnackbarOpen(true);
+      toast.error("Please select both size and color before adding to cart.");
       return;
     }
-
     if (product) {
       addToCart(product, selectedSize, selectedColor);
-      setSnackbarMessage("Product added to cart!");
-      setSnackbarSeverity("success");
-      setSnackbarOpen(true);
+      toast.success("Product added to cart!");
     }
   };
 
   const handleToggleFavorite = () => {
     if (!token) {
-      setSnackbarMessage("Please log in to add items to favorites.");
-      setSnackbarSeverity("warning");
-      setSnackbarOpen(true);
+      toast.warning("Please log in to add items to favorites.");
       return;
     }
-
     toggleFavorite(id);
-
     if (!isFav) {
-      setSnackbarMessage("Added to favorites!");
-      setSnackbarSeverity("success");
+      toast.success("Added to favorites!");
     } else {
-      setSnackbarMessage("Removed from favorites.");
-      setSnackbarSeverity("info");
+      toast.info("Removed from favorites.");
     }
-    setSnackbarOpen(true);
-  };
-
-  const handleCloseSnackbar = (
-    event?: React.SyntheticEvent | Event,
-    reason?: string,
-  ) => {
-    if (reason === "clickaway") {
-      return;
-    }
-    setSnackbarOpen(false);
   };
 
   const handleClearSelection = () => {
@@ -111,15 +76,11 @@ export const useProductDetail = (id: string) => {
     selectedSize,
     selectedColor,
     isLoading,
-    snackbarOpen,
-    snackbarMessage,
-    snackbarSeverity,
     isReadyToCart,
     isFav, 
     setSelectedSize,
     setSelectedColor,
     handleAddToCart,
-    handleCloseSnackbar,
     handleClearSelection,
     handleToggleFavorite, 
   };

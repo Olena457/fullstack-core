@@ -1,38 +1,38 @@
 "use client";
 
 import { Box, Typography, TextField, Button } from "@mui/material";
-import { useForm } from "react-hook-form";
-import { yupResolver } from "@hookform/resolvers/yup";
-
-import { checkoutSchema } from "../auth/schemas/checkout";
-import type {CheckoutFormData} from "../auth/schemas/checkout"
+import type { CheckoutFormData } from "../auth/schemas/checkout";
+import { useCheckoutForm } from "../../hooks/useCheckoutForm"; 
 
 interface CheckoutFormProps {
   onSubmit: (data: CheckoutFormData) => void;
   isLoading: boolean;
+  defaultValues?: Partial<CheckoutFormData>;
 }
 
-export const CheckoutForm = ({ onSubmit, isLoading }: CheckoutFormProps) => {
+const inputStyles = {
+  "& .MuiOutlinedInput-root": {
+    borderRadius: 0,
+    "& fieldset": { borderColor: "divider" },
+    "&:hover fieldset": { borderColor: "text.primary", borderWidth: "2px" },
+    "&.Mui-focused fieldset": {
+      borderColor: "secondary.main",
+      borderWidth: "2px",
+    },
+  },
+  "& .MuiInputLabel-root.Mui-focused": { color: "secondary.main" },
+};
+
+export const CheckoutForm = ({
+  onSubmit,
+  isLoading,
+  defaultValues,
+}: CheckoutFormProps) => {
   const {
     register,
     handleSubmit,
     formState: { errors },
-  } = useForm<CheckoutFormData>({
-    resolver: yupResolver(checkoutSchema),
-  });
-
-  const inputStyles = {
-    "& .MuiOutlinedInput-root": {
-      borderRadius: 0,
-      "& fieldset": { borderColor: "divider" }, 
-      "&:hover fieldset": { borderColor: "text.primary", borderWidth: "2px" }, 
-      "&.Mui-focused fieldset": {
-        borderColor: "secondary.main",
-        borderWidth: "2px",
-      }, 
-    },
-    "& .MuiInputLabel-root.Mui-focused": { color: "secondary.main" }, 
-  };
+  } = useCheckoutForm(defaultValues);
 
   return (
     <Box
@@ -152,18 +152,18 @@ export const CheckoutForm = ({ onSubmit, isLoading }: CheckoutFormProps) => {
         sx={{
           mt: 2,
           borderRadius: 0,
-          bgcolor: "primary.main", 
+          bgcolor: "primary.main",
           color: "background.paper",
           py: 2,
           fontWeight: "bold",
           fontSize: "1.1rem",
           textTransform: "uppercase",
           "&:hover": {
-            bgcolor: "action.hover", 
+            bgcolor: "action.hover",
             color: "text.primary",
           },
           "&.Mui-disabled": {
-            bgcolor: "action.disabledBackground", 
+            bgcolor: "action.disabledBackground",
             color: "action.disabled",
           },
         }}

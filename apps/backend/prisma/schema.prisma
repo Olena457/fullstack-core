@@ -53,21 +53,22 @@ model Review {
 }
 
 model Order {
-  id                String      @id @default(uuid())
-  userId            String      @map("user_id")
-  user              User        @relation(fields: [userId], references: [id])
-  totalPrice        Float       @map("total_price")
-  status            String      @default("PENDING")
-  invoiceId         String?     @map("invoice_id")
-  stripeSessionId   String?     @map("stripe_session_id")
-  phone             String?
-  deliveryCity      String?     @map("delivery_city")
-  deliveryCityRef   String?     @map("delivery_city_ref")
-  deliveryWarehouse String?     @map("delivery_warehouse")
-  warehouseRef      String?     @map("warehouse_ref")
-  ttn               String?
-  items             OrderItem[]
-  createdAt         DateTime    @default(now()) @map("created_at")
+  id              String      @id @default(uuid())
+  userId          String      @map("user_id")
+  user            User        @relation(fields: [userId], references: [id])
+  totalPrice      Float       @map("total_price")
+  status          String      @default("PENDING")
+  invoiceId       String?     @map("invoice_id")
+  stripeSessionId String?     @map("stripe_session_id")
+  firstName       String?     @map("first_name")
+  lastName        String?     @map("last_name")
+  email           String?
+  phone           String?
+  npCity          String?     @map("np_city")
+  npBranch        String?     @map("np_branch")
+  ttn             String?
+  items           OrderItem[]
+  createdAt       DateTime    @default(now()) @map("created_at")
 
   @@map("orders")
 }

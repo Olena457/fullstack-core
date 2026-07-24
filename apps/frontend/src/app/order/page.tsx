@@ -1,6 +1,7 @@
 
 "use client";
 
+import { useEffect, useState } from "react";
 import { Box, Typography, Button } from "@mui/material";
 import Link from "next/link";
 import { useAuthStore } from "../../store/authStore";
@@ -11,7 +12,33 @@ export default function OrdersPage() {
   const user = useAuthStore((state) => state.user);
   const token = useAuthStore((state) => state.token);
 
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setMounted(true);
+    }, 0);
+
+    return () => clearTimeout(timer);
+  }, []);
+
   const { orders, isLoading, error } = useOrders(user, token);
+
+  if (!mounted) {
+    return (
+      <Box sx={{ p: 4, textAlign: "center", mt: 10 }}>
+        <Typography
+          sx={{
+            fontWeight: "bold",
+            color: "text.primary",
+            textTransform: "uppercase",
+          }}
+        >
+          LOADING...
+        </Typography>
+      </Box>
+    );
+  }
 
   if (!user) {
     return (

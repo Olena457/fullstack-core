@@ -21,17 +21,13 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
     selectedSize,
     selectedColor,
     isLoading,
-    snackbarOpen,
-    snackbarMessage,
-    snackbarSeverity,
-    isReadyToCart,
+    isReadyToCart, 
     isFav,
     setSelectedSize,
     setSelectedColor,
     handleAddToCart,
-    handleCloseSnackbar,
     handleClearSelection,
-    handleToggleFavorite, 
+    handleToggleFavorite,
   } = useProductDetail(id);
 
   if (isLoading) {
@@ -54,14 +50,7 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
     <Box
       sx={{ p: 2, maxWidth: "1200px", margin: "0 auto", color: "text.primary" }}
     >
-      <Box
-        sx={{
-          mb: 2,
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-        }}
-      >
+      <Box sx={{ mb: 2 }}>
         <Link href="/products" style={{ textDecoration: "none" }}>
           <Typography
             sx={{
@@ -76,24 +65,6 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
             ← Back to Catalog
           </Typography>
         </Link>
-
-        <IconButton
-          onClick={handleToggleFavorite} // <- Тепер викликаємо оновлену функцію з перевіркою
-          aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
-          sx={{
-            border: "1px solid",
-            borderColor: "divider",
-            borderRadius: 0,
-            opacity: isFav ? 1 : 0.4,
-            transition: "all 0.2s ease-in-out",
-            "&:hover": {
-              opacity: 1,
-              borderColor: "text.primary",
-            },
-          }}
-        >
-          <FavoriteIcon />
-        </IconButton>
       </Box>
 
       <Box
@@ -103,24 +74,43 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
           gap: 8,
         }}
       >
-        <ProductImage
-          imageUrl={product.imageUrl}
-          title={product.title}
-          gender={product.gender}
-        />
+        <Box sx={{ position: "relative" }}>
+          <ProductImage
+            imageUrl={product.imageUrl}
+            title={product.title}
+            gender={product.gender}
+          />
+
+          <IconButton
+            onClick={handleToggleFavorite}
+            aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
+            sx={{
+              position: "absolute",
+              top: 16,
+              right: 16,
+              zIndex: 10,
+              bgcolor: "rgba(0, 0, 0, 0.15)",
+              color: isFav ? "secondary.main" : "#ffffff",
+              transition: "all 0.2s ease-in-out",
+              "&:hover": {
+                bgcolor: "rgba(0, 0, 0, 0.3)",
+                color: "secondary.main",
+                transform: "scale(1.1)",
+              },
+            }}
+          >
+            <FavoriteIcon />
+          </IconButton>
+        </Box>
 
         <ProductInfo
           product={product}
           selectedSize={selectedSize}
           selectedColor={selectedColor}
           isReadyToCart={isReadyToCart}
-          snackbarOpen={snackbarOpen}
-          snackbarMessage={snackbarMessage}
-          snackbarSeverity={snackbarSeverity}
           onSizeChange={setSelectedSize}
           onColorChange={setSelectedColor}
           onAddToCart={handleAddToCart}
-          onCloseSnackbar={handleCloseSnackbar}
           onClearSelection={handleClearSelection}
         />
       </Box>

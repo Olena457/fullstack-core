@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./globals.css";
 import { Header } from "../components/navigation/Header";
 import ThemeRegistry from "../components/providers/ThemeRegistry"; 
+import { ToastProvider } from "../components/providers/ToastProvider";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -38,6 +39,7 @@ export default function RootLayout({
             theme="dark"
             hideProgressBar={false}
           />
+          <ToastProvider/>
         </ThemeRegistry>
       </body>
     </html>

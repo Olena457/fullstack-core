@@ -12,8 +12,8 @@ import { ApiBearerAuth, ApiOperation, ApiTags } from '@nestjs/swagger';
 export class OrdersController {
   constructor(private readonly ordersService: OrdersService) {}
 
-  @Post()
-  @ApiOperation({ summary: 'Create a new checkout order' })
+  @Post('checkout')
+  @ApiOperation({ summary: 'Create a new checkout order and return Stripe session URL' })
   create(@Body() createOrderDto: CreateOrderDto, @CurrentUser() userId: string) {
     return this.ordersService.create(createOrderDto, userId);
   }

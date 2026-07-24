@@ -1,24 +1,27 @@
 "use client";
 
-import { Box, Typography, Grid, IconButton } from "@mui/material";
-import { useEffect, useState } from "react";
-import { useFavoritesStore } from "@/store/favoritesStore";
+import {
+  Box,
+  Typography,
+  Grid,
+  IconButton,
+  Button,
+  CircularProgress,
+} from "@mui/material";
 import Link from "next/link";
 import { FavoriteIcon } from "@/components/ui/FavoriteIcon";
+import { useFavoritesPage } from "@/hooks/useFavoritesPage";
 
 export default function FavoritesPage() {
-  const [mounted, setMounted] = useState(false);
-  const { favorites, toggleFavorite } = useFavoritesStore();
+  const { mounted, favorites, handleRemoveFavorite } = useFavoritesPage();
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setMounted(true);
-    }, 0);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (!mounted) return null;
+  if (!mounted) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 10 }}>
+        <CircularProgress color="primary" />
+      </Box>
+    );
+  }
 
   return (
     <Box
@@ -27,6 +30,8 @@ export default function FavoritesPage() {
         maxWidth: "1200px",
         margin: "0 auto",
         color: "text.primary",
+        bgcolor: "background.default",
+        minHeight: "100vh",
       }}
     >
       <Typography
@@ -38,18 +43,25 @@ export default function FavoritesPage() {
 
       {favorites.length === 0 ? (
         <Box sx={{ textAlign: "center", py: 10 }}>
-          <Typography color="text.secondary" sx={{ mb: 2 }}>
-            You haven &#39;t saved any items yet.
+          <Typography color="text.secondary" sx={{ mb: 3 }}>
+            You haven &#39; t saved any items yet.
           </Typography>
-          <Link
-            href="/products"
-            style={{
-              textDecoration: "underline",
-              color: "inherit",
-              fontWeight: "bold",
-            }}
-          >
-            Return to Catalog
+
+          <Link href="/products" style={{ textDecoration: "none" }}>
+            <Button
+              variant="contained"
+              sx={{
+                bgcolor: "primary.main",
+                color: "background.paper",
+                borderRadius: 0,
+                px: 5,
+                py: 1.5,
+                fontWeight: "bold",
+                "&:hover": { bgcolor: "action.hover", color: "text.primary" },
+              }}
+            >
+              Return to Catalog
+            </Button>
           </Link>
         </Box>
       ) : (
@@ -60,45 +72,71 @@ export default function FavoritesPage() {
                 sx={{
                   border: "1px solid",
                   borderColor: "divider",
-                  p: 2,
+                  bgcolor: "background.paper",
+                  p: 3,
                   display: "flex",
                   flexDirection: "column",
                   position: "relative",
+                  transition: "all 0.2s ease",
+                  "&:hover": {
+                    borderColor: "primary.main",
+                  },
                 }}
               >
                 <IconButton
-                  onClick={() => toggleFavorite(id)}
+                  onClick={() => handleRemoveFavorite(id)}
                   sx={{
                     position: "absolute",
-                    top: 8,
-                    right: 8,
-                    bgcolor: "background.paper",
+                    top: 12,
+                    right: 12,
+                    bgcolor: "background.default",
+                    color: "secondary.main",
                     border: "1px solid",
                     borderColor: "divider",
                     borderRadius: 0,
-                    "&:hover": { borderColor: "text.primary" },
+                    transition: "all 0.2s ease",
+                    "&:hover": {
+                      bgcolor: "action.hover",
+                      borderColor: "text.primary",
+                    },
                   }}
                 >
                   <FavoriteIcon />
                 </IconButton>
 
-                <Typography sx={{ fontWeight: "bold", mb: 2, mt: 5 }}>
+                <Typography
+                  sx={{
+                    fontWeight: "bold",
+                    mb: 3,
+                    mt: 5,
+                    color: "text.primary",
+                  }}
+                >
                   Product ID: {id}
                 </Typography>
 
                 <Link
                   href={`/products/${id}`}
-                  style={{ textDecoration: "none" }}
+                  style={{ textDecoration: "none", width: "100%" }}
                 >
-                  <Typography
+                  <Button
+                    variant="outlined"
+                    fullWidth
                     sx={{
-                      textDecoration: "underline",
+                      borderRadius: 0,
+                      borderColor: "divider",
                       color: "text.primary",
-                      "&:hover": { color: "text.secondary" },
+                      fontWeight: "bold",
+                      textTransform: "uppercase",
+                      "&:hover": {
+                        borderColor: "primary.main",
+                        bgcolor: "primary.main",
+                        color: "background.paper",
+                      },
                     }}
                   >
                     View Details
-                  </Typography>
+                  </Button>
                 </Link>
               </Box>
             </Grid>

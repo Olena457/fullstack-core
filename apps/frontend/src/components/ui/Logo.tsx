@@ -1,9 +1,14 @@
+
 "use client";
 
 import { Typography, Box } from "@mui/material";
 import Link from "next/link";
+import { useTheme } from "@mui/material/styles";
 
 export const Logo = () => {
+  const theme = useTheme();
+  const isDark = theme.palette.mode === "dark";
+
   return (
     <Link
       href="/"
@@ -15,14 +20,14 @@ export const Logo = () => {
           fontWeight: 900,
           textTransform: "uppercase",
           letterSpacing: "-0.02em",
-          color: "black",
+          color: isDark ? theme.palette.primary.main : "black",
           transition: "all 0.3s ease-in-out",
+          fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" }, 
 
           "&:hover, &:focus-visible, &:active": {
-            color: "#FF4500", 
-
+            color: theme.palette.secondary.main,
             "& .ego-text": {
-              color: "black", 
+              color: isDark ? theme.palette.primary.main : "black",
             },
           },
         }}
@@ -32,7 +37,7 @@ export const Logo = () => {
           component="span"
           className="ego-text"
           sx={{
-            color: "#FF4500", 
+            color: theme.palette.secondary.main,
             transition: "all 0.3s ease-in-out",
           }}
         >

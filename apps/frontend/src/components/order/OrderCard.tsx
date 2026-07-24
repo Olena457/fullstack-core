@@ -1,8 +1,7 @@
+
 "use client";
 
-import { Box, Typography, Button, Divider, Chip, Paper } from "@mui/material";
-import { useRouter } from "next/navigation";
-import { useCartStore } from "../../store/cartStore";
+import { Box, Typography, Paper, Chip, Divider } from "@mui/material";
 import type { Order } from "../../types/order";
 
 interface OrderCardProps {
@@ -10,106 +9,113 @@ interface OrderCardProps {
 }
 
 export const OrderCard = ({ order }: OrderCardProps) => {
-  const router = useRouter();
-  const addToCart = useCartStore((state) => state.addToCart);
-
-  const handleReorder = () => {
-    order.items.forEach((item) => {
-      const productMock = {
-        id: item.productId,
-        title: item.title,
-        price: item.price,
-        imageUrl: "",
-        sizes: [],
-        colors: [],
-      };
-      for (let i = 0; i < item.quantity; i++) {
-        addToCart(productMock, item.size, item.color);
-      }
-    });
-    router.push("/cart");
-  };
-
   return (
     <Paper
+      variant="outlined"
       sx={{
         p: 3,
         borderRadius: 0,
-        border: "2px solid black",
-        boxShadow: "none",
+        borderColor: "divider", 
+        borderLeft: 4,
+        borderLeftColor: "primary.main", 
+        bgcolor: "background.paper",
       }}
     >
       <Box
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "center",
-          mb: 2,
+          mb: 1,
+          flexWrap: "wrap",
+          gap: 1,
         }}
       >
-        <Typography
-          variant="h6"
-          sx={{ fontWeight: 900, textTransform: "uppercase" }}
-        >
-          Order #{order.id.slice(-4)}
+        <Typography sx={{ fontWeight: 900, color: "text.primary" }}>
+          ORDER #{order.id.slice(0, 8).toUpperCase()}
         </Typography>
         <Chip
           label={order.status}
+          size="small"
           sx={{
             borderRadius: 0,
             fontWeight: "bold",
-            border: "1px solid black",
-            bgcolor: order.status === "DELIVERED" ? "#e0ffe0" : "#fff0e0",
+            bgcolor:
+              order.status === "PENDING" ? "secondary.main" : "primary.main",
+            color: "background.paper", 
           }}
         />
       </Box>
 
-      <Typography variant="body2" sx={{ mb: 2, fontWeight: "bold" }}>
-        {new Date(order.createdAt).toLocaleString()}
+      <Typography variant="body2" color="text.secondary">
+        Placed on: {new Date(order.createdAt).toLocaleDateString()}
       </Typography>
 
-      <Divider sx={{ my: 2, borderColor: "black" }} />
+      <Divider sx={{ my: 2, borderColor: "divider" }} />
 
-      {order.items.map((item) => (
-        <Box
-          key={item.id}
-          sx={{ display: "flex", justifyContent: "space-between", mb: 1 }}
-        >
-          <Typography sx={{ fontWeight: "bold" }}>
-            {item.quantity}x {item.title}
-            {item.size && ` (Size: ${item.size})`}
-            {item.color && ` (Color: ${item.color})`}
-          </Typography>
-          <Typography>${(item.price * item.quantity).toFixed(2)}</Typography>
-        </Box>
-      ))}
+      <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
+        {order.items.map((item) => (
+          <Box
+            key={item.id}
+            sx={{
+              display: "flex",
+              justifyContent: "space-between",
+              alignItems: "flex-start",
+            }}
+          >
+            <Box>
+              <Typography
+                variant="body2"
+                sx={{ fontWeight: "bold", color: "text.primary" }}
+              >
+                {item.title}
+                <Typography component="span" color="text.secondary">
+                  {" "}
+                  x {item.quantity}
+                </Typography>
+              </Typography>
+
+              {(item.size || item.color) && (
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  sx={{ display: "block", mt: 0.2 }}
+                >
+                  {[
+                    item.size && `Size: ${item.size}`,
+                    item.color && `Color: ${item.color}`,
+                  ]
+                    .filter(Boolean)
+                    .join(" | ")}
+                </Typography>
+              )}
+            </Box>
+
+            <Typography
+              variant="body2"
+              sx={{ fontWeight: "bold", color: "text.primary" }}
+            >
+              ${(item.price * item.quantity).toFixed(2)}
+            </Typography>
+          </Box>
+        ))}
+      </Box>
 
       <Box
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          alignItems: "center",
-          mt: 4,
+          mt: 3,
           pt: 2,
-          borderTop: "2px solid black",
+          borderTop: 2,
+          borderColor: "divider", 
+          alignItems: "center",
         }}
       >
-        <Typography sx={{ fontWeight: 900, fontSize: "1.2rem" }}>
+        <Typography
+          sx={{ fontWeight: 900, fontSize: "1.1rem", color: "text.primary" }}
+        >
           TOTAL: ${order.totalPrice.toFixed(2)}
         </Typography>
-        <Button
-          variant="contained"
-          onClick={handleReorder}
-          sx={{
-            bgcolor: "black",
-            color: "white",
-            borderRadius: 0,
-            fontWeight: "bold",
-            "&:hover": { bgcolor: "rgba(0,0,0,0.8)" },
-          }}
-        >
-          REORDER
-        </Button>
       </Box>
     </Paper>
   );

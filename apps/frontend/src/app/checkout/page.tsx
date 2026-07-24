@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -8,9 +9,19 @@ import { useAuthStore } from "../../store/authStore";
 import type { CartStore } from "../../store/cartStore";
 import type { AuthStore } from "../../types/auth";
 
-// Імпортуємо наші компоненти
 import { CheckoutForm } from "../../components/checkout/CheckoutForm";
 import { CheckoutSummary } from "../../components/checkout/CheckoutSummary";
+
+// Створюємо правильний тип, який повністю відповідає даним з вашої форми
+export interface ShippingData {
+  firstName: string;
+  lastName: string;
+  email: string;
+  phone: string;
+  address: string;
+  city: string;
+  postalCode: string;
+}
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -18,16 +29,6 @@ export default function CheckoutPage() {
   const items = useCartStore((state: CartStore) => state.items);
   const user = useAuthStore((state: AuthStore) => state.user);
   const token = useAuthStore((state: AuthStore) => state.token);
-
-  const [formData, setFormData] = useState({
-    firstName: user?.name?.split(" ")[0] || "",
-    lastName: user?.name?.split(" ")[1] || "",
-    email: user?.email || "",
-    phone: "",
-    address: "",
-    city: "",
-    postalCode: "",
-  });
 
   const [isLoading, setIsLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -38,13 +39,8 @@ export default function CheckoutPage() {
     }
   }, [items, router]);
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setFormData((prev) => ({ ...prev, [name]: value }));
-  };
-
-  const handleProceedToPayment = async (e: React.FormEvent) => {
-    e.preventDefault();
+  // Використовуємо новий тип ShippingData
+  const handleProceedToPayment = async (data: ShippingData) => {
     setIsLoading(true);
     setErrorMessage("");
 
@@ -64,7 +60,8 @@ export default function CheckoutPage() {
               size: item.selectedSize,
               color: item.selectedColor,
             })),
-            shippingInfo: formData,
+            // Дані (address, city, postalCode, тощо) передаються на бекенд
+            ...data,
           }),
         },
       );
@@ -76,14 +73,13 @@ export default function CheckoutPage() {
         );
       }
 
-      const data = await response.json();
+      const responseData = await response.json();
 
-      if (data.url) {
-        window.location.href = data.url;
+      if (responseData.url) {
+        window.location.href = responseData.url;
       } else {
         throw new Error("Stripe URL not returned from backend.");
       }
-
     } catch (err: unknown) {
       console.error("Checkout Error:", err);
       if (err instanceof Error) {
@@ -99,7 +95,15 @@ export default function CheckoutPage() {
   if (items.length === 0) return null;
 
   return (
-    <Box sx={{ p: 4, maxWidth: "1200px", mx: "auto", mt: 2 }}>
+    <Box
+      sx={{
+        p: 4,
+        maxWidth: "1200px",
+        mx: "auto",
+        mt: 2,
+        color: "text.primary",
+      }}
+    >
       <Typography
         variant="h4"
         sx={{ fontWeight: 900, textTransform: "uppercase", mb: 4 }}
@@ -110,7 +114,7 @@ export default function CheckoutPage() {
       {errorMessage && (
         <Alert
           severity="error"
-          sx={{ mb: 3, borderRadius: 0, border: "1px solid black" }}
+          sx={{ mb: 3, borderRadius: 0, border: 1, borderColor: "error.main" }}
         >
           {errorMessage}
         </Alert>
@@ -124,10 +128,13 @@ export default function CheckoutPage() {
         }}
       >
         <CheckoutForm
-          formData={formData}
-          handleChange={handleChange}
           onSubmit={handleProceedToPayment}
           isLoading={isLoading}
+          defaultValues={{
+            firstName: user?.name?.split(" ")[0] || "",
+            lastName: user?.name?.split(" ")[1] || "",
+            email: user?.email || "",
+          }}
         />
 
         <CheckoutSummary />
