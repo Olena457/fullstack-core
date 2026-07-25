@@ -1,4 +1,3 @@
-
 "use client";
 
 import { AppBar, Toolbar } from "@mui/material";

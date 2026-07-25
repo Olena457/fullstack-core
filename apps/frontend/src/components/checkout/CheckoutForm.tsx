@@ -1,11 +1,13 @@
+
 "use client";
 
 import { Box, Typography, TextField, Button } from "@mui/material";
 import type { CheckoutFormData } from "../auth/schemas/checkout";
-import { useCheckoutForm } from "../../hooks/useCheckoutForm"; 
+import { useCheckoutForm } from "../../hooks/useCheckoutForm";
+import { NovaPoshtaFields } from "../novaposhta/NovaPoshtaFields"; 
 
 interface CheckoutFormProps {
-  onSubmit: (data: CheckoutFormData) => void;
+  onSubmit: (data: CheckoutFormData) => void | Promise<void>;
   isLoading: boolean;
   defaultValues?: Partial<CheckoutFormData>;
 }
@@ -28,9 +30,12 @@ export const CheckoutForm = ({
   isLoading,
   defaultValues,
 }: CheckoutFormProps) => {
+  // Тепер витягуємо також control та setValue з хука форми
   const {
     register,
     handleSubmit,
+    control,
+    setValue,
     formState: { errors },
   } = useCheckoutForm(defaultValues);
 
@@ -52,13 +57,7 @@ export const CheckoutForm = ({
         1. Shipping Information
       </Typography>
 
-      <Box
-        sx={{
-          display: "flex",
-          gap: 2,
-          flexDirection: { xs: "column", sm: "row" },
-        }}
-      >
+      <Box sx={{ display: "flex", gap: 2, flexDirection: { xs: "column", sm: "row" } }}>
         <TextField
           {...register("firstName")}
           fullWidth
@@ -79,13 +78,7 @@ export const CheckoutForm = ({
         />
       </Box>
 
-      <Box
-        sx={{
-          display: "flex",
-          gap: 2,
-          flexDirection: { xs: "column", sm: "row" },
-        }}
-      >
+      <Box sx={{ display: "flex", gap: 2, flexDirection: { xs: "column", sm: "row" } }}>
         <TextField
           {...register("email")}
           fullWidth
@@ -108,40 +101,14 @@ export const CheckoutForm = ({
         />
       </Box>
 
-      <TextField
-        {...register("address")}
-        fullWidth
-        label="Street Address"
-        error={!!errors.address}
-        helperText={errors.address?.message}
-        disabled={isLoading}
-        sx={inputStyles}
-      />
-
-      <Box
-        sx={{
-          display: "flex",
-          gap: 2,
-          flexDirection: { xs: "column", sm: "row" },
-        }}
-      >
-        <TextField
-          {...register("city")}
-          fullWidth
-          label="City"
-          error={!!errors.city}
-          helperText={errors.city?.message}
-          disabled={isLoading}
-          sx={inputStyles}
-        />
-        <TextField
-          {...register("postalCode")}
-          fullWidth
-          label="Postal Code"
-          error={!!errors.postalCode}
-          helperText={errors.postalCode?.message}
-          disabled={isLoading}
-          sx={inputStyles}
+      <Box sx={{ display: "flex", gap: 2, flexDirection: { xs: "column", sm: "row" } }}>
+        {/* Викликаємо наш новий, ізольований і суворо типізований компонент */}
+        <NovaPoshtaFields 
+          control={control} 
+          setValue={setValue} 
+          errors={errors} 
+          isLoading={isLoading} 
+          inputStyles={inputStyles}
         />
       </Box>
 

@@ -1,27 +1,17 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Box, Typography, Alert } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "../../store/cartStore";
 import { useAuthStore } from "../../store/authStore";
 import type { CartStore } from "../../store/cartStore";
 import type { AuthStore } from "../../types/auth";
+import { useCheckout } from "../../hooks/useCheckout"; 
 
 import { CheckoutForm } from "../../components/checkout/CheckoutForm";
 import { CheckoutSummary } from "../../components/checkout/CheckoutSummary";
-
-// Створюємо правильний тип, який повністю відповідає даним з вашої форми
-export interface ShippingData {
-  firstName: string;
-  lastName: string;
-  email: string;
-  phone: string;
-  address: string;
-  city: string;
-  postalCode: string;
-}
 
 export default function CheckoutPage() {
   const router = useRouter();
@@ -30,67 +20,16 @@ export default function CheckoutPage() {
   const user = useAuthStore((state: AuthStore) => state.user);
   const token = useAuthStore((state: AuthStore) => state.token);
 
-  const [isLoading, setIsLoading] = useState(false);
-  const [errorMessage, setErrorMessage] = useState("");
+  const { handleProceedToPayment, isLoading, errorMessage } = useCheckout(
+    token,
+    items,
+  );
 
   useEffect(() => {
     if (items.length === 0) {
       router.push("/products");
     }
   }, [items, router]);
-
-  // Використовуємо новий тип ShippingData
-  const handleProceedToPayment = async (data: ShippingData) => {
-    setIsLoading(true);
-    setErrorMessage("");
-
-    try {
-      const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/orders/checkout`,
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${token}`,
-          },
-          body: JSON.stringify({
-            items: items.map((item) => ({
-              productId: item.id,
-              quantity: item.cartQuantity,
-              size: item.selectedSize,
-              color: item.selectedColor,
-            })),
-            // Дані (address, city, postalCode, тощо) передаються на бекенд
-            ...data,
-          }),
-        },
-      );
-
-      if (!response.ok) {
-        const errorData = await response.json();
-        throw new Error(
-          errorData.message || "Failed to initiate payment session.",
-        );
-      }
-
-      const responseData = await response.json();
-
-      if (responseData.url) {
-        window.location.href = responseData.url;
-      } else {
-        throw new Error("Stripe URL not returned from backend.");
-      }
-    } catch (err: unknown) {
-      console.error("Checkout Error:", err);
-      if (err instanceof Error) {
-        setErrorMessage(err.message);
-      } else {
-        setErrorMessage("Something went wrong. Please try again.");
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  };
 
   if (items.length === 0) return null;
 

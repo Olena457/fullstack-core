@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Box, Badge, IconButton, Typography } from "@mui/material";
@@ -6,6 +7,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "../../store/cartStore";
 import { useAuthStore } from "../../store/authStore";
+import { useState, useEffect } from "react";
 
 const MenuButton = ({
   children,
@@ -38,6 +40,18 @@ export const HeaderActions = () => {
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
 
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // Відкладаємо оновлення стейту через setTimeout, щоб уникнути каскадних рендерів
+    const timer = setTimeout(() => {
+      setIsMounted(true);
+    }, 0);
+
+    // Очищаємо таймер при розмонтуванні компонента
+    return () => clearTimeout(timer);
+  }, []);
+
   return (
     <Box
       sx={{ display: "flex", gap: 1, alignItems: "center", fontSize: "16px" }}
@@ -69,44 +83,48 @@ export const HeaderActions = () => {
         </IconButton>
       </Link>
 
-      {user && <MenuButton href="/history">HISTORY</MenuButton>}
+      {isMounted && user && <MenuButton href="/history">HISTORY</MenuButton>}
 
-      {user ? (
-        <Box
-          sx={{
-            display: "flex",
-            alignItems: "center",
-            borderLeft: 2,
-            borderColor: "divider", 
-            ml: 1,
-            pl: 2,
-          }}
-        >
-          <Typography
+      {isMounted ? (
+        user ? (
+          <Box
             sx={{
-              fontWeight: 500,
-              textTransform: "uppercase",
-              mr: 2,
-              display: { xs: "none", sm: "block" },
-              color: "text.primary",
+              display: "flex",
+              alignItems: "center",
+              borderLeft: 2,
+              borderColor: "divider", 
+              ml: 1,
+              pl: 2,
             }}
           >
-            HELLO, {user.name?.split(" ")[0] || "USER"}
-          </Typography>
-          <IconButton
-            onClick={() => {
-              logout();
-              router.push("/login");
-            }}
-            sx={{
-              color: "text.primary",
-              borderRadius: 0,
-              "&:hover": { bgcolor: "action.hover" },
-            }}
-          >
-            <LogOut size={26} strokeWidth={2.5} />
-          </IconButton>
-        </Box>
+            <Typography
+              sx={{
+                fontWeight: 500,
+                textTransform: "uppercase",
+                mr: 2,
+                display: { xs: "none", sm: "block" },
+                color: "text.primary",
+              }}
+            >
+              HELLO, {user.name?.split(" ")[0] || "USER"}
+            </Typography>
+            <IconButton
+              onClick={() => {
+                logout();
+                router.push("/login");
+              }}
+              sx={{
+                color: "text.primary",
+                borderRadius: 0,
+                "&:hover": { bgcolor: "action.hover" },
+              }}
+            >
+              <LogOut size={26} strokeWidth={2.5} />
+            </IconButton>
+          </Box>
+        ) : (
+          <MenuButton href="/login">LOGIN</MenuButton>
+        )
       ) : (
         <MenuButton href="/login">LOGIN</MenuButton>
       )}
