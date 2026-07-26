@@ -1,21 +1,45 @@
+
 "use client";
 
-import {
-  Box,
-  Typography,
-  Grid,
-  IconButton,
-  Button,
-  CircularProgress,
-} from "@mui/material";
+import { Box, Typography, CircularProgress, Button } from "@mui/material";
 import Link from "next/link";
-import { FavoriteIcon } from "@/components/ui/FavoriteIcon";
+import { ProductCard } from "../../components/product/ProductCard"; 
 import { useFavoritesPage } from "@/hooks/useFavoritesPage";
+import { useEffect, useState } from "react";
+import type { Product } from "../../types/product";
 
 export default function FavoritesPage() {
-  const { mounted, favorites, handleRemoveFavorite } = useFavoritesPage();
+  const { mounted, favorites } = useFavoritesPage();
+  const [favoriteProducts, setFavoriteProducts] = useState<Product[]>([]);
+  const [isLoading, setIsLoading] = useState(false);
 
-  if (!mounted) {
+  useEffect(() => {
+    const fetchFavoriteProducts = async () => {
+      if (!favorites.length) {
+        setFavoriteProducts([]);
+        return;
+      }
+
+      setIsLoading(true);
+      try {
+        const promises = favorites.map((id) =>
+          fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`).then((res) => res.json())
+        );
+        const productsData = await Promise.all(promises);
+        setFavoriteProducts(productsData.filter(Boolean)); 
+      } catch (error) {
+        console.error("Failed to fetch favorites", error);
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    if (mounted) {
+      fetchFavoriteProducts();
+    }
+  }, [favorites, mounted]);
+
+  if (!mounted || isLoading) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", mt: 10 }}>
         <CircularProgress color="primary" />
@@ -27,7 +51,7 @@ export default function FavoritesPage() {
     <Box
       sx={{
         p: { xs: 2, md: 4 },
-        maxWidth: "1200px",
+        maxWidth: "1400px",
         margin: "0 auto",
         color: "text.primary",
         bgcolor: "background.default",
@@ -44,7 +68,7 @@ export default function FavoritesPage() {
       {favorites.length === 0 ? (
         <Box sx={{ textAlign: "center", py: 10 }}>
           <Typography color="text.secondary" sx={{ mb: 3 }}>
-            You haven &#39; t saved any items yet.
+            You haven&#39;t saved any items yet.
           </Typography>
 
           <Link href="/products" style={{ textDecoration: "none" }}>
@@ -65,83 +89,24 @@ export default function FavoritesPage() {
           </Link>
         </Box>
       ) : (
-        <Grid container spacing={3}>
-          {favorites.map((id) => (
-            <Grid size={{ xs: 12, sm: 6, md: 4 }} key={id}>
-              <Box
-                sx={{
-                  border: "1px solid",
-                  borderColor: "divider",
-                  bgcolor: "background.paper",
-                  p: 3,
-                  display: "flex",
-                  flexDirection: "column",
-                  position: "relative",
-                  transition: "all 0.2s ease",
-                  "&:hover": {
-                    borderColor: "primary.main",
-                  },
-                }}
-              >
-                <IconButton
-                  onClick={() => handleRemoveFavorite(id)}
-                  sx={{
-                    position: "absolute",
-                    top: 12,
-                    right: 12,
-                    bgcolor: "background.default",
-                    color: "secondary.main",
-                    border: "1px solid",
-                    borderColor: "divider",
-                    borderRadius: 0,
-                    transition: "all 0.2s ease",
-                    "&:hover": {
-                      bgcolor: "action.hover",
-                      borderColor: "text.primary",
-                    },
-                  }}
-                >
-                  <FavoriteIcon />
-                </IconButton>
-
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    mb: 3,
-                    mt: 5,
-                    color: "text.primary",
-                  }}
-                >
-                  Product ID: {id}
-                </Typography>
-
-                <Link
-                  href={`/products/${id}`}
-                  style={{ textDecoration: "none", width: "100%" }}
-                >
-                  <Button
-                    variant="outlined"
-                    fullWidth
-                    sx={{
-                      borderRadius: 0,
-                      borderColor: "divider",
-                      color: "text.primary",
-                      fontWeight: "bold",
-                      textTransform: "uppercase",
-                      "&:hover": {
-                        borderColor: "primary.main",
-                        bgcolor: "primary.main",
-                        color: "background.paper",
-                      },
-                    }}
-                  >
-                    View Details
-                  </Button>
-                </Link>
-              </Box>
-            </Grid>
+        <Box
+          sx={{
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "repeat(1, 1fr)",
+              sm: "repeat(2, 1fr)",
+              md: "repeat(3, 1fr)",
+              lg: "repeat(4, 1fr)", 
+            },
+            gap: 3,
+          }}
+        >
+          {favoriteProducts.map((product) => (
+            <Box key={product.id}>
+              <ProductCard product={product} />
+            </Box>
           ))}
-        </Grid>
+        </Box>
       )}
     </Box>
   );

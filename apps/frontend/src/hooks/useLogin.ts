@@ -29,8 +29,8 @@ export const useLogin = () => {
         throw new Error(result.message || "Failed to login");
       }
 
-      loginToStore(result.user, result.access_token);
-      router.push("/");
+      loginToStore(result.user, result.accessToken);
+      router.push("/products");
     } catch (error: unknown) {
       if (error instanceof Error) {
         setApiError(error.message);

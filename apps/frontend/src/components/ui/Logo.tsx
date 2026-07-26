@@ -27,7 +27,7 @@ export const Logo = () => {
           "&:hover, &:focus-visible, &:active": {
             color: theme.palette.secondary.main,
             "& .ego-text": {
-              color: isDark ? theme.palette.primary.main : "black",
+              color: isDark ? theme.palette.text.primary : "black",
             },
           },
         }}

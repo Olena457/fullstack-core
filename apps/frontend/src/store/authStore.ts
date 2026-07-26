@@ -1,6 +1,6 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import type { AuthStore, User } from "../types/auth"; 
+import type { User, AuthStore } from "../types/auth";
 
 export const useAuthStore = create<AuthStore>()(
   persist(
@@ -12,10 +12,13 @@ export const useAuthStore = create<AuthStore>()(
 
       logout: () => set({ user: null, token: null }),
 
-      isAuthenticated: () => !!get().token,
+      isAuthenticated: () => {
+        const hasToken = !!get().token;
+        return hasToken;
+      },
     }),
     {
-      name: "entropic-auth", 
+      name: "auth-storage", 
     },
   ),
 );

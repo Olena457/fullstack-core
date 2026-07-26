@@ -53,13 +53,17 @@ export const RegisterForm = ({
     >
       <Typography
         variant="h4"
-        sx={{
+        sx={(theme) => ({
           fontWeight: 900,
           textTransform: "uppercase",
           mb: 4,
           textAlign: "center",
-          color: "text.primary",
-        }}
+          color: theme.palette.mode === "dark" ? "#b3b3b3" : "text.primary", 
+          fontSize: {
+            xs: "1.75rem",
+            sm: "2.125rem", 
+          },
+        })}
       >
         Create Account
       </Typography>
@@ -129,19 +133,20 @@ export const RegisterForm = ({
           fullWidth
           variant="contained"
           disabled={isLoading}
-          sx={{
+        sx={(theme) => ({
             mt: 2,
             py: 1.5,
             borderRadius: 0,
-            bgcolor: "primary.main",
-            color: "background.paper",
+            bgcolor: theme.palette.mode === "dark" ? "#b3b3b3" : "text.primary",
+            color:
+              theme.palette.mode === "dark" ? "#121212" : "background.paper",
             fontWeight: "bold",
             textTransform: "uppercase",
             "&:hover": {
               bgcolor: "action.hover",
               color: "text.primary",
             },
-          }}
+          })}
         >
           {isLoading ? "Creating account..." : "Sign Up"}
         </Button>

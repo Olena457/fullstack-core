@@ -10,12 +10,13 @@ import {
   Box,
   Button,
   IconButton,
+  Tooltip,
 } from "@mui/material";
 import Link from "next/link";
-import { toast } from "react-toastify"; // Підключаємо глобальні сповіщення
+import { toast } from "react-toastify";
 import type { Product } from "../../types/product";
 import { useFavoritesStore } from "../../store/favoritesStore";
-import { useAuthStore } from "../../store/authStore"; // Підключаємо перевірку юзера
+import { useAuthStore } from "../../store/authStore";
 import { FavoriteIcon } from "../ui/FavoriteIcon";
 
 type Props = {
@@ -26,22 +27,21 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
   const { toggleFavorite, isFavorite } = useFavoritesStore();
   const isFav = isFavorite(product.id);
 
-  // Дістаємо токен авторизації
-  const token = useAuthStore((state) => state.token);
+  // Отримуємо об'єкт user зі стору
+  const user = useAuthStore((state) => state.user);
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
-    e.preventDefault(); // Зупиняємо перехід по лінку
+    e.preventDefault();
     e.stopPropagation();
 
-    // ПЕРЕВІРКА АВТОРИЗАЦІЇ
-    if (!token) {
+    // Перевіряємо, чи існує user (чи залогінений він)
+    if (!user) {
       toast.warning("Please log in to add items to favorites.");
-      return; // Зупиняємо функцію, якщо юзер не авторизований
+      return;
     }
 
     toggleFavorite(product.id);
 
-    // ПОКАЗУЄМО СПОВІЩЕННЯ
     if (!isFav) {
       toast.success("Added to favorites!");
     } else {
@@ -87,9 +87,8 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
           />
         </Link>
 
-        {/* Іконка улюбленого поверх фото */}
         <IconButton
-          onClick={handleFavoriteClick} // Викликаємо оновлену функцію з перевірками
+          onClick={handleFavoriteClick}
           sx={{
             position: "absolute",
             top: 8,
@@ -117,29 +116,40 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
           flexDirection: "column",
           justifyContent: "space-between",
           bgcolor: "background.paper",
+          overflow: "hidden",
         }}
       >
-        <Box>
+        <Box sx={{ minWidth: 0 }}>
           <Link
             href={`/products/${product.id}`}
-            style={{ textDecoration: "none", color: "inherit" }}
+            style={{
+              textDecoration: "none",
+              color: "inherit",
+              display: "block",
+            }}
           >
-            <Typography
-              variant="subtitle2"
-              sx={{
-                fontWeight: 900,
-                textTransform: "uppercase",
-                mb: 0.5,
-                lineHeight: 1.2,
-                cursor: "pointer",
-                color: "text.primary",
-                "&:hover": {
-                  color: "secondary.main",
-                },
-              }}
-            >
-              {product.title}
-            </Typography>
+            <Tooltip title={product.title} placement="top" arrow>
+              <Typography
+                variant="subtitle2"
+                noWrap
+                sx={{
+                  width: "100%",
+                  maxWidth: "95%",
+                  display: "block",
+                  fontWeight: 900,
+                  textTransform: "uppercase",
+                  mb: 0.5,
+                  lineHeight: 1.2,
+                  cursor: "pointer",
+                  color: "text.primary",
+                  "&:hover": {
+                    color: "secondary.main",
+                  },
+                }}
+              >
+                {product.title}
+              </Typography>
+            </Tooltip>
           </Link>
           <Typography
             variant="body1"
@@ -161,7 +171,7 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
           <Button
             fullWidth
             variant="outlined"
-            sx={{
+            sx={(theme) => ({
               borderRadius: 0,
               border: 1,
               borderColor: "primary.main",
@@ -169,12 +179,18 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
               fontWeight: "bold",
               textTransform: "uppercase",
               transition: "all 0.2s ease",
-              "&:hover": {
-                bgcolor: "primary.main",
+              "&:hover, &:focus": {
+                bgcolor:
+                  theme.palette.mode === "light"
+                    ? "action.hover"
+                    : "primary.main",
                 borderColor: "primary.main",
-                color: "background.paper",
+                color:
+                  theme.palette.mode === "light"
+                    ? "primary.main"
+                    : "background.paper",
               },
-            }}
+            })}
           >
             View Details
           </Button>

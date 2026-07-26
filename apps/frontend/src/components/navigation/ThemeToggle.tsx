@@ -32,7 +32,7 @@ export const ThemeToggle = ({ onToggle }: ThemeToggleProps) => {
           display: "flex",
           alignItems: "center",
           justifyContent: "center",
-          bgcolor: !isDark ? "text.secondary" : "transparent",
+          bgcolor: !isDark ? "action.selected" : "transparent",
           color: !isDark ? "background.paper" : "text.secondary",
           transition: "all 0.2s ease",
         }}

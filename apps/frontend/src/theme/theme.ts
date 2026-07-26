@@ -6,17 +6,17 @@ export const getAppTheme = (mode: PaletteMode) => {
   return createTheme({
     palette: {
       mode,
-      // Main  color 
+      // Main  color
       primary: {
-        main: isDark ? "#ffffff" : "#000000",
+        main: isDark ? "#ededed" : "#000000",
       },
-      // Brand color 
+      // Brand color
       secondary: {
         main: "#FF4500",
       },
       background: {
-        default: isDark ? "#0a0a0a" : "#ffffff", // Page background
-        paper: isDark ? "#121212" : "#ffffff", // Cards and blocks
+        default: isDark ? "#0a0a0a" : "#ededed", // Page background
+        paper: isDark ? "#121212" : "#ededed", // Cards and blocks
       },
       text: {
         primary: isDark ? "#ededed" : "#171717", // Main text
@@ -25,12 +25,13 @@ export const getAppTheme = (mode: PaletteMode) => {
       // Divider color
       divider: isDark ? "#333333" : "#000000",
       action: {
-        hover: isDark ? "#333333" : "#bdbdbd", // Hover color
+        hover: isDark ? "#333333" : "#c6c1c1", // Hover color
+        selected: isDark ? "#333333" : "#c1c1c1c1",
         disabledBackground: isDark ? "#555555" : "#e0e0e0", // Disabled buttons
       },
     },
     shape: {
-      borderRadius: 0, 
+      borderRadius: 0,
     },
     typography: {
       fontFamily: "Arial, Helvetica, sans-serif",
