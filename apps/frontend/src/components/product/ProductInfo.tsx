@@ -1,5 +1,4 @@
 
-
 import {
   Box,
   Typography,
@@ -7,10 +6,12 @@ import {
   Accordion,
   AccordionSummary,
   AccordionDetails,
+  Tooltip,
 } from "@mui/material";
 import { ChevronDown } from "lucide-react";
 import { ProductOptions } from "./ProductOptions";
 import type { Product } from "../../types/product";
+import { ContactWidget } from "../../components/ui/ContactWidget";
 
 interface ProductInfoProps {
   product: Product;
@@ -33,37 +34,92 @@ export const ProductInfo = ({
   onAddToCart,
   onClearSelection,
 }: ProductInfoProps) => (
-  <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-    <Box>
+  <Box
+    sx={{
+      display: "flex",
+      flexDirection: "column",
+      gap: { xs: 2, md: 3 },
+      width: "100%",
+      minWidth: 0,
+    }}
+  >
+    <Box sx={{ minWidth: 0, width: "100%" }}>
+      <Tooltip title={product.title} placement="bottom-start" arrow>
+        <Typography
+          variant="h1"
+          noWrap
+          sx={{
+            fontWeight: 900,
+            textTransform: "uppercase",
+            letterSpacing: "-0.02em",
+            mb: 1,
+            mt: { xs: 2, md: 0 },
+            color: "text.primary",
+            fontSize: { xs: "1.1rem", sm: "1.5rem", md: "2rem" },
+            lineHeight: 1.2,
+            width: "100%",
+            cursor: "default",
+          }}
+        >
+          {product.title}
+        </Typography>
+      </Tooltip>
+
       <Typography
-        variant="h5"
+        variant="h6"
         sx={{
-          fontWeight: 900,
-          textTransform: "uppercase",
-          letterSpacing: "-0.02em",
-          mb: 1,
-          mt: { xs: 2, md: 0 },
+          fontWeight: "bold",
           color: "text.primary",
+          mb: 2,
+          fontSize: { xs: "1.1rem", sm: "1.25rem" },
         }}
       >
-        {product.title}
-      </Typography>
-
-      <Typography variant="h6" sx={{ fontWeight: "bold", color: "text.primary", mb: 2 }}>
         ${product.price.toFixed(2)}
       </Typography>
     </Box>
 
     <Box sx={{ mt: -1, mb: 1 }}>
-      <Accordion disableGutters elevation={0} square sx={{ borderTop: 1, borderBottom: 1, borderColor: "divider", "&:before": { display: "none" }, bgcolor: "transparent" }}>
-        <AccordionSummary expandIcon={<ChevronDown size={20} />} sx={{ px: 0, minHeight: "48px", "&.Mui-expanded": { minHeight: "48px" }, "& .MuiAccordionSummary-content": { my: 1, color: "text.primary" }, "& .MuiAccordionSummary-content.Mui-expanded": { my: 1 }, "& .MuiSvgIcon-root": { color: "text.primary" } }}>
-          <Typography sx={{ fontWeight: 900, textTransform: "uppercase", letterSpacing: "0.05em", fontSize: "0.9rem" }}>
+      <Accordion
+        disableGutters
+        elevation={0}
+        square
+        sx={{
+          borderTop: 1,
+          borderBottom: 1,
+          borderColor: "divider",
+          "&:before": { display: "none" },
+          bgcolor: "transparent",
+        }}
+      >
+        <AccordionSummary
+          expandIcon={<ChevronDown size={20} />}
+          sx={{
+            px: 0,
+            minHeight: "48px",
+            "&.Mui-expanded": { minHeight: "48px" },
+            "& .MuiAccordionSummary-content": { my: 1, color: "text.primary" },
+            "& .MuiAccordionSummary-content.Mui-expanded": { my: 1 },
+            "& .MuiSvgIcon-root": { color: "text.primary" },
+          }}
+        >
+          <Typography
+            sx={{
+              fontWeight: 900,
+              textTransform: "uppercase",
+              letterSpacing: "0.05em",
+              fontSize: "0.9rem",
+            }}
+          >
             Description
           </Typography>
         </AccordionSummary>
         <AccordionDetails sx={{ px: 0, pt: 0, pb: 2 }}>
-          <Typography variant="body1" sx={{ lineHeight: 1.6, color: "text.secondary" }}>
-            {product.description || "No description provided for this exclusive piece."}
+          <Typography
+            variant="body1"
+            sx={{ lineHeight: 1.6, color: "text.secondary" }}
+          >
+            {product.description ||
+              "No description provided for this exclusive piece."}
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -78,31 +134,63 @@ export const ProductInfo = ({
       onColorChange={onColorChange}
     />
 
-    <Box sx={{ mt: 1, display: "flex", gap: 2 }}>
+    <Box
+      sx={{
+        mt: 1,
+        display: "flex",
+        gap: { xs: 1, sm: 2 },
+        alignItems: "center",
+        width: "100%",
+        pb: 2,
+        flexWrap: { xs: "wrap", sm: "nowrap" },
+      }}
+    >
       <Button
         variant="contained"
-        fullWidth
         onClick={onAddToCart}
         sx={{
-          flex: 1,
+          height: { xs: "46px", sm: "52px" },
           borderRadius: 0,
           bgcolor: isReadyToCart ? "primary.main" : "action.disabledBackground",
           color: isReadyToCart ? "background.paper" : "text.secondary",
-          py: 2,
           fontWeight: "bold",
-          fontSize: "1.1rem",
+          fontSize: { xs: "0.7rem", sm: "1rem" },
           textTransform: "uppercase",
-          "&:hover": { bgcolor: isReadyToCart ? "action.hover" : "action.disabledBackground" },
+          whiteSpace: "nowrap",
+          minWidth: 0,
+          "&:hover": {
+            bgcolor: isReadyToCart
+              ? "action.hover"
+              : "action.disabledBackground",
+          },
         }}
       >
         {isReadyToCart ? "Add to Cart" : "Select Options"}
       </Button>
 
       {(selectedSize || selectedColor) && (
-        <Button variant="outlined" onClick={onClearSelection} sx={{ borderRadius: 0, py: 2, px: 4, fontWeight: "bold", borderColor: "divider", color: "text.primary", "&:hover": { borderColor: "text.primary" } }}>
+        <Button
+          variant="outlined"
+          onClick={onClearSelection}
+          sx={{
+            height: { xs: "46px", sm: "52px" },
+            borderRadius: 0,
+            border: 1,
+            borderColor: "divider",
+            color: "text.primary",
+            px: { xs: 1, sm: 2 },
+            fontWeight: "bold",
+            fontSize: { xs: "0.7rem", sm: "1rem" },
+            whiteSpace: "nowrap",
+            minWidth: { xs: "auto", sm: "100px" },
+            "&:hover": { borderColor: "text.primary", bgcolor: "action.hover" },
+          }}
+        >
           CANCEL
         </Button>
       )}
+
+      <ContactWidget />
     </Box>
   </Box>
 );

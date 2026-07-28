@@ -1,10 +1,10 @@
+
 "use client";
 
-import {
-  Autocomplete,
-  TextField,
-  AutocompleteRenderInputParams,
-} from "@mui/material";
+import { useState, useEffect } from "react";
+import type { ReactNode } from "react";
+import { Autocomplete, Box, TextField, CircularProgress } from "@mui/material";
+import type { AutocompleteRenderInputParams } from "@mui/material";
 import {
   Controller,
   Control,
@@ -14,6 +14,16 @@ import {
 import type { CheckoutFormData } from "../auth/schemas/checkout";
 import { useNovaPoshta } from "../../hooks/useNovaPoshta";
 import type { CityOption, BranchOption } from "../../types/novaposhta";
+
+type ParamsWithSlotProps = AutocompleteRenderInputParams & {
+  slotProps?: {
+    input?: {
+      endAdornment?: ReactNode;
+      [key: string]: unknown;
+    };
+    [key: string]: unknown;
+  };
+};
 
 interface NovaPoshtaFieldsProps {
   control: Control<CheckoutFormData>;
@@ -39,48 +49,94 @@ export const NovaPoshtaFields = ({
     fetchWarehouses,
   } = useNovaPoshta();
 
+  const [cityInputValue, setCityInputValue] = useState("");
+
+  useEffect(() => {
+    const timeoutId = setTimeout(() => {
+      if (cityInputValue.length >= 2) {
+        fetchCities(cityInputValue);
+      }
+    }, 800);
+
+    return () => clearTimeout(timeoutId);
+  }, [cityInputValue, fetchCities]);
+
   return (
-    <>
+    <Box
+      sx={{
+        display: "flex",
+        flexDirection: { xs: "column", sm: "row" },
+        gap: 2,
+        width: "100%",
+      }}
+    >
       {/* City */}
       <Controller
         name="npCity"
         control={control}
         render={({ field: { onChange, value, ref } }) => {
+          const safeCities = Array.isArray(cities) ? cities : [];
+
           const selectedCity =
-            (cities as CityOption[]).find((c) => c.Present === value) ||
+            safeCities.find((c: CityOption) => c.Present === value) ||
             (value ? ({ Present: value } as CityOption) : null);
 
           return (
             <Autocomplete<CityOption, false, false, false>
               fullWidth
-              options={cities as CityOption[]}
+              options={safeCities}
               getOptionLabel={(option) => option.Present || ""}
               isOptionEqualToValue={(option, val) =>
-                option.Present === val.Present
+                option.Present === val?.Present
               }
               filterOptions={(x) => x}
               loading={loadingCities}
               disabled={isLoading}
               value={selectedCity}
-              onInputChange={(_, newInputValue) => {
-                if (newInputValue.length >= 2) fetchCities(newInputValue);
-              }}
+              onInputChange={(_, newInputValue) =>
+                setCityInputValue(newInputValue)
+              }
               onChange={(_, data) => {
-                onChange(data ? data.Present : "");
+                const cityData = data as CityOption | null;
+
+                onChange(cityData ? cityData.Present || "" : "");
                 setValue("npBranch", "", { shouldValidate: true });
-                if (data && data.DeliveryCity)
-                  fetchWarehouses(data.DeliveryCity);
+
+                const cityRef = cityData?.DeliveryCity || cityData?.Ref;
+
+                if (cityData && typeof cityRef === "string") {
+                  fetchWarehouses(cityRef);
+                }
               }}
-              renderInput={(params: AutocompleteRenderInputParams) => (
-                <TextField
-                  {...params}
-                  inputRef={ref}
-                  label="City (Nova Poshta)"
-                  error={!!errors.npCity}
-                  helperText={errors.npCity?.message}
-                  sx={inputStyles}
-                />
-              )}
+              renderInput={(baseParams) => {
+                const params = baseParams as ParamsWithSlotProps;
+                const inputSlotProps = params.slotProps?.input ?? {};
+
+                return (
+                  <TextField
+                    {...params}
+                    inputRef={ref}
+                    label="City (Nova Poshta, in Ukrainian, e.g., Київ)"
+                    error={!!errors.npCity}
+                    helperText={errors.npCity?.message}
+                    sx={inputStyles}
+                    slotProps={{
+                      ...params.slotProps,
+                      input: {
+                        ...inputSlotProps,
+                        endAdornment: (
+                          <>
+                            {loadingCities ? (
+                              <CircularProgress color="inherit" size={20} />
+                            ) : null}
+                            {inputSlotProps.endAdornment}
+                          </>
+                        ),
+                      },
+                    }}
+                  />
+                );
+              }}
             />
           );
         }}
@@ -91,39 +147,60 @@ export const NovaPoshtaFields = ({
         name="npBranch"
         control={control}
         render={({ field: { onChange, value, ref } }) => {
+          const safeWarehouses = Array.isArray(warehouses) ? warehouses : [];
+
           const selectedBranch =
-            (warehouses as BranchOption[]).find(
-              (w) => w.Description === value,
-            ) || (value ? ({ Description: value } as BranchOption) : null);
+            safeWarehouses.find((w: BranchOption) => w.Description === value) ||
+            (value ? ({ Description: value } as BranchOption) : null);
 
           return (
             <Autocomplete<BranchOption, false, false, false>
               fullWidth
-              options={warehouses as BranchOption[]}
+              options={safeWarehouses}
               getOptionLabel={(option) => option.Description || ""}
               isOptionEqualToValue={(option, val) =>
-                option.Description === val.Description
+                option.Description === val?.Description
               }
-              disabled={!cities.length || isLoading}
+              disabled={isLoading}
               loading={loadingWarehouses}
               value={selectedBranch}
-              onChange={(_, data) => {
-                onChange(data ? data.Description : "");
+              onInputChange={(_, newInputValue) => {
+                onChange(newInputValue);
               }}
-              renderInput={(params: AutocompleteRenderInputParams) => (
-                <TextField
-                  {...params}
-                  inputRef={ref}
-                  label="Branch Number or Address"
-                  error={!!errors.npBranch}
-                  helperText={errors.npBranch?.message}
-                  sx={inputStyles}
-                />
-              )}
+              onChange={(_, data) => onChange(data ? data.Description : "")}
+              renderInput={(baseParams) => {
+                const params = baseParams as ParamsWithSlotProps;
+                const inputSlotProps = params.slotProps?.input ?? {};
+
+                return (
+                  <TextField
+                    {...params}
+                    inputRef={ref}
+                    label="Branch Number or Address"
+                    error={!!errors.npBranch}
+                    helperText={errors.npBranch?.message}
+                    sx={inputStyles}
+                    slotProps={{
+                      ...params.slotProps,
+                      input: {
+                        ...inputSlotProps,
+                        endAdornment: (
+                          <>
+                            {loadingWarehouses ? (
+                              <CircularProgress color="inherit" size={20} />
+                            ) : null}
+                            {inputSlotProps.endAdornment}
+                          </>
+                        ),
+                      },
+                    }}
+                  />
+                );
+              }}
             />
           );
         }}
       />
-    </>
+    </Box>
   );
 };

@@ -1,59 +1,21 @@
 
 "use client";
 
-import { useState } from "react";
+import { useState, useCallback } from "react";
 import type { CityOption, BranchOption } from "../types/novaposhta";
 
-const API_KEY = process.env.NEXT_PUBLIC_NOVAPOSHTA_API_KEY || "";
-const API_URL = "https://api.novaposhta.ua/v2.0/json/";
-
-const searchCitiesAPI = async (cityName: string): Promise<CityOption[]> => {
-  if (!cityName) return [];
-  try {
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        apiKey: API_KEY,
-        modelName: "Address",
-        calledMethod: "searchSettlements",
-        methodProperties: {
-          CityName: cityName,
-          Limit: "50",
-          Page: "1",
-        },
-      }),
-    });
-    const data = await response.json();
-    return data.success && data.data[0]?.Addresses ? data.data[0].Addresses : [];
-  } catch (error) {
-    console.error("Error fetching cities:", error);
-    return [];
+const getBackendUrl = () => {
+  const envUrl = process.env.NEXT_PUBLIC_API_URL;
+  if (envUrl) {
+    if (!envUrl.startsWith("http://") && !envUrl.startsWith("https://")) {
+      return `http://${envUrl}`;
+    }
+    return envUrl;
   }
+  return "http://localhost:4000";
 };
 
-const getWarehousesAPI = async (cityRef: string): Promise<BranchOption[]> => {
-  if (!cityRef) return [];
-  try {
-    const response = await fetch(API_URL, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        apiKey: API_KEY,
-        modelName: "Address",
-        calledMethod: "getWarehouses",
-        methodProperties: {
-          SettlementRef: cityRef,
-        },
-      }),
-    });
-    const data = await response.json();
-    return data.success && data.data ? data.data : [];
-  } catch (error) {
-    console.error("Error fetching warehouses:", error);
-    return [];
-  }
-};
+const BACKEND_URL = getBackendUrl();
 
 export const useNovaPoshta = () => {
   const [cities, setCities] = useState<CityOption[]>([]);
@@ -61,19 +23,43 @@ export const useNovaPoshta = () => {
   const [loadingCities, setLoadingCities] = useState(false);
   const [loadingWarehouses, setLoadingWarehouses] = useState(false);
 
-  const fetchCities = async (query: string) => {
+  const fetchCities = useCallback(async (query: string) => {
+    if (!query) return;
     setLoadingCities(true);
-    const results = await searchCitiesAPI(query);
-    setCities(results);
-    setLoadingCities(false);
-  };
+    try {
+      const response = await fetch(
+        `${BACKEND_URL}/delivery/cities?query=${encodeURIComponent(query)}`,
+      );
+      const data = await response.json();
 
-  const fetchWarehouses = async (cityRef: string) => {
+      const citiesArray = Array.isArray(data) ? data : data?.data || [];
+      setCities(citiesArray);
+    } catch (error) {
+      console.error("Error fetching cities from backend:", error);
+      setCities([]);
+    } finally {
+      setLoadingCities(false);
+    }
+  }, []);
+
+  const fetchWarehouses = useCallback(async (cityRef: string) => {
+    if (!cityRef) return;
     setLoadingWarehouses(true);
-    const results = await getWarehousesAPI(cityRef);
-    setWarehouses(results);
-    setLoadingWarehouses(false);
-  };
+    try {
+      const response = await fetch(
+        `${BACKEND_URL}/delivery/warehouses?cityRef=${encodeURIComponent(cityRef)}`,
+      );
+      const data = await response.json();
+
+      const warehousesArray = Array.isArray(data) ? data : data?.data || [];
+      setWarehouses(warehousesArray);
+    } catch (error) {
+      console.error("Error fetching warehouses from backend:", error);
+      setWarehouses([]);
+    } finally {
+      setLoadingWarehouses(false);
+    }
+  }, []);
 
   return {
     cities,

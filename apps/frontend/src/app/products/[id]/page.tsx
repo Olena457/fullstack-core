@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { use } from "react";
@@ -21,7 +22,7 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
     selectedSize,
     selectedColor,
     isLoading,
-    isReadyToCart, 
+    isReadyToCart,
     isFav,
     setSelectedSize,
     setSelectedColor,
@@ -71,10 +72,17 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
         sx={{
           display: "grid",
           gridTemplateColumns: { xs: "1fr", md: "5fr 7fr" },
-          gap: 8,
+          gap: { xs: 3, md: 8 },
         }}
       >
-        <Box sx={{ position: "relative" }}>
+        {/* ОНОВЛЕНИЙ БЛОК З ФОТО ТА ІКОНКОЮ */}
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%", // ПОВЕРТАЄМО 100%, щоб фото розтягнулося на всю колонку
+            display: "block",
+          }}
+        >
           <ProductImage
             imageUrl={product.imageUrl}
             title={product.title}
@@ -87,7 +95,7 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
             sx={{
               position: "absolute",
               top: 16,
-              right: 16,
+              right: 16, // Іконка буде чітко в правому верхньому куті фото!
               zIndex: 10,
               bgcolor: "rgba(0, 0, 0, 0.15)",
               color: isFav ? "secondary.main" : "#ffffff",
@@ -102,7 +110,7 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
             <FavoriteIcon />
           </IconButton>
         </Box>
-
+        
         <ProductInfo
           product={product}
           selectedSize={selectedSize}

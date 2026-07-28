@@ -1,5 +1,5 @@
-
 "use client";
+
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "../store/authStore";
@@ -23,6 +23,7 @@ export const useRegister = () => {
           method: "POST",
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify(data),
+          credentials: "include", 
         },
       );
 
@@ -32,7 +33,7 @@ export const useRegister = () => {
         throw new Error(result.message || "Failed to register");
       }
 
-      loginToStore(result.user, result.access_token);
+      loginToStore(result.user, result.accessToken);
       router.push("/");
     } catch (error: unknown) {
       if (error instanceof Error) {
