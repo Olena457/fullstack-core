@@ -102,7 +102,7 @@ export const NovaPoshtaFields = ({
                 onChange(cityData ? cityData.Present || "" : "");
                 setValue("npBranch", "", { shouldValidate: true });
 
-                const cityRef = cityData?.DeliveryCity || cityData?.Ref;
+                const cityRef = cityData?.Ref || cityData?.DeliveryCity;
 
                 if (cityData && typeof cityRef === "string") {
                   fetchWarehouses(cityRef);

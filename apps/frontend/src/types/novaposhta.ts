@@ -2,6 +2,7 @@
 export interface CityOption {
   Present?: string;
   DeliveryCity?: string;
+  Ref?: string;
   [key: string]: unknown;
 }
 

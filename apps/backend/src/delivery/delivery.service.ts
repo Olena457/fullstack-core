@@ -58,8 +58,6 @@ export class DeliveryService {
           calledMethod: 'getWarehouses',
           methodProperties: {
             SettlementRef: cityRef,
-            Limit: '15',
-            Page: '1',
           },
         }),
       });
