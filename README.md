@@ -2,6 +2,7 @@
 
 
 
+# "🚧 Please note: This project is currently under development."
 
 # Alter Ego - Full-Stack E-Commerce Platform
 
