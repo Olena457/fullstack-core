@@ -7,17 +7,6 @@
 
 _A professional, full-stack e-commerce application tailored for the Alter Ego clothing brand. This project features a robust, scalable NestJS backend and a highly responsive Next.js frontend, engineered for seamless shopping, secure payments, and a premium user experience._
 
-## Screenshots
-
-<div style="display: flex; flex-wrap: wrap; gap: 15px;">
-  
-  <img src="/public/screenshots/home.jpg" width="30%" height="150px" alt="Home Page"/>
-  <img src="/public/screenshots/product.jpg" width="30%" height="150px" alt="Product Details"/>
-  <img src="/public/screenshots/checkout.jpg" width="30%" height="150px" alt="Checkout Flow"/>
-  <img src="/public/screenshots/dark-mode.jpg" width="30%" height="150px" alt="Dark Mode UI"/>
-  <img src="/public/screenshots/mobile.jpg" width="30%" height="150px" alt="Mobile Menu"/>
-  <img src="/public/screenshots/history.jpg" width="30%" height="150px" alt="Order History"/>
-</div>
 
 ---
 
@@ -104,4 +93,3 @@ npm install
 npm run dev
 ```
 
-```
