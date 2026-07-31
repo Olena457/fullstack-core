@@ -12,7 +12,7 @@ _A professional, full-stack e-commerce application tailored for the Alter Ego cl
 ---
 
 ## Target Audience
-This application is designed for fashion enthusiasts and customers of the **Alter Ego** brand looking for a fast, intuitive, and secure online shopping experience across both desktop and mobile devices.
+This application **Alter Ego** brand looking for a fast, intuitive, and secure online shopping experience across both desktop and mobile devices.
 
 ## Key Features
 
