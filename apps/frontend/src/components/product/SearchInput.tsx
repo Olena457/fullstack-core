@@ -14,16 +14,16 @@ export const SearchInput = ({ value, onChange }: SearchInputProps) => {
       borderRadius: 0,
 
       "& .MuiOutlinedInput-notchedOutline": {
-        borderColor: "divider", 
+        borderColor: "divider",
         borderWidth: "1px",
       },
       "&:hover .MuiOutlinedInput-notchedOutline": {
-        borderColor: "text.primary", 
+        borderColor: "secondary.main",
         borderWidth: "2px",
       },
 
       "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
-        borderColor: "primary.main", 
+        borderColor: "secondary.main",
         borderWidth: "2px",
       },
     },
