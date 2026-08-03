@@ -7,21 +7,25 @@ import {
   AccordionSummary,
   AccordionDetails,
   Tooltip,
+  IconButton,
 } from "@mui/material";
 import { ChevronDown } from "lucide-react";
 import { ProductOptions } from "./ProductOptions";
 import type { Product } from "../../types/product";
 import { ContactWidget } from "../../components/ui/ContactWidget";
+import { FavoriteIcon } from "../ui/FavoriteIcon"; 
 
 interface ProductInfoProps {
   product: Product;
   selectedSize: string;
   selectedColor: string;
   isReadyToCart: boolean;
+  isFav: boolean; 
   onSizeChange: (size: string) => void;
   onColorChange: (color: string) => void;
   onAddToCart: () => void;
   onClearSelection: () => void;
+  onToggleFavorite: () => void; 
 }
 
 export const ProductInfo = ({
@@ -29,10 +33,12 @@ export const ProductInfo = ({
   selectedSize,
   selectedColor,
   isReadyToCart,
+  isFav,
   onSizeChange,
   onColorChange,
   onAddToCart,
   onClearSelection,
+  onToggleFavorite,
 }: ProductInfoProps) => (
   <Box
     sx={{
@@ -189,6 +195,28 @@ export const ProductInfo = ({
           CANCEL
         </Button>
       )}
+
+      {/* НОВА КНОПКА ФАВОРИТІВ */}
+      <IconButton
+        onClick={onToggleFavorite}
+        sx={(theme) => ({
+          height: { xs: "46px", sm: "52px" }, // Така ж висота, як і в кнопок поруч
+          width: { xs: "46px", sm: "52px" }, // Робимо її квадратною
+          borderRadius: 0,
+          border: 1,
+          borderColor: "divider",
+          color: isFav ? "secondary.main" : "text.secondary",
+          transition: "all 0.2s ease",
+          "&:hover": {
+            bgcolor:
+              theme.palette.mode === "light" ? "action.hover" : "primary.main",
+            borderColor: "text.primary",
+            color: "secondary.main",
+          },
+        })}
+      >
+        <FavoriteIcon />
+      </IconButton>
 
       <ContactWidget />
     </Box>

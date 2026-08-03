@@ -1,14 +1,12 @@
 
-
 "use client";
 
 import { use } from "react";
-import { Box, Typography, IconButton } from "@mui/material";
+import { Box, Typography } from "@mui/material"; 
 import Link from "next/link";
 import { ProductImage } from "../../../components/product/ProductImage";
 import { ProductInfo } from "../../../components/product/ProductInfo";
 import { useProductDetail } from "../../../hooks/useProductDetail";
-import { FavoriteIcon } from "../../../components/ui/FavoriteIcon";
 
 interface ProductPageProps {
   params: Promise<{ id: string }>;
@@ -75,52 +73,31 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
           gap: { xs: 3, md: 8 },
         }}
       >
-        {/* ОНОВЛЕНИЙ БЛОК З ФОТО ТА ІКОНКОЮ */}
-        <Box
-          sx={{
-            position: "relative",
-            width: "100%", // ПОВЕРТАЄМО 100%, щоб фото розтягнулося на всю колонку
-            display: "block",
-          }}
-        >
+        {/* ЛІВА КОЛОНКА (ТІЛЬКИ ФОТО) */}
+        <Box sx={{ position: "relative", width: "100%", display: "block" }}>
           <ProductImage
             imageUrl={product.imageUrl}
             title={product.title}
             gender={product.gender}
           />
-
-          <IconButton
-            onClick={handleToggleFavorite}
-            aria-label={isFav ? "Remove from favorites" : "Add to favorites"}
-            sx={{
-              position: "absolute",
-              top: 16,
-              right: 16, // Іконка буде чітко в правому верхньому куті фото!
-              zIndex: 10,
-              bgcolor: "rgba(0, 0, 0, 0.15)",
-              color: isFav ? "secondary.main" : "#ffffff",
-              transition: "all 0.2s ease-in-out",
-              "&:hover": {
-                bgcolor: "rgba(0, 0, 0, 0.3)",
-                color: "secondary.main",
-                transform: "scale(1.1)",
-              },
-            }}
-          >
-            <FavoriteIcon />
-          </IconButton>
         </Box>
-        
-        <ProductInfo
-          product={product}
-          selectedSize={selectedSize}
-          selectedColor={selectedColor}
-          isReadyToCart={isReadyToCart}
-          onSizeChange={setSelectedSize}
-          onColorChange={setSelectedColor}
-          onAddToCart={handleAddToCart}
-          onClearSelection={handleClearSelection}
-        />
+
+        {/* ПРАВА КОЛОНКА (ІНФОРМАЦІЯ) */}
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <ProductInfo
+            product={product}
+            selectedSize={selectedSize}
+            selectedColor={selectedColor}
+            isReadyToCart={isReadyToCart}
+            onSizeChange={setSelectedSize}
+            onColorChange={setSelectedColor}
+            onAddToCart={handleAddToCart}
+            onClearSelection={handleClearSelection}
+            /* ПЕРЕДАЄМО НОВІ ПРОПСИ ДЛЯ ФАВОРИТІВ */
+            isFav={isFav}
+            onToggleFavorite={handleToggleFavorite}
+          />
+        </Box>
       </Box>
     </Box>
   );
