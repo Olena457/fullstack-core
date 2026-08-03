@@ -1,4 +1,4 @@
-// "use client";
+"use client";
 
 import { Box, Drawer, IconButton, Typography, Badge } from "@mui/material";
 import { X, LogOut } from "lucide-react";

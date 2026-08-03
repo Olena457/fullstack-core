@@ -63,7 +63,15 @@ export const HeaderActions = () => {
 
   return (
     <Box
-      sx={{ display: "flex", gap: 1, alignItems: "center", fontSize: "16px" }}
+      sx={{
+        display: {
+          xs: "none",
+          md: "flex",
+        } ,
+        gap: 1,
+        alignItems: "center",
+        fontSize: "16px",
+      }}
     >
       <Link href="/cart" style={{ textDecoration: "none" }}>
         <IconButton
