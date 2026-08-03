@@ -27,14 +27,12 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
   const { toggleFavorite, isFavorite } = useFavoritesStore();
   const isFav = isFavorite(product.id);
 
-  // Отримуємо об'єкт user зі стору
   const user = useAuthStore((state) => state.user);
 
   const handleFavoriteClick = (e: React.MouseEvent) => {
     e.preventDefault();
     e.stopPropagation();
 
-    // Перевіряємо, чи існує user (чи залогінений він)
     if (!user) {
       toast.warning("Please log in to add items to favorites.");
       return;
@@ -86,26 +84,6 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
             }}
           />
         </Link>
-
-        <IconButton
-          onClick={handleFavoriteClick}
-          sx={{
-            position: "absolute",
-            top: 8,
-            right: 8,
-            zIndex: 10,
-            bgcolor: "rgba(0, 0, 0, 0.15)",
-            color: isFav ? "secondary.main" : "#ffffff",
-            transition: "all 0.2s ease",
-            "&:hover": {
-              bgcolor: "rgba(0, 0, 0, 0.3)",
-              color: "secondary.main",
-              transform: "scale(1.1)",
-            },
-          }}
-        >
-          <FavoriteIcon />
-        </IconButton>
       </Box>
 
       <CardContent
@@ -119,7 +97,7 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
           overflow: "hidden",
         }}
       >
-        <Box sx={{ minWidth: 0 }}>
+        <Box sx={{ minWidth: 0, mb: 2 }}>
           <Link
             href={`/products/${product.id}`}
             style={{
@@ -154,7 +132,6 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
           <Typography
             variant="body1"
             sx={{
-              mb: 2,
               fontWeight: "bold",
               color: "text.primary",
             }}
@@ -163,38 +140,64 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
           </Typography>
         </Box>
 
-        <Link
-          href={`/products/${product.id}`}
-          passHref
-          style={{ textDecoration: "none" }}
-        >
-          <Button
-            fullWidth
-            variant="outlined"
+        {/* button container */}
+        <Box sx={{ display: "flex", gap: 1, alignItems: "stretch" }}>
+          <Link
+            href={`/products/${product.id}`}
+            passHref
+            style={{ textDecoration: "none", flexGrow: 1 }}
+          >
+            <Button
+              fullWidth
+              variant="outlined"
+              sx={(theme) => ({
+                height: "100%", 
+                borderRadius: 0,
+                border: 1,
+                borderColor: "primary.main",
+                color: "primary.main",
+                fontWeight: "bold",
+                textTransform: "uppercase",
+                transition: "all 0.2s ease",
+                "&:hover, &:focus": {
+                  bgcolor:
+                    theme.palette.mode === "light"
+                      ? "action.hover"
+                      : "primary.main",
+                  borderColor: "primary.main",
+                  color:
+                    theme.palette.mode === "light"
+                      ? "primary.main"
+                      : "background.paper",
+                },
+              })}
+            >
+              View Details
+            </Button>
+          </Link>
+
+          {/* button favorite */}
+          <IconButton
+            onClick={handleFavoriteClick}
             sx={(theme) => ({
               borderRadius: 0,
               border: 1,
               borderColor: "primary.main",
-              color: "primary.main",
-              fontWeight: "bold",
-              textTransform: "uppercase",
+              color: isFav ? "secondary.main" : "primary.main",
               transition: "all 0.2s ease",
-              "&:hover, &:focus": {
+              width: { xs: 40, sm: 48 }, 
+              "&:hover": {
                 bgcolor:
                   theme.palette.mode === "light"
                     ? "action.hover"
                     : "primary.main",
-                borderColor: "primary.main",
-                color:
-                  theme.palette.mode === "light"
-                    ? "primary.main"
-                    : "background.paper",
+                color: "secondary.main",
               },
             })}
           >
-            View Details
-          </Button>
-        </Link>
+            <FavoriteIcon />
+          </IconButton>
+        </Box>
       </CardContent>
     </Card>
   );
