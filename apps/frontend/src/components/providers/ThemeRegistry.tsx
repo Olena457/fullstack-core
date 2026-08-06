@@ -1,37 +1,20 @@
+
 "use client";
 
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
-import { useEffect, useState } from "react";
 import { getAppTheme } from "../../../src/theme/theme";
 import { useThemeStore } from "../../../src/store/themeStore";
+import { useStore } from "../../../src/hooks/useStore"; 
 
 export default function ThemeRegistry({
   children,
 }: {
   children: React.ReactNode;
 }) {
-  const mode = useThemeStore((state) => state.mode);
-  const [isMounted, setIsMounted] = useState(false);
+  const mode = useStore(useThemeStore, (state) => state.mode);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsMounted(true);
-    }, 0);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  const theme = getAppTheme(isMounted ? mode : "light");
-
-  if (!isMounted) {
-    return (
-      <ThemeProvider theme={theme}>
-        <CssBaseline />
-        <div style={{ visibility: "hidden" }}>{children}</div>
-      </ThemeProvider>
-    );
-  }
+  const theme = getAppTheme(mode || "light");
 
   return (
     <ThemeProvider theme={theme}>

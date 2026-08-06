@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState } from "react";
@@ -12,12 +13,13 @@ import {
   Alert,
   IconButton,
   InputAdornment,
+  CircularProgress, 
 } from "@mui/material";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
 
 import { loginSchema } from "../auth/schemas/login";
-import type {LoginFormData} from "../auth/schemas/login"
+import type { LoginFormData } from "../auth/schemas/login";
 
 interface LoginFormProps {
   onSubmit: (data: LoginFormData) => void;
@@ -101,6 +103,7 @@ export const LoginForm = ({
                     onClick={() => setShowPassword(!showPassword)}
                     edge="end"
                     sx={{ color: "text.secondary" }}
+                    disabled={isLoading} 
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </IconButton>
@@ -126,24 +129,31 @@ export const LoginForm = ({
             py: 1.5,
             borderRadius: 0,
             bgcolor: theme.palette.mode === "dark" ? "#b3b3b3" : "text.primary",
-            color:
-              theme.palette.mode === "dark" ? "#121212" : "background.paper",
+            color: theme.palette.mode === "dark" ? "#121212" : "background.paper",
             fontWeight: "bold",
             textTransform: "uppercase",
+            "&.Mui-disabled": {
+              bgcolor: "action.disabledBackground",
+              color: "action.disabled",
+            },
             "&:hover": {
               bgcolor: "action.hover",
               color: "text.primary",
             },
           })}
         >
-          {isLoading ? "Signing in..." : "Sign In"}
+          {isLoading ? (
+            <CircularProgress size={24} color="inherit" />
+          ) : (
+            "Sign In"
+          )}
         </Button>
 
         <Typography sx={{ textAlign: "center", mt: 2, color: "text.primary" }}>
           Don&#39;t have an account?{" "}
           <Link
             href="/register"
-            style={{ fontWeight: "bold", color: "inherit" }}
+            style={{ fontWeight: "bold", color: "inherit", pointerEvents: isLoading ? "none" : "auto", opacity: isLoading ? 0.5 : 1 }} // Робимо лінк неактивним під час завантаження
           >
             Register
           </Link>

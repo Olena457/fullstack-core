@@ -83,25 +83,40 @@ export class AuthService {
     return { message: 'Logged out successfully' };
   }
 
-  async refreshTokens(userId: string, refreshToken: string) {
-    const user = await this.prisma.user.findUnique({
-      where: { id: userId },
-    });
+  async refreshTokens(refreshToken: string) {
+    try {
+      // 1. Розшифровуємо токен, щоб отримати userId (sub)
+      const payload = await this.jwtService.verifyAsync(refreshToken, {
+        secret:
+          this.configService.get<string>('JWT_SECRET') || 'default-secret-change-in-production',
+      });
 
-    if (!user || !user.refreshToken) {
-      throw new ForbiddenException('Access Denied');
+      const userId = payload.sub;
+
+      // 2. Шукаємо юзера в базі
+      const user = await this.prisma.user.findUnique({
+        where: { id: userId },
+      });
+
+      if (!user || !user.refreshToken) {
+        throw new ForbiddenException('Access Denied');
+      }
+
+      // 3. Порівнюємо хеш токена з тим, що в базі
+      const refreshTokenMatches = await bcrypt.compare(refreshToken, user.refreshToken);
+
+      if (!refreshTokenMatches) {
+        throw new ForbiddenException('Access Denied');
+      }
+
+      // 4. Якщо все добре, генеруємо нові токени
+      const tokens = await this.generateTokens(user.id, user.email);
+      await this.updateRefreshTokenHash(user.id, tokens.refreshToken);
+
+      return tokens;
+    } catch (e) {
+      throw new ForbiddenException('Invalid refresh token');
     }
-
-    const refreshTokenMatches = await bcrypt.compare(refreshToken, user.refreshToken);
-
-    if (!refreshTokenMatches) {
-      throw new ForbiddenException('Access Denied');
-    }
-
-    const tokens = await this.generateTokens(user.id, user.email);
-    await this.updateRefreshTokenHash(user.id, tokens.refreshToken);
-
-    return tokens;
   }
 
   async validateUser(email: string, password: string) {

@@ -2,7 +2,7 @@
 
 import { Box } from "@mui/material";
 import { LoginForm } from "../../components/auth/LoginForm";
-import { useLogin } from "../../hooks/useLogin"; 
+import { useLogin } from "../../hooks/useLogin";
 
 export default function LoginPage() {
   const { handleLogin, isLoading, apiError } = useLogin();

@@ -25,13 +25,14 @@ export class WebhookService {
 
     try {
       event = this.stripe.webhooks.constructEvent(payload, signature, webhookSecret || '');
-    } catch (err: any) {
-      this.logger.error(`Webhook signature verification failed: ${err.message}`);
-      throw new BadRequestException(`Webhook Error: ${err.message}`);
+    } catch (err: unknown) {
+      const errorMessage = err instanceof Error ? err.message : 'Unknown error occurred';
+      this.logger.error(`Webhook signature verification failed: ${errorMessage}`);
+      throw new BadRequestException(`Webhook Error: ${errorMessage}`);
     }
 
     if (event.type === 'checkout.session.completed') {
-      const session = event.data.object as Stripe.Checkout.Session;
+      const session = event.data.object;
       this.logger.log(`Payment successful for session ID: ${session.id}`);
 
       const orderId = session.client_reference_id;
@@ -45,8 +46,10 @@ export class WebhookService {
             },
           });
           this.logger.log(`Order ${orderId} successfully marked as PAID`);
-        } catch (dbError: any) {
-          this.logger.error(`Failed to update order ${orderId} in database: ${dbError.message}`);
+        } catch (dbError: unknown) {
+          const dbErrorMessage =
+            dbError instanceof Error ? dbError.message : 'Unknown database error';
+          this.logger.error(`Failed to update order ${orderId} in database: ${dbErrorMessage}`);
         }
       } else {
         this.logger.warn(`No client_reference_id found in session ${session.id}`);

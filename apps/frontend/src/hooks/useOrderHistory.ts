@@ -3,42 +3,67 @@
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "../store/authStore";
+import { useStore } from "./useStore";
 import type { Order } from "../types/order";
 
 export const useOrderHistory = () => {
   const router = useRouter();
-  const token = useAuthStore((state) => state.token);
-  const user = useAuthStore((state) => state.user);
+
+  const token = useStore(useAuthStore, (state) => state.token);
+  const user = useStore(useAuthStore, (state) => state.user);
+  const isAuthenticated = useStore(useAuthStore, (state) =>
+    state.isAuthenticated(),
+  );
 
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState("");
-  const [mounted, setMounted] = useState(false);
-
-  // Вирішення проблеми з гідратацією
-  useEffect(() => {
-    const timer = setTimeout(() => setMounted(true), 0);
-    return () => clearTimeout(timer);
-  }, []);
 
   useEffect(() => {
-    if (!mounted) return;
+    if (token === undefined || isAuthenticated === undefined) return;
 
-    if (!token) {
+    if (!token || !isAuthenticated) {
       router.push("/login");
       return;
     }
 
     const fetchOrders = async () => {
       try {
-        const response = await fetch(
-          `${process.env.NEXT_PUBLIC_API_URL}/orders`,
-          {
+        setIsLoading(true);
+
+        const makeRequest = async (currentToken: string | null) => {
+          return fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/my`, {
             headers: {
-              Authorization: `Bearer ${token}`,
+              Authorization: `Bearer ${currentToken}`,
+              "Content-Type": "application/json",
             },
-          },
-        );
+          });
+        };
+
+        let response = await makeRequest(token);
+
+        if (response.status === 401) {
+          const refreshResponse = await fetch(
+            `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
+            {
+              method: "POST",
+              credentials: "include",
+            },
+          );
+
+          if (refreshResponse.ok) {
+            const { accessToken } = await refreshResponse.json();
+            const currentUser = useAuthStore.getState().user;
+            if (currentUser) {
+              useAuthStore.getState().login(currentUser, accessToken);
+            }
+            response = await makeRequest(accessToken);
+          } else {
+            useAuthStore.getState().logout();
+            router.push("/login");
+            throw new Error("Session expired. Please log in again.");
+          }
+        }
 
         if (!response.ok) throw new Error("Failed to fetch orders");
 
@@ -53,7 +78,13 @@ export const useOrderHistory = () => {
     };
 
     fetchOrders();
-  }, [token, router, mounted]);
+  }, [token, isAuthenticated, router]);
 
-  return { orders, isLoading, error, user, mounted };
+  return {
+    orders,
+    isLoading: isLoading || token === undefined,
+    error,
+    user,
+    mounted: token !== undefined,
+  };
 };

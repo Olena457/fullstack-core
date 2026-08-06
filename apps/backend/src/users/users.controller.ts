@@ -14,6 +14,6 @@ export class UsersController {
   @Get('me')
   @ApiOperation({ summary: 'Get current user profile' })
   getProfile(@CurrentUser() userId: string) {
-    return this.usersService.getProfile(userId!);
+    return this.usersService.getProfile(userId);
   }
 }

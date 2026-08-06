@@ -13,7 +13,7 @@ import {
 } from "react-hook-form";
 import type { CheckoutFormData } from "../auth/schemas/checkout";
 import { useNovaPoshta } from "../../hooks/useNovaPoshta";
-import type { CityOption, BranchOption } from "../../types/novaposhta";
+import type { CityOption } from "../../types/novaposhta";
 
 type ParamsWithSlotProps = AutocompleteRenderInputParams & {
   slotProps?: {
@@ -74,7 +74,8 @@ export const NovaPoshtaFields = ({
       <Controller
         name="npCity"
         control={control}
-        render={({ field: { onChange, value, ref } }) => {
+        // ДОДАНО: витягуємо onBlur
+        render={({ field: { onChange, onBlur, value, ref } }) => {
           const safeCities = Array.isArray(cities) ? cities : [];
 
           const selectedCity =
@@ -93,17 +94,16 @@ export const NovaPoshtaFields = ({
               loading={loadingCities}
               disabled={isLoading}
               value={selectedCity}
+              onBlur={onBlur} // ДОДАНО: передаємо onBlur для валідації
               onInputChange={(_, newInputValue) =>
                 setCityInputValue(newInputValue)
               }
               onChange={(_, data) => {
                 const cityData = data as CityOption | null;
-
                 onChange(cityData ? cityData.Present || "" : "");
                 setValue("npBranch", "", { shouldValidate: true });
 
                 const cityRef = cityData?.Ref || cityData?.DeliveryCity;
-
                 if (cityData && typeof cityRef === "string") {
                   fetchWarehouses(cityRef);
                 }
@@ -146,28 +146,29 @@ export const NovaPoshtaFields = ({
       <Controller
         name="npBranch"
         control={control}
-        render={({ field: { onChange, value, ref } }) => {
+        // ДОДАНО: витягуємо onBlur
+        render={({ field: { onChange, onBlur, value, ref } }) => {
           const safeWarehouses = Array.isArray(warehouses) ? warehouses : [];
-
-          const selectedBranch =
-            safeWarehouses.find((w: BranchOption) => w.Description === value) ||
-            (value ? ({ Description: value } as BranchOption) : null);
+          // Перетворюємо об'єкти на прості масиви рядків для зручності
+          const stringWarehouses = safeWarehouses.map((w) => w.Description);
 
           return (
-            <Autocomplete<BranchOption, false, false, false>
+            <Autocomplete
               fullWidth
-              options={safeWarehouses}
-              getOptionLabel={(option) => option.Description || ""}
-              isOptionEqualToValue={(option, val) =>
-                option.Description === val?.Description
-              }
-              disabled={isLoading}
+              freeSolo // ДОДАНО: дозволяє вводити кастомний текст (адресу)
+              options={stringWarehouses}
+              disabled={isLoading || stringWarehouses.length === 0}
               loading={loadingWarehouses}
-              value={selectedBranch}
+              value={value || ""}
+              onBlur={onBlur} // ДОДАНО: передаємо onBlur для валідації
               onInputChange={(_, newInputValue) => {
-                onChange(newInputValue);
+                // Оновлюємо форму при кожному введенні символу
+                onChange(newInputValue || "");
               }}
-              onChange={(_, data) => onChange(data ? data.Description : "")}
+              onChange={(_, newValue) => {
+                // Оновлюємо форму при виборі зі списку
+                onChange(newValue || "");
+              }}
               renderInput={(baseParams) => {
                 const params = baseParams as ParamsWithSlotProps;
                 const inputSlotProps = params.slotProps?.input ?? {};
