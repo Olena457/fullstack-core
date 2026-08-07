@@ -9,13 +9,12 @@ import { useCartStore } from "@/store/cartStore";
 function SuccessContent() {
   const searchParams = useSearchParams();
   const orderId = searchParams.get("order_id");
-  const clearCart = useCartStore((state) => state.clearCart);
-
   useEffect(() => {
-    if (clearCart) {
-      clearCart();
-    }
-  }, [clearCart]);
+    const timer = setTimeout(() => {
+      useCartStore.getState().clearCart();
+    }, 100);
+    return () => clearTimeout(timer);
+  }, []);
 
   return (
     <Box

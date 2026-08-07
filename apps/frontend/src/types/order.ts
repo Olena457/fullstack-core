@@ -1,11 +1,15 @@
 export interface OrderItemType {
   id: string;
   productId: string;
-  title: string;
-  price: number;
   quantity: number;
   size?: string;
   color?: string;
+  product: {
+    id: string;
+    title: string;
+    price: number;
+    imageUrl: string;
+  };
 }
 
 export interface Order {

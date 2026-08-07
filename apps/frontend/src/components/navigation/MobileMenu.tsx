@@ -131,7 +131,7 @@ export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
           onClick={onClose}
           endIcon={
             <Badge
-              badgeContent={totalItems}
+              badgeContent={isMounted ? totalItems : 0}
               color="error"
               sx={{
                 "& .MuiBadge-badge": {

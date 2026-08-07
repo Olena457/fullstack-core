@@ -8,18 +8,28 @@ import { useAuthStore } from "../../store/authStore";
 import { ReviewSection } from "../../components/review/ReviewSection";
 import { ReviewForm } from "../../components/review/ReviewForm";
 import { useReviews } from "../../hooks/useReviews"; 
+import { useStore } from "../../hooks/useStore";
+import CircularProgress from "@mui/material/CircularProgress";
 
 export default function ReviewPage() {
-  const isAuthenticated = useAuthStore((state) => state.isAuthenticated());
-  const token = useAuthStore((state) => state.token);
+  const isAuthenticated = useStore(useAuthStore, (state) => state.isAuthenticated());
+  const token = useStore(useAuthStore, (state) => state.token);
 
   const [showForm, setShowForm] = useState(false);
-  const { reviews, isLoading, error, handleReviewSubmit } = useReviews(token);
+  const { reviews, isLoading, error, handleReviewSubmit } = useReviews(token ?? null);
 
   const onSubmitReview = async (data: { rating: number; comment: string }) => {
     await handleReviewSubmit(data);
     setShowForm(false);
   };
+
+  if (isAuthenticated === undefined) {
+    return (
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 10 }}>
+        <CircularProgress color="primary" />
+      </Box>
+    );
+  }
 
   return (
     <Box sx={{ p: 4, maxWidth: "800px", margin: "0 auto" }}>

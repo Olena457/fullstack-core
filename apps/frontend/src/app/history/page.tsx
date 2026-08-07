@@ -60,7 +60,7 @@ export default function HistoryPage() {
         purchases.
       </Typography>
 
-      {orders.length === 0 ? (
+      {orders.slice(0, 4).length === 0 ? (
         <Paper
           variant="outlined"
           sx={{
@@ -92,7 +92,7 @@ export default function HistoryPage() {
         </Paper>
       ) : (
         <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-          {orders.map((order) => (
+          {orders.slice(0, 4).map((order) => (
             <OrderCard key={order.id} order={order} />
           ))}
         </Box>

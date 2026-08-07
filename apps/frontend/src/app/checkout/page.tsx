@@ -1,7 +1,7 @@
 
 "use client";
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Box, Typography, Alert } from "@mui/material";
 import { useRouter } from "next/navigation";
 import { useCartStore } from "../../store/cartStore";
@@ -19,11 +19,27 @@ export default function CheckoutPage() {
   const items = useCartStore((state: CartStore) => state.items);
   const user = useAuthStore((state: AuthStore) => state.user);
   const token = useAuthStore((state: AuthStore) => state.token);
+  const isAuthenticated = useAuthStore((state: AuthStore) => state.isAuthenticated());
 
   const { handleProceedToPayment, isLoading, errorMessage } = useCheckout(
     token,
     items,
   );
+
+  const [mounted, setMounted] = useState(false);
+
+   useEffect(() => {
+     const timer = setTimeout(() => {
+       setMounted(true);
+     }, 0);
+     return () => clearTimeout(timer);
+   }, []);
+
+  useEffect(() => {
+    if (mounted && !isAuthenticated) {
+      router.push("/login");
+    }
+  }, [mounted, isAuthenticated, router]);
 
   useEffect(() => {
     if (items.length === 0) {
@@ -31,6 +47,7 @@ export default function CheckoutPage() {
     }
   }, [items, router]);
 
+  if (!mounted || !isAuthenticated) return null;
   if (items.length === 0) return null;
 
   return (

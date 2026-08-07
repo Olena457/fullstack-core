@@ -87,7 +87,7 @@ export const HeaderActions = () => {
           }}
         >
           <Badge
-            badgeContent={totalItems}
+            badgeContent={isMounted ? totalItems : 0}
             color="error"
             sx={{
               "& .MuiBadge-badge": {

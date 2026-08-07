@@ -1,84 +1,32 @@
 
 "use client";
 
-import { useEffect, useState } from "react";
-import { Box, Typography, Button } from "@mui/material";
-import Link from "next/link";
+import { useEffect } from "react";
+import { Box, Typography, CircularProgress } from "@mui/material";
+import { useRouter } from "next/navigation";
 import { useAuthStore } from "../../store/authStore";
 import { OrderCard } from "../../components/order/OrderCard";
 import { useOrders } from "../../hooks/useOrders";
+import { useStore } from "../../hooks/useStore";
 
 export default function OrdersPage() {
-  const user = useAuthStore((state) => state.user);
-  const token = useAuthStore((state) => state.token);
-
-  const [mounted, setMounted] = useState(false);
+  const router = useRouter();
+  const user = useStore(useAuthStore, (state) => state.user);
+  const token = useStore(useAuthStore, (state) => state.token);
+  const isAuthenticated = useStore(useAuthStore, (state) => state.isAuthenticated());
 
   useEffect(() => {
-    const timer = setTimeout(() => {
-      setMounted(true);
-    }, 0);
+    if (isAuthenticated === false) {
+      router.push("/login");
+    }
+  }, [isAuthenticated, router]);
 
-    return () => clearTimeout(timer);
-  }, []);
+  const { orders, isLoading, error } = useOrders(user ?? null, token ?? null);
 
-  const { orders, isLoading, error } = useOrders(user, token);
-
-  if (!mounted) {
+  if (isAuthenticated === undefined || isAuthenticated === false || !user) {
     return (
-      <Box sx={{ p: 4, textAlign: "center", mt: 10 }}>
-        <Typography
-          sx={{
-            fontWeight: "bold",
-            color: "text.primary",
-            textTransform: "uppercase",
-          }}
-        >
-          LOADING...
-        </Typography>
-      </Box>
-    );
-  }
-
-  if (!user) {
-    return (
-      <Box
-        sx={{
-          p: 4,
-          maxWidth: "1400px",
-          mx: "auto",
-          textAlign: "center",
-          mt: 10,
-          color: "text.primary",
-        }}
-      >
-        <Typography
-          variant="h4"
-          sx={{
-            fontWeight: 900,
-            textTransform: "uppercase",
-            mb: 4,
-            color: "text.primary",
-          }}
-        >
-          Please login to view your orders
-        </Typography>
-        <Link href="/login" style={{ textDecoration: "none" }}>
-          <Button
-            variant="contained"
-            sx={{
-              bgcolor: "primary.main",
-              color: "background.paper",
-              borderRadius: 0,
-              px: 5,
-              py: 1.5,
-              fontWeight: "bold",
-              "&:hover": { bgcolor: "action.hover", color: "text.primary" },
-            }}
-          >
-            GO TO LOGIN
-          </Button>
-        </Link>
+      <Box sx={{ display: "flex", justifyContent: "center", mt: 10 }}>
+        <CircularProgress color="primary" />
       </Box>
     );
   }

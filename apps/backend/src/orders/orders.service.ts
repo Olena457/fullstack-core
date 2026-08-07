@@ -75,8 +75,8 @@ export class OrdersService {
       payment_method_types: ['card'],
       line_items: stripeLineItems,
       mode: 'payment',
-      success_url: `${process.env.FRONTEND_URL}/checkout/success?order_id=${order.id}`,
-      cancel_url: `${process.env.FRONTEND_URL}/checkout`,
+      success_url: `${process.env.FRONTEND_URL}/success?order_id=${order.id}`,
+      cancel_url: `${process.env.FRONTEND_URL}/cancel`,
       client_reference_id: order.id,
     });
 
@@ -86,7 +86,13 @@ export class OrdersService {
   async findAllByUser(userId: string) {
     return this.prisma.order.findMany({
       where: { userId },
-      include: { items: true },
+      include: {
+        items: {
+          include: {
+            product: true,
+          },
+        },
+      },
       orderBy: { createdAt: 'desc' },
     });
   }

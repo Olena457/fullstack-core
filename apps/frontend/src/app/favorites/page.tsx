@@ -4,16 +4,26 @@
 import { Box, Typography, CircularProgress, Button } from "@mui/material";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import { useRouter } from "next/navigation";
 import { ProductCard } from "../../components/product/ProductCard";
 import { useFavoritesStore } from "../../store/favoritesStore"; 
+import { useAuthStore } from "../../store/authStore";
 import { useStore } from "../../hooks/useStore";
 import type { Product } from "../../types/product";
 
 export default function FavoritesPage() {
+  const router = useRouter();
   const favorites = useStore(useFavoritesStore, (state) => state.favorites);
+  const isAuthenticated = useStore(useAuthStore, (state) => state.isAuthenticated());
 
   const [favoriteProducts, setFavoriteProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  useEffect(() => {
+    if (isAuthenticated === false) {
+      router.push("/login");
+    }
+  }, [isAuthenticated, router]);
 
   useEffect(() => {
     if (favorites === undefined) return;
@@ -43,7 +53,7 @@ export default function FavoritesPage() {
     fetchFavoriteProducts();
   }, [favorites]);
 
-  if (favorites === undefined || isLoading) {
+  if (favorites === undefined || isLoading || isAuthenticated === undefined || isAuthenticated === false) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", mt: 10 }}>
         <CircularProgress color="primary" />
