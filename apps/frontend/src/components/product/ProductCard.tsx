@@ -51,13 +51,18 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
     <Card
       sx={{
         borderRadius: 0,
-        border: 1,
-        borderColor: "divider",
-        boxShadow: "none",
+        // border: 1,
         height: "100%",
         display: "flex",
         flexDirection: "column",
+        boxShadow: "none",
         bgcolor: "background.paper",
+        transition: "box-shadow 0.3s ease",
+        border: "1px solid transparent",
+        "&:hover": {
+          borderColor: "divider",
+          boxShadow: 3,
+        },
       }}
     >
       <Box sx={{ position: "relative" }}>
@@ -151,7 +156,7 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
               fullWidth
               variant="outlined"
               sx={(theme) => ({
-                height: "100%", 
+                height: "100%",
                 borderRadius: 0,
                 border: 1,
                 borderColor: "primary.main",
@@ -185,7 +190,7 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
               borderColor: "primary.main",
               color: isFav ? "secondary.main" : "primary.main",
               transition: "all 0.2s ease",
-              width: { xs: 40, sm: 48 }, 
+              width: { xs: 40, sm: 48 },
               "&:hover": {
                 bgcolor:
                   theme.palette.mode === "light"
