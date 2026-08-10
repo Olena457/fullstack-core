@@ -58,7 +58,7 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
         boxShadow: "none",
         bgcolor: "background.paper",
         transition: "box-shadow 0.3s ease",
-        border: "1px solid transparent",
+        border: "1px solid #a0a0a0",
         "&:hover": {
           borderColor: "divider",
           boxShadow: 3,
@@ -159,7 +159,7 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
                 height: "100%",
                 borderRadius: 0,
                 border: 1,
-                borderColor: "primary.main",
+                borderColor: "#a0a0a0",
                 color: "primary.main",
                 fontWeight: "bold",
                 textTransform: "uppercase",
@@ -187,7 +187,7 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
             sx={(theme) => ({
               borderRadius: 0,
               border: 1,
-              borderColor: "primary.main",
+              borderColor: "#a0a0a0",
               color: isFav ? "secondary.main" : "primary.main",
               transition: "all 0.2s ease",
               width: { xs: 40, sm: 48 },
@@ -197,6 +197,7 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
                     ? "action.hover"
                     : "primary.main",
                 color: "secondary.main",
+                borderColor: "primary.main",
               },
             })}
           >
