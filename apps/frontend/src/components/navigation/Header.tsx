@@ -52,7 +52,7 @@ export const Header = () => {
             <IconButton
               onClick={() => setIsMobileMenuOpen(true)}
               sx={{
-                display: { xs: "flex", md: "none" }, 
+                display: { xs: "flex", md: "none" },
                 borderRadius: 0,
                 border: 1,
                 borderColor: "divider",
@@ -71,13 +71,15 @@ export const Header = () => {
         {!isHome && (
           <Toolbar
             sx={{
-              display: { xs: "none", md: "flex" }, 
+              display: { xs: "none", md: "flex" },
               justifyContent: "space-between",
               borderBottom: 2,
               borderColor: "divider",
               py: 0,
               px: { xs: 2, md: 3 },
-              minHeight: "auto !important",
+              alignItems: "stretch",
+              minHeight: "48px !important",
+              // minHeight: "auto !important",
             }}
           >
             <DesktopNav isHome={isHome} />

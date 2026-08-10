@@ -61,7 +61,7 @@ export const ProductInfo = ({
             mb: 1,
             mt: { xs: 2, md: 0 },
             color: "text.primary",
-            fontSize: { xs: "1.1rem", sm: "1.5rem", md: "2rem" },
+            fontSize: { xs: "1.1rem", sm: "1.5rem", md: "1.6rem" },
             lineHeight: 1.2,
             width: "100%",
             cursor: "default",
@@ -200,8 +200,8 @@ export const ProductInfo = ({
       <IconButton
         onClick={onToggleFavorite}
         sx={(theme) => ({
-          height: { xs: "46px", sm: "52px" }, // Така ж висота, як і в кнопок поруч
-          width: { xs: "46px", sm: "52px" }, // Робимо її квадратною
+          height: { xs: "46px", sm: "52px" }, 
+          width: { xs: "46px", sm: "52px" }, 
           borderRadius: 0,
           border: 1,
           borderColor: "divider",

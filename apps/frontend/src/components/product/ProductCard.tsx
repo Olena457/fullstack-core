@@ -51,40 +51,60 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
     <Card
       sx={{
         borderRadius: 0,
-        // border: 1,
         height: "100%",
         display: "flex",
         flexDirection: "column",
         boxShadow: "none",
         bgcolor: "background.paper",
-        transition: "box-shadow 0.3s ease",
+        transition: "box-shadow 0.3s ease, border-color 0.3s ease",
         border: "1px solid #a0a0a0",
         "&:hover": {
           borderColor: "divider",
-          boxShadow: 3,
+          boxShadow: 2,
         },
       }}
     >
-      <Box sx={{ position: "relative" }}>
+      {/*photo container */}
+      <Box
+        sx={{
+          position: "relative",
+          height: 350,
+          overflow: "hidden", 
+          bgcolor: "transparent", 
+          transition: "background-color 0.4s ease-out", 
+
+          "&:hover": {
+            bgcolor: "secondary.main", 
+          },
+        }}
+      >
         <Link
           href={`/products/${product.id}`}
-          style={{ textDecoration: "none", color: "inherit", display: "block" }}
+          style={{
+            textDecoration: "none",
+            color: "inherit",
+            display: "block",
+            height: "100%",
+          }}
         >
           <CardMedia
             component="img"
-            height="350"
+            height="100%" 
             image={product.imageUrl}
             alt={product.title}
             sx={{
               objectFit: "cover",
               objectPosition: "50% 20%",
               cursor: "pointer",
-              borderBottom: 1,
-              borderColor: "divider",
+              transform: "scale(1)", 
+              filter: "grayscale(0%)", 
+
               transition: "transform 0.4s ease-out, filter 0.4s ease-out",
+
+              
               "&:hover": {
-                transform: "scale(1.05)",
-                filter: "grayscale(100%) brightness(115%) contrast(105%)",
+                transform: "scale(0.98)", 
+                filter: "grayscale(100%) brightness(110%) contrast(105%)",
               },
             }}
           />
@@ -125,6 +145,7 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
                   lineHeight: 1.2,
                   cursor: "pointer",
                   color: "text.primary",
+                  transition: "color 0.2s ease",
                   "&:hover": {
                     color: "secondary.main",
                   },

@@ -2,10 +2,10 @@
 
 import { Box, IconButton, Typography } from "@mui/material";
 import Link from "next/link";
-import { usePathname } from "next/navigation"; 
+import { usePathname } from "next/navigation";
 
 export const DesktopNav = ({ isHome }: { isHome: boolean }) => {
-  const pathname = usePathname(); 
+  const pathname = usePathname();
 
   const navItems = ["HOME", "PRODUCTS", "REVIEW"];
   if (isHome) {
@@ -18,18 +18,18 @@ export const DesktopNav = ({ isHome }: { isHome: boolean }) => {
     >
       {navItems.map((item) => {
         const href = item === "HOME" ? "/" : `/${item.toLowerCase()}`;
-        
-        const isActive = href === "/" 
-          ? pathname === href 
-          : pathname.startsWith(href);
+
+        const isActive =
+          href === "/" ? pathname === href : pathname.startsWith(href);
 
         return (
           <Link key={item} href={href} style={{ textDecoration: "none" }}>
             <IconButton
               sx={{
+                
                 borderRadius: 0,
-                px: 2, 
-                py: 1, 
+                px: 2,
+                py: 1,
                 color: "text.primary",
                 bgcolor: isActive ? "action.selected" : "transparent",
                 "&:hover": {

@@ -6,15 +6,18 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { ProductCard } from "../../components/product/ProductCard";
-import { useFavoritesStore } from "../../store/favoritesStore"; 
+import { useFavoritesStore } from "../../store/favoritesStore";
 import { useAuthStore } from "../../store/authStore";
 import { useStore } from "../../hooks/useStore";
 import type { Product } from "../../types/product";
 
+
 export default function FavoritesPage() {
   const router = useRouter();
   const favorites = useStore(useFavoritesStore, (state) => state.favorites);
-  const isAuthenticated = useStore(useAuthStore, (state) => state.isAuthenticated());
+  const isAuthenticated = useStore(useAuthStore, (state) =>
+    state.isAuthenticated(),
+  );
 
   const [favoriteProducts, setFavoriteProducts] = useState<Product[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -53,7 +56,12 @@ export default function FavoritesPage() {
     fetchFavoriteProducts();
   }, [favorites]);
 
-  if (favorites === undefined || isLoading || isAuthenticated === undefined || isAuthenticated === false) {
+  if (
+    favorites === undefined ||
+    isLoading ||
+    isAuthenticated === undefined ||
+    isAuthenticated === false
+  ) {
     return (
       <Box sx={{ display: "flex", justifyContent: "center", mt: 10 }}>
         <CircularProgress color="primary" />
@@ -72,17 +80,23 @@ export default function FavoritesPage() {
         minHeight: "100vh",
       }}
     >
+      {/* 1. Зменшений заголовок h5 замість h4 і цифри без дужок */}
       <Typography
-        variant="h4"
-        sx={{ fontWeight: 900, mb: 4, textTransform: "uppercase" }}
+        variant="h5"
+        sx={{
+          fontWeight: 900,
+          mb: 3,
+          textTransform: "uppercase",
+          letterSpacing: "-0.03em",
+        }}
       >
-        Favorites ({favorites.length})
+        Favorites {favorites.length}
       </Typography>
 
       {favorites.length === 0 ? (
         <Box sx={{ textAlign: "center", py: 10 }}>
           <Typography color="text.secondary" sx={{ mb: 3 }}>
-            You haven &#39; t saved any items yet.
+            You haven&#39;t saved any items yet.
           </Typography>
 
           <Link href="/products" style={{ textDecoration: "none" }}>
@@ -103,20 +117,21 @@ export default function FavoritesPage() {
           </Link>
         </Box>
       ) : (
+        /* 2. Фікс ширини карток через minmax(0, 1fr) */
         <Box
           sx={{
             display: "grid",
             gridTemplateColumns: {
-              xs: "repeat(1, 1fr)",
-              sm: "repeat(2, 1fr)",
-              md: "repeat(3, 1fr)",
-              lg: "repeat(4, 1fr)",
+              xs: "repeat(1, minmax(0, 1fr))",
+              sm: "repeat(2, minmax(0, 1fr))",
+              md: "repeat(3, minmax(0, 1fr))",
+              lg: "repeat(4, minmax(0, 1fr))",
             },
             gap: 3,
           }}
         >
           {favoriteProducts.map((product) => (
-            <Box key={product.id}>
+            <Box key={product.id} sx={{ minWidth: 0 }}>
               <ProductCard product={product} />
             </Box>
           ))}

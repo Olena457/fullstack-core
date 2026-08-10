@@ -104,7 +104,7 @@ export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
         </IconButton>
       </Box>
 
-      {/* Навігація */}
+      {/*nav */}
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         {navItems.map((item) => {
           const href = item === "HOME" ? "/" : `/${item.toLowerCase()}`;
@@ -123,7 +123,6 @@ export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
         })}
       </Box>
 
-      {/* Дії (Кошик, профіль) */}
       <Box sx={{ mt: "auto", borderTop: 2, borderColor: "divider" }}>
         <MobileMenuItem
           href="/cart"
@@ -165,7 +164,7 @@ export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
                 HISTORY
               </MobileMenuItem>
 
-              {/* Профіль юзера */}
+              {/* user */}
               <Box
                 sx={{
                   p: 2,
