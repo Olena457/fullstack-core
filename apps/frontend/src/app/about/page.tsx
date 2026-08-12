@@ -21,7 +21,7 @@ export default function AboutPage() {
             color: "text.primary",
           }}
         >
-          About company Alter Ego
+          About company AlterEgo
         </Typography>
 
         <Typography

@@ -1,6 +1,7 @@
+
 "use client";
 
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -14,40 +15,50 @@ export const DesktopNav = ({ isHome }: { isHome: boolean }) => {
 
   return (
     <Box
-      sx={{ display: { xs: "none", md: "flex" }, gap: 1, alignItems: "center" }}
+      sx={{
+        display: { xs: "none", md: "flex" },
+        alignItems: "stretch", 
+        alignSelf: "stretch", 
+      }}
     >
       {navItems.map((item) => {
         const href = item === "HOME" ? "/" : `/${item.toLowerCase()}`;
-
         const isActive =
           href === "/" ? pathname === href : pathname.startsWith(href);
 
         return (
-          <Link key={item} href={href} style={{ textDecoration: "none" }}>
-            <IconButton
+          <Box
+            key={item}
+            component={Link}
+            href={href}
+            sx={{
+              display: "flex",
+              alignItems: "center",
+              px: 2,
+              mr: 1,
+              minHeight: "38px",
+              height: "100%",
+              whiteSpace: "nowrap",
+              textDecoration: "none",
+              color: "text.primary",
+              bgcolor: isActive ? "action.selected" : "transparent",
+              transition: "background-color 0.2s ease",
+              "&:hover": {
+                bgcolor: isActive ? "action.selected" : "action.hover",
+              },
+            }}
+          >
+            <Typography
               sx={{
-                
-                borderRadius: 0,
-                px: 2,
-                py: 1,
-                color: "text.primary",
-                bgcolor: isActive ? "action.selected" : "transparent",
-                "&:hover": {
-                  bgcolor: isActive ? "action.selected" : "action.hover",
-                },
+                fontWeight: 500,
+                textTransform: "uppercase",
+                fontSize: "16px",
+                lineHeight: 1,
               }}
             >
-              <Typography
-                sx={{
-                  fontWeight: 500,
-                  textTransform: "uppercase",
-                  fontSize: "16px",
-                }}
-              >
-                {item}
-              </Typography>
-            </IconButton>
-          </Link>
+              {item}
+            </Typography>
+          </Box>
         );
       })}
     </Box>

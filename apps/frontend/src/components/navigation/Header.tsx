@@ -40,7 +40,7 @@ export const Header = () => {
             borderColor: "divider",
             justifyContent: "space-between",
             px: { xs: 2, md: 3 },
-            py: 1,
+            py: 0,
           }}
         >
           <Logo />
@@ -57,7 +57,7 @@ export const Header = () => {
                 border: 1,
                 borderColor: "divider",
                 color: "text.primary",
-                p: 1,
+                p: 0,
                 "&:hover": { bgcolor: "action.hover" },
               }}
               aria-label="open drawer"
@@ -75,11 +75,9 @@ export const Header = () => {
               justifyContent: "space-between",
               borderBottom: 2,
               borderColor: "divider",
-              py: 0,
               px: { xs: 2, md: 3 },
               alignItems: "stretch",
-              minHeight: "48px !important",
-              // minHeight: "auto !important",
+              minHeight: "38px !important",
             }}
           >
             <DesktopNav isHome={isHome} />

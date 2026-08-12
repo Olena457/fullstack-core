@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Box, Badge, IconButton, Typography, Tooltip } from "@mui/material";
@@ -9,37 +8,7 @@ import { useCartStore } from "../../store/cartStore";
 import { useAuthStore } from "../../store/authStore";
 import { useState, useEffect } from "react";
 
-const MenuButton = ({
-  children,
-  href,
-}: {
-  children: React.ReactNode;
-  href: string;
-}) => {
-  const pathname = usePathname();
-  const isActive = pathname === href;
-
-  return (
-    <Link href={href} style={{ textDecoration: "none" }}>
-      <IconButton
-        sx={{
-          borderRadius: 0,
-          px: 2,
-          py: 1,
-          color: "text.primary",
-          bgcolor: isActive ? "action.selected" : "transparent",
-          "&:hover": {
-            bgcolor: isActive ? "action.selected" : "action.hover",
-          },
-        }}
-      >
-        <Typography sx={{ fontWeight: 500, textTransform: "uppercase" }}>
-          {children}
-        </Typography>
-      </IconButton>
-    </Link>
-  );
-};
+import { MenuButton } from "./MenuButton";
 
 export const HeaderActions = () => {
   const router = useRouter();
@@ -67,19 +36,27 @@ export const HeaderActions = () => {
         display: {
           xs: "none",
           md: "flex",
-        } ,
-        gap: 1,
-        alignItems: "center",
+        },
+        alignItems: "stretch", 
+        height: "100%", 
         fontSize: "16px",
       }}
     >
-      <Link href="/cart" style={{ textDecoration: "none" }}>
+      <Link
+        href="/cart"
+        style={{
+          textDecoration: "none",
+          display: "flex",
+          alignItems: "stretch",
+        }}
+      >
         <IconButton
           sx={{
             color: "text.primary",
             borderRadius: 0,
             px: 2,
-            py: 1,
+            mr: 1,
+            height: "100%",
             bgcolor: isOrderActive ? "action.selected" : "transparent",
             "&:hover": {
               bgcolor: isOrderActive ? "action.selected" : "action.hover",
@@ -118,6 +95,7 @@ export const HeaderActions = () => {
             sx={{
               display: "flex",
               alignItems: "center",
+              height: "100%",
               ml: 1,
               pl: 2,
             }}

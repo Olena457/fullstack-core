@@ -12,7 +12,6 @@ export default function Home() {
           display: "flex",
           justifyContent: "center",
           gap: 1,
-          py: 1,
           borderBottom: "2px solid black",
         }}
       >

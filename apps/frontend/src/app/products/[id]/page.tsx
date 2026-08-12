@@ -73,16 +73,16 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
           gap: { xs: 3, md: 8 },
         }}
       >
-        {/* ЛІВА КОЛОНКА (ТІЛЬКИ ФОТО) */}
+  {/* photo */}
         <Box sx={{ position: "relative", width: "100%", display: "block" }}>
           <ProductImage
             imageUrl={product.imageUrl}
             title={product.title}
             gender={product.gender}
           />
-        </Box>
-
-        {/* ПРАВА КОЛОНКА (ІНФОРМАЦІЯ) */}
+        </Box> 
+      
+        {/*information*/}
         <Box sx={{ display: "flex", flexDirection: "column" }}>
           <ProductInfo
             product={product}
@@ -93,7 +93,6 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
             onColorChange={setSelectedColor}
             onAddToCart={handleAddToCart}
             onClearSelection={handleClearSelection}
-            /* ПЕРЕДАЄМО НОВІ ПРОПСИ ДЛЯ ФАВОРИТІВ */
             isFav={isFav}
             onToggleFavorite={handleToggleFavorite}
           />
