@@ -23,7 +23,6 @@ export const Logo = () => {
           color: isDark ? theme.palette.primary.main : "black",
           transition: "all 0.3s ease-in-out",
           fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
-
           "@media (max-width: 425px)": {
             fontSize: "1.5rem",
           },
