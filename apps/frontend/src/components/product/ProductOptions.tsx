@@ -1,4 +1,3 @@
-
 import { Box, Typography, Button, useTheme } from "@mui/material";
 
 interface ProductOptionsProps {
@@ -32,7 +31,6 @@ export const ProductOptions = ({
 
   return (
     <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
-      {/* БЛОК ВИБОРУ РОЗМІРУ */}
       {sizes && sizes.length > 0 && (
         <Box>
           <Typography

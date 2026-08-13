@@ -7,21 +7,15 @@ interface ProductImageProps {
   gender?: string;
 }
 
-export const ProductImage = ({
-  imageUrl,
-  title,
-  gender,
-}: ProductImageProps) => (
-  <Box>
+export const ProductImage = ({ imageUrl, title, gender }: ProductImageProps) => (
+  <Box sx={{ width: "100%" }}>
     <Box
       sx={{
         position: "relative",
         width: "100%",
         maxWidth: "650px",
         aspectRatio: "1/1",
-        border: 1,
-        borderColor: "divider",
-        bgcolor: "background.paper",
+        overflow: "hidden",
       }}
     >
       <Image

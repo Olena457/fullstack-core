@@ -65,25 +65,70 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
           </Typography>
         </Link>
       </Box>
-
-      <Box
+      
+        <Box
         sx={{
           display: "grid",
-          gridTemplateColumns: { xs: "1fr", md: "5fr 7fr" },
+          gridTemplateColumns: { xs: "minmax(0, 1fr)", md: "5fr 7fr" }, 
           gap: { xs: 3, md: 8 },
         }}
       >
-  {/* photo */}
-        <Box sx={{ position: "relative", width: "100%", display: "block" }}>
+       
+        {/* photo */}
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%",
+            maxWidth: { xs: "100%", sm: "500px", md: "100%" },
+            mx: "auto",
+
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+
+            overflow: "hidden",
+            bgcolor: "transparent",
+            border: "1px solid",
+            borderColor: "divider",
+            transition:
+              "background-color 0.4s ease-out, border-color 0.4s ease-out",
+
+            "&:hover": {
+              bgcolor: "secondary.main",
+              borderColor: "secondary.main",
+            },
+
+            "& > *": {
+              width: "100%",
+              transition:
+                "transform 0.4s ease-out, filter 0.4s ease-out !important",
+              transform: "scale(1)",
+              transformOrigin: "center center",
+              filter: "grayscale(0%)",
+            },
+
+            "&:hover > *": {
+              transform: "scale(0.96) !important",
+              filter:
+                "grayscale(100%) brightness(110%) contrast(105%) !important",
+            },
+          }}
+        >
           <ProductImage
             imageUrl={product.imageUrl}
             title={product.title}
             gender={product.gender}
           />
-        </Box> 
-      
+        </Box>
+
         {/*information*/}
-        <Box sx={{ display: "flex", flexDirection: "column" }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            px: { xs: 0, sm: 2, md: 0 },
+          }}
+        >
           <ProductInfo
             product={product}
             selectedSize={selectedSize}

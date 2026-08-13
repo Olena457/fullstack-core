@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -15,17 +16,17 @@ export const ContactWidget = () => {
     {
       label: "+38 (038) 000 00 00",
       icon: <PhoneIcon width={24} height={24} />,
-      href: "tel:+380380000000", 
+      href: "tel:+380380000000",
     },
     {
       label: "WHATSAPP",
       icon: <WhatsAppIcon width={24} height={24} />,
-      href: "https://www.whatsapp.com/", 
+      href: "https://www.whatsapp.com/",
     },
     {
       label: "TELEGRAM",
       icon: <TelegramIcon width={24} height={24} />,
-      href: "https://telegram.org/", 
+      href: "https://telegram.org/",
     },
   ];
 
@@ -42,6 +43,7 @@ export const ContactWidget = () => {
         alignItems: "flex-end",
         gap: 2,
         zIndex: 9999,
+        pointerEvents: "none",
       }}
     >
       {/* menu */}
@@ -125,12 +127,14 @@ export const ContactWidget = () => {
       <IconButton
         onClick={() => setIsOpen(!isOpen)}
         sx={{
+          pointerEvents: "auto",
+
           bgcolor: isOpen ? "secondary.main" : "background.paper",
           color: isOpen ? "#fff" : "text.primary",
           border: 2,
           borderColor: isOpen ? "secondary.main" : "primary.main",
           borderRadius: 0,
-          width: { xs: 44, sm: 48 }, 
+          width: { xs: 44, sm: 48 },
           height: { xs: 44, sm: 48 },
           transition: "all 0.3s ease",
           boxShadow: (theme) =>

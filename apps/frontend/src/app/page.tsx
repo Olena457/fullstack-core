@@ -11,8 +11,10 @@ export default function Home() {
         sx={{
           display: "flex",
           justifyContent: "center",
+          borderBottom: 2,
           gap: 1,
-          borderBottom: "2px solid black",
+          borderColor: (theme) =>
+            theme.palette.mode === "dark" ? "divider" : "divider",
         }}
       >
         <DesktopNav isHome={true} />

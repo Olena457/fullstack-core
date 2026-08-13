@@ -22,8 +22,11 @@ export const Logo = () => {
           letterSpacing: "-0.02em",
           color: isDark ? theme.palette.primary.main : "black",
           transition: "all 0.3s ease-in-out",
-          fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" }, 
+          fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
 
+          "@media (max-width: 425px)": {
+            fontSize: "1.5rem",
+          },
           "&:hover, &:focus-visible, &:active": {
             color: theme.palette.secondary.main,
             "& .ego-text": {

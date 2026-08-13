@@ -65,6 +65,7 @@ export const ProductInfo = ({
             lineHeight: 1.2,
             width: "100%",
             cursor: "default",
+            
           }}
         >
           {product.title}
@@ -200,8 +201,8 @@ export const ProductInfo = ({
       <IconButton
         onClick={onToggleFavorite}
         sx={(theme) => ({
-          height: { xs: "46px", sm: "52px" }, 
-          width: { xs: "46px", sm: "52px" }, 
+          height: { xs: "46px", sm: "52px" },
+          width: { xs: "46px", sm: "52px" },
           borderRadius: 0,
           border: 1,
           borderColor: "divider",
