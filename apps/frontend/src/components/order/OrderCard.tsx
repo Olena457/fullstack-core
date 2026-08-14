@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Box, Typography, Paper, Chip, Divider, Button } from "@mui/material";
@@ -27,7 +28,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
     <Paper
       variant="outlined"
       sx={{
-        p: 3,
+        p: { xs: 2, sm: 3 },
         borderRadius: 0,
         borderColor: "divider",
         borderLeft: 4,
@@ -44,7 +45,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
           gap: 1,
         }}
       >
-        <Typography sx={{ fontWeight: 900, color: "text.primary" }}>
+        <Typography sx={{ fontWeight: 900, color: "text.primary", fontSize: { xs: "0.9rem", sm: "1rem" } }}>
           ORDER #{order.id.slice(0, 8).toUpperCase()}
         </Typography>
         <Chip
@@ -60,7 +61,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
         />
       </Box>
 
-      <Typography variant="body2" color="text.secondary">
+      <Typography color="text.secondary" sx={{ fontSize: { xs: "0.8rem", sm: "0.875rem" } }}>
         Placed on: {new Date(order.createdAt).toLocaleDateString()}
       </Typography>
 
@@ -74,17 +75,28 @@ export const OrderCard = ({ order }: OrderCardProps) => {
               display: "flex",
               justifyContent: "space-between",
               alignItems: "flex-start",
+              gap: 2,
             }}
           >
             <Box>
               <Typography
-                variant="body2"
-                sx={{ fontWeight: "bold", color: "text.primary" }}
+                sx={{ 
+                  fontWeight: "bold", 
+                  color: "text.primary",
+                  fontSize: { xs: "0.85rem", sm: "0.875rem" },
+                  lineHeight: 1.3
+                }}
               >
                 {item.product?.title || "Unknown Product"}
-                <Typography component="span" color="text.secondary">
-                  {" "}
-                  x {item.quantity}
+                <Typography 
+                  component="span" 
+                  color="text.secondary"
+                  sx={{ 
+                    fontSize: "inherit",
+                    whiteSpace: "nowrap" 
+                  }}
+                >
+                  &nbsp;x {item.quantity}
                 </Typography>
               </Typography>
 
@@ -92,7 +104,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
                 <Typography
                   variant="caption"
                   color="text.secondary"
-                  sx={{ display: "block", mt: 0.2 }}
+                  sx={{ display: "block", mt: 0.5, fontSize: { xs: "0.7rem", sm: "0.75rem" } }}
                 >
                   {[
                     item.size && `Size: ${item.size}`,
@@ -105,8 +117,11 @@ export const OrderCard = ({ order }: OrderCardProps) => {
             </Box>
 
             <Typography
-              variant="body2"
-              sx={{ fontWeight: "bold", color: "text.primary" }}
+              sx={{ 
+                fontWeight: "bold", 
+                color: "text.primary",
+                fontSize: { xs: "0.85rem", sm: "0.875rem" }
+              }}
             >
               ${((item.product?.price || 0) * item.quantity).toFixed(2)}
             </Typography>
@@ -118,7 +133,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
         sx={{
           display: "flex",
           justifyContent: "space-between",
-          mt: 3,
+          mt: { xs: 2, sm: 3 },
           pt: 2,
           borderTop: 2,
           borderColor: "divider",
@@ -126,7 +141,7 @@ export const OrderCard = ({ order }: OrderCardProps) => {
         }}
       >
         <Typography
-          sx={{ fontWeight: 900, fontSize: "1.1rem", color: "text.primary" }}
+          sx={{ fontWeight: 900, fontSize: { xs: "0.95rem", sm: "1.1rem" }, color: "text.primary" }}
         >
           TOTAL: ${order.totalPrice.toFixed(2)}
         </Typography>
@@ -138,6 +153,10 @@ export const OrderCard = ({ order }: OrderCardProps) => {
             color: "background.paper",
             borderRadius: 0,
             fontWeight: "bold",
+            fontSize: { xs: "0.7rem", sm: "0.875rem" },
+            px: { xs: 1.5, sm: 2 },
+            py: { xs: 0.5, sm: 0.75 },
+            minWidth: { xs: "100px", sm: "auto" },
             "&:hover": {
               bgcolor: "action.hover",
               color: "text.primary",

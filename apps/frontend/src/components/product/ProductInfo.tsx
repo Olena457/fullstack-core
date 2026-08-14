@@ -197,7 +197,7 @@ export const ProductInfo = ({
         </Button>
       )}
 
-      {/* НОВА КНОПКА ФАВОРИТІВ */}
+      {/* FAVORITE BUTTON */}
       <IconButton
         onClick={onToggleFavorite}
         sx={(theme) => ({

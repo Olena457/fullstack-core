@@ -1,3 +1,5 @@
+
+
 "use client";
 
 import {
@@ -39,8 +41,8 @@ export default function HistoryPage() {
         maxWidth: 800,
         mx: "auto",
         width: "100%",
-        p: 3,
-        mt: 4,
+        p: { xs: 2, sm: 3 },
+        mt: { xs: 2, sm: 4 },
         bgcolor: "background.default",
       }}
     >
@@ -50,12 +52,17 @@ export default function HistoryPage() {
           fontWeight: 900,
           textTransform: "uppercase",
           color: "text.primary",
+          fontSize: { xs: "1.5rem", sm: "2.125rem" },
+          lineHeight: 1.1,
+          mb: { xs: 1, sm: 2 },
         }}
-        gutterBottom
       >
         Order History
       </Typography>
-      <Typography color="text.secondary" sx={{ mb: 4 }}>
+      <Typography
+        color="text.secondary"
+        sx={{ mb: 4, fontSize: { xs: "0.9rem", sm: "1rem" } }}
+      >
         Welcome back, {user?.name || user?.email}. Here are your previous
         purchases.
       </Typography>
@@ -81,6 +88,9 @@ export default function HistoryPage() {
               bgcolor: "primary.main",
               color: "background.paper",
               borderRadius: 0,
+              fontSize: { xs: "0.8rem", sm: "0.875rem" },
+              px: { xs: 2, sm: 3 },
+              py: { xs: 1, sm: 1.5 },
               "&:hover": {
                 bgcolor: "action.hover",
                 color: "text.primary",

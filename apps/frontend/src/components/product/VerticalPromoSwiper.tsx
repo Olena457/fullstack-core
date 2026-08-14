@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Box } from "@mui/material";
@@ -9,10 +10,10 @@ interface PromoItem {
 }
 
 const promoItems: PromoItem[] = [
-  { id: "1", image: "/promo/discount1.jpg", alt: "Discount 20%" },
-  { id: "2", image: "/promo/discount2.jpg", alt: "New Arrival" },
-  { id: "3", image: "/promo/discount3.jpg", alt: "Summer Sale" },
-  { id: "4", image: "/promo/discount4.jpg", alt: "Limited Edition" },
+  { id: "2", image: "/images/man.jpg", alt: "New Arrival" },
+  { id: "1", image: "/images/white.jpg", alt: "Discount 20%" },
+  { id: "3", image: "/images/one.jpg", alt: "Summer Sale" },
+  { id: "4", image: "/images/new.jpg", alt: "Limited Edition" },
 ];
 
 export const VerticalPromoSwiper = () => {
@@ -26,7 +27,7 @@ export const VerticalPromoSwiper = () => {
         "@media (min-width: 1024px)": {
           maxWidth: "228px",
         },
-        height: "486px",
+        height: { xs: "500px", sm: "700px", md: "496px" },
         overflow: "hidden",
         position: { md: "sticky" },
         mt: { xs: 2, md: "40px" },
@@ -38,7 +39,7 @@ export const VerticalPromoSwiper = () => {
           display: "flex",
           flexDirection: "column",
           gap: 2,
-          animation: "verticalScroll 15s linear infinite",
+          animation: "verticalScroll 40s linear infinite",
           "@keyframes verticalScroll": {
             "0%": { transform: "translateY(0)" },
             "100%": { transform: "translateY(calc(-50% - 8px))" },
@@ -51,12 +52,13 @@ export const VerticalPromoSwiper = () => {
         {infiniteItems.map((item, index) => (
           <Box
             key={`${item.id}-${index}`}
-            // component="img"
-            // src={item.image}
-            // alt={item.alt}
+            component="img"
+            src={item.image}
+            alt={item.alt}
             sx={{
               width: "100%",
-              height: "140px",
+              height: { xs: "auto", md: "140px" },
+              objectFit: { xs: "contain", md: "cover" },
               display: "block",
               borderRadius: 0,
               cursor: "pointer",

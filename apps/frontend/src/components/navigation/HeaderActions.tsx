@@ -37,8 +37,8 @@ export const HeaderActions = () => {
           xs: "none",
           md: "flex",
         },
-        alignItems: "stretch", 
-        height: "100%", 
+        alignItems: "stretch",
+        height: "100%",
         fontSize: "16px",
       }}
     >
@@ -70,8 +70,7 @@ export const HeaderActions = () => {
               "& .MuiBadge-badge": {
                 borderRadius: 0,
                 fontWeight: "bold",
-                border: 1,
-                borderColor: "divider",
+                bgcolor: "#ff4500"
               },
             }}
           >
