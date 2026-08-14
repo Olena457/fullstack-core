@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Box, Drawer, IconButton, Typography, Badge } from "@mui/material";
@@ -6,7 +7,9 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuthStore } from "../../../src/store/authStore";
 import { useCartStore } from "../../../src/store/cartStore";
+import { useThemeStore } from "../../../src/store/themeStore"; 
 import { useState, useEffect } from "react";
+import { ThemeToggle } from "./ThemeToggle"; 
 
 import type { MobileMenuProps, MobileMenuItemProps } from "../../types/mobileMenu";
 
@@ -52,6 +55,7 @@ export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
   const totalItems = items.reduce((sum, item) => sum + item.cartQuantity, 0);
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
+  const toggleTheme = useThemeStore((state) => state.toggleTheme); 
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -83,13 +87,15 @@ export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "flex-end",
+          justifyContent: "space-between", 
           alignItems: "center",
           p: 2,
           borderBottom: 2,
           borderColor: "divider",
         }}
       >
+        <ThemeToggle onToggle={toggleTheme} /> 
+        
         <IconButton
           onClick={onClose}
           sx={{
@@ -100,7 +106,7 @@ export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
             "&:hover": { bgcolor: "action.hover" },
           }}
         >
-          <X size={28} strokeWidth={2.5} />
+          <X size={16} strokeWidth={2} />
         </IconButton>
       </Box>
 

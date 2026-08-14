@@ -46,7 +46,10 @@ export const Header = () => {
           <Logo />
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            <ThemeToggle onToggle={toggleTheme} />
+            {/* Ховаємо перемикач на мобільному */}
+            <Box sx={{ display: { xs: "none", md: "block" } }}>
+              <ThemeToggle onToggle={toggleTheme} />
+            </Box>
 
             {/*burger button*/}
             <IconButton
@@ -62,7 +65,7 @@ export const Header = () => {
               }}
               aria-label="open drawer"
             >
-              <Menu size={24} strokeWidth={2.5} />
+              <Menu size={26} strokeWidth={1} />
             </IconButton>
           </Box>
         </Toolbar>

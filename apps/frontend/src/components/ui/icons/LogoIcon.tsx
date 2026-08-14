@@ -9,7 +9,8 @@ interface LogoIconProps {
 export const LogoIcon = ({
   width = 40,
   height = 40,
-  color = "#FF3E00", 
+  color = "#FF4500", 
+  
 }: LogoIconProps) => {
   return (
     <Box

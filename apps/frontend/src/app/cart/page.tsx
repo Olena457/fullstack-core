@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useEffect, useState } from "react";
@@ -31,17 +32,22 @@ export default function CartPage() {
     return (
       <Box
         sx={{
-          p: 4,
+          p: { xs: 2, sm: 4 }, 
           maxWidth: "1400px",
           mx: "auto",
           textAlign: "center",
-          mt: 10,
+          mt: { xs: 5, sm: 10 },
           color: "text.primary",
         }}
       >
         <Typography
           variant="h4"
-          sx={{ fontWeight: 900, textTransform: "uppercase", mb: 2 }}
+          sx={{ 
+            fontWeight: 900, 
+            textTransform: "uppercase", 
+            mb: 2,
+            fontSize: { xs: "1.5rem", sm: "2.125rem" } 
+          }}
         >
           Your cart is empty
         </Typography>
@@ -52,9 +58,10 @@ export default function CartPage() {
               bgcolor: "primary.main",
               color: "background.paper",
               borderRadius: 0,
-              px: 4,
-              py: 1.5,
+              px: { xs: 3, sm: 4 },
+              py: { xs: 1, sm: 1.5 },
               fontWeight: "bold",
+              fontSize: { xs: "0.8rem", sm: "0.875rem" },
               transition: "all 0.2s ease",
               "&:hover": {
                 bgcolor: "action.hover",
@@ -70,10 +77,15 @@ export default function CartPage() {
   }
 
   return (
-    <Box sx={{ p: 4, maxWidth: "1400px", mx: "auto", color: "text.primary" }}>
+    <Box sx={{ p: { xs: 2, sm: 4 }, maxWidth: "1400px", mx: "auto", color: "text.primary" }}>
       <Typography
         variant="h4"
-        sx={{ fontWeight: 900, textTransform: "uppercase", mb: 3 }}
+        sx={{ 
+          fontWeight: 900, 
+          textTransform: "uppercase", 
+          mb: { xs: 2, sm: 3 },
+          fontSize: { xs: "1.5rem", sm: "2.125rem" } 
+        }}
       >
         Shopping Cart
       </Typography>
@@ -81,7 +93,7 @@ export default function CartPage() {
       <Box
         sx={{
           display: "flex",
-          gap: 6,
+          gap: { xs: 3, lg: 6 },
           flexDirection: { xs: "column", lg: "row" },
         }}
       >

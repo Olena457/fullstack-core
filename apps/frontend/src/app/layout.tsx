@@ -20,6 +20,9 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "ALTEREGO| Streetwear",
   description: "Define your style. No compromises.",
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 export default function RootLayout({
