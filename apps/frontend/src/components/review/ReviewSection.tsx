@@ -1,3 +1,4 @@
+
 import { Box, Typography, Rating } from "@mui/material";
 import type { Review } from "../../types/review";
 
@@ -7,32 +8,49 @@ interface ReviewSectionProps {
 
 export const ReviewSection = ({ reviews }: ReviewSectionProps) => {
   return (
-    <Box sx={{ mt: 8, borderTop: 2, borderColor: "divider", pt: 4 }}>
+    <Box
+      sx={{
+        mt: { xs: 4, sm: 8 },
+        borderTop: 2,
+        borderColor: "divider",
+        pt: { xs: 2, sm: 4 },
+      }}
+    >
       <Typography
         variant="h5"
         sx={{
           fontWeight: 900,
           textTransform: "uppercase",
-          mb: 4,
+          mb: { xs: 3, sm: 4 },
           color: "text.primary",
+          fontSize: { xs: "1.25rem", sm: "1.5rem" },
         }}
       >
         Reviews ({reviews.length})
       </Typography>
 
       {reviews.length === 0 ? (
-        <Typography color="text.secondary">
-          No reviews yet for this product.
+        <Typography
+          color="text.secondary"
+          sx={{ fontSize: { xs: "0.9rem", sm: "1rem" } }}
+        >
+          No reviews yet. Be the first to share your thoughts!
         </Typography>
       ) : (
-        <Box sx={{ display: "flex", flexDirection: "column", gap: 3 }}>
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            gap: { xs: 2, sm: 3 },
+          }}
+        >
           {reviews.map((review) => (
             <Box
               key={review.id}
               sx={{
                 border: 1,
                 borderColor: "divider",
-                p: 3,
+                p: { xs: 2, sm: 3 },
                 borderRadius: 0,
               }}
             >
@@ -40,8 +58,10 @@ export const ReviewSection = ({ reviews }: ReviewSectionProps) => {
                 sx={{
                   display: "flex",
                   justifyContent: "space-between",
-                  alignItems: "center",
+                  alignItems: { xs: "flex-start", sm: "center" },
                   mb: 1,
+                  flexWrap: "wrap",
+                  gap: 1,
                 }}
               >
                 <Typography
@@ -49,6 +69,7 @@ export const ReviewSection = ({ reviews }: ReviewSectionProps) => {
                     fontWeight: "bold",
                     textTransform: "uppercase",
                     color: "text.primary",
+                    fontSize: { xs: "0.9rem", sm: "1rem" },
                   }}
                 >
                   {review.userName}
@@ -70,7 +91,12 @@ export const ReviewSection = ({ reviews }: ReviewSectionProps) => {
 
               <Typography
                 variant="body2"
-                sx={{ mt: 1.5, lineHeight: 1.6, color: "text.primary" }}
+                sx={{
+                  mt: 1.5,
+                  lineHeight: 1.6,
+                  color: "text.primary",
+                  fontSize: { xs: "0.875rem", sm: "1rem" },
+                }}
               >
                 {review.comment}
               </Typography>

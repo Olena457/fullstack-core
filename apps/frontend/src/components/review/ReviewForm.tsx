@@ -57,7 +57,7 @@ export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
         mb: 6,
         border: 1,
         borderColor: "divider",
-        p: 4,
+        p: { xs: 2, sm: 4 },
       }}
     >
       <Typography
@@ -101,6 +101,11 @@ export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
         value={comment}
         onChange={(e) => setComment(e.target.value)}
         disabled={isLoading}
+        slotProps={{
+          htmlInput: {
+            maxLength: 500,
+          },
+        }}
         sx={{
           mb: 3,
           "& .MuiOutlinedInput-root": { borderRadius: 0 },
@@ -122,6 +127,7 @@ export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
           bgcolor: "primary.main",
           color: "background.paper",
           fontWeight: "bold",
+          width: { xs: "100%", sm: "auto" },
           px: 5,
           py: 1.5,
           textTransform: "uppercase",

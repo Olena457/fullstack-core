@@ -1,4 +1,5 @@
 
+
 "use client";
 
 import { useState } from "react";
@@ -32,13 +33,15 @@ export default function ReviewPage() {
   }
 
   return (
-    <Box sx={{ p: 4, maxWidth: "800px", margin: "0 auto" }}>
+    <Box sx={{ p: { xs: 2, sm: 4 }, maxWidth: "800px", margin: "0 auto" }}>
       <Box
         sx={{
           display: "flex",
+          flexDirection: { xs: "column", sm: "row" }, 
           justifyContent: "space-between",
-          alignItems: "center",
-          mb: 6,
+          alignItems: { xs: "flex-start", sm: "center" },
+          gap: { xs: 2, sm: 0 },
+          mb: { xs: 4, sm: 6 },
         }}
       >
         <Typography
@@ -47,6 +50,8 @@ export default function ReviewPage() {
             fontWeight: 900,
             textTransform: "uppercase",
             color: "text.primary",
+            fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3rem" }, 
+            lineHeight: 1.1,
           }}
         >
           Store Reviews
@@ -61,8 +66,10 @@ export default function ReviewPage() {
               bgcolor: "primary.main",
               color: "background.paper",
               fontWeight: "bold",
-              px: 3,
-              py: 1,
+              px: { xs: 2, sm: 3 },
+              py: { xs: 1.5, sm: 1 },
+              width: { xs: "100%", sm: "auto" }, 
+              fontSize: { xs: "0.875rem", sm: "1rem" },
               "&:hover": { bgcolor: "action.hover", color: "text.primary" },
             }}
           >
@@ -74,10 +81,10 @@ export default function ReviewPage() {
       {showForm && isAuthenticated && (
         <Box
           sx={{
-            mb: 6,
+            mb: { xs: 4, sm: 6 },
             border: 2,
             borderColor: "text.primary",
-            p: 3,
+            p: { xs: 2, sm: 3 }, 
             bgcolor: "background.paper",
           }}
         >
@@ -90,8 +97,8 @@ export default function ReviewPage() {
           sx={{
             border: 1,
             borderColor: "divider",
-            p: 4,
-            mb: 6,
+            p: { xs: 3, sm: 4 },
+            mb: { xs: 4, sm: 6 },
             textAlign: "center",
             bgcolor: "background.default", 
           }}
@@ -103,11 +110,12 @@ export default function ReviewPage() {
               textTransform: "uppercase",
               mb: 1,
               color: "text.primary",
+              fontSize: { xs: "1.2rem", sm: "1.25rem" },
             }}
           >
             Share your feedback
           </Typography>
-          <Typography sx={{ mb: 3, color: "text.secondary" }}>
+          <Typography sx={{ mb: 3, color: "text.secondary", fontSize: { xs: "0.9rem", sm: "1rem" } }}>
             You must be logged in to leave a store review.
           </Typography>
           <Link href="/login" passHref style={{ textDecoration: "none" }}>
@@ -118,7 +126,9 @@ export default function ReviewPage() {
                 bgcolor: "primary.main",
                 color: "background.paper",
                 fontWeight: "bold",
-                px: 4,
+                px: { xs: 3, sm: 4 },
+                py: { xs: 1.5, sm: 1 },
+                width: { xs: "100%", sm: "auto" }, 
                 "&:hover": { bgcolor: "action.hover", color: "text.primary" },
               }}
             >
@@ -129,15 +139,15 @@ export default function ReviewPage() {
       )}
 
       {isLoading ? (
-        <Typography sx={{ fontWeight: "bold", color: "text.primary" }}>
+        <Typography sx={{ fontWeight: "bold", color: "text.primary", fontSize: { xs: "0.9rem", sm: "1rem" } }}>
           LOADING REVIEWS...
         </Typography>
       ) : error ? (
-        <Typography sx={{ color: "error.main", fontWeight: "bold" }}>
+        <Typography sx={{ color: "error.main", fontWeight: "bold", fontSize: { xs: "0.9rem", sm: "1rem" } }}>
           {error}
         </Typography>
       ) : reviews.length === 0 ? (
-        <Typography sx={{ fontWeight: "bold", color: "text.secondary" }}>
+        <Typography sx={{ fontWeight: "bold", color: "text.secondary", fontSize: { xs: "0.9rem", sm: "1rem" } }}>
           NO REVIEWS YET. BE THE FIRST TO LEAVE ONE!
         </Typography>
       ) : (

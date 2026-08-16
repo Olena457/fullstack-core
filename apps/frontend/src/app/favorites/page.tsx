@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Box, Typography, CircularProgress, Button } from "@mui/material";
@@ -10,7 +9,6 @@ import { useFavoritesStore } from "../../store/favoritesStore";
 import { useAuthStore } from "../../store/authStore";
 import { useStore } from "../../hooks/useStore";
 import type { Product } from "../../types/product";
-
 
 export default function FavoritesPage() {
   const router = useRouter();
@@ -39,15 +37,26 @@ export default function FavoritesPage() {
 
       setIsLoading(true);
       try {
-        const promises = favorites.map((id) =>
-          fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`).then(
-            (res) => res.json(),
-          ),
-        );
+        const promises = favorites.map(async (id) => {
+          try {
+            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`);
+            
+            if (!res.ok) {
+              console.warn(`Product not found with ID: ${id}. Status: ${res.status}`);
+              return null;
+            }
+            
+            return await res.json();
+          } catch (err) {
+            console.error(`Error fetching product ${id}:`, err);
+            return null;
+          }
+        });
+
         const productsData = await Promise.all(promises);
         setFavoriteProducts(productsData.filter(Boolean));
       } catch (error) {
-        console.error("Failed to fetch favorites", error);
+        console.error("Failed to process favorites", error);
       } finally {
         setIsLoading(false);
       }
@@ -80,7 +89,6 @@ export default function FavoritesPage() {
         minHeight: "100vh",
       }}
     >
-      {/* 1. Зменшений заголовок h5 замість h4 і цифри без дужок */}
       <Typography
         variant="h5"
         sx={{
@@ -90,10 +98,10 @@ export default function FavoritesPage() {
           letterSpacing: "-0.03em",
         }}
       >
-        Favorites {favorites.length}
+        Favorites {favoriteProducts.length}
       </Typography>
 
-      {favorites.length === 0 ? (
+      {favoriteProducts.length === 0 ? (
         <Box sx={{ textAlign: "center", py: 10 }}>
           <Typography color="text.secondary" sx={{ mb: 3 }}>
             You haven&#39;t saved any items yet.
@@ -117,7 +125,6 @@ export default function FavoritesPage() {
           </Link>
         </Box>
       ) : (
-        /* 2. Фікс ширини карток через minmax(0, 1fr) */
         <Box
           sx={{
             display: "grid",

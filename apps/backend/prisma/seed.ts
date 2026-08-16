@@ -338,51 +338,40 @@ async function main() {
     data: productsData,
   });
 
-  console.log(' Creating reviews...');
-  const hoodie = await prisma.product.findUnique({ where: { sku: 'ALT-HOD-003' } });
-  const pants = await prisma.product.findUnique({ where: { sku: 'ALT-CRG-005' } });
-  const jacket = await prisma.product.findUnique({ where: { sku: 'ALT-JKT-004' } });
+  console.log('Creating reviews...');
 
-  if (hoodie && pants && jacket) {
-    await prisma.review.createMany({
-      data: [
-        {
-          text: 'The quality of the clothing is exceptional. I love the sustainable approach and eco-friendly dyes.',
-          rating: 5,
-          userId: user1.id,
-          productId: hoodie.id,
-        },
-        {
-          text: 'Shipping was super fast and packaging was completely plastic-free. Great customer service!',
-          rating: 5,
-          userId: user2.id,
-          productId: pants.id,
-        },
-        {
-          text: 'I caught their seasonal sale and got incredible value. Best online store for high-end streetwear.',
-          rating: 5,
-          userId: user1.id,
-          productId: jacket.id,
-        },
-        {
-          text: 'Everything I ordered arrived on time. The product details are accurate and the service is reliable.',
-          rating: 5,
-          userId: user2.id,
-          productId: hoodie.id,
-        },
-        {
-          text: 'Excellent service! They notified me immediately when my size was back in stock.',
-          rating: 5,
-          userId: user1.id,
-          productId: pants.id,
-        },
-      ],
-    });
-  }
+  await prisma.review.createMany({
+    data: [
+      {
+        text: 'The quality of the clothing is exceptional. I love the sustainable approach and eco-friendly dyes.',
+        rating: 5,
+        userId: user1.id,
+      },
+      {
+        text: 'Shipping was super fast and packaging was completely plastic-free. Great customer service!',
+        rating: 5,
+        userId: user2.id,
+      },
+      {
+        text: 'I caught their seasonal sale and got incredible value. Best online store for high-end streetwear.',
+        rating: 5,
+        userId: user1.id,
+      },
+      {
+        text: 'Everything I ordered arrived on time. The product details are accurate and the service is reliable.',
+        rating: 5,
+        userId: user2.id,
+      },
+      {
+        text: 'Excellent service! They notified me immediately when my size was back in stock.',
+        rating: 5,
+        userId: user1.id,
+      },
+    ],
+  });
 
   console.log('E-commerce seed completed.');
 }
-
 main()
   .catch((error) => {
     console.error(error);

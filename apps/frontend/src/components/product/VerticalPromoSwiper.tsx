@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Box } from "@mui/material";
@@ -23,13 +22,17 @@ export const VerticalPromoSwiper = () => {
     <Box
       sx={{
         width: "100%",
-        maxWidth: { xs: "100%", md: "240px" },
-        "@media (min-width: 1024px)": {
-          maxWidth: "228px",
+        maxWidth: "100%",
+        height: {
+          xs: "500px",
+          sm: "700px",
+          md: "calc(100vh - 250px)",
+          lg: "calc(100vh - 200px)",
         },
-        height: { xs: "500px", sm: "700px", md: "496px" },
+        minHeight: { md: "600px", lg: "750px" },
         overflow: "hidden",
         position: { md: "sticky" },
+        top: { md: "100px" },
         mt: { xs: 2, md: "40px" },
         display: "block",
       }}
@@ -57,8 +60,8 @@ export const VerticalPromoSwiper = () => {
             alt={item.alt}
             sx={{
               width: "100%",
-              height: { xs: "auto", md: "140px" },
-              objectFit: { xs: "contain", md: "cover" },
+              height: "auto",
+              objectFit: "contain",
               display: "block",
               borderRadius: 0,
               cursor: "pointer",

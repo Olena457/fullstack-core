@@ -1,14 +1,23 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateReviewDto } from './dto/create-review.dto';
-
+import sanitizeHtml from 'sanitize-html';
 @Injectable()
 export class ReviewsService {
   constructor(private readonly prisma: PrismaService) {}
 
-  async create(createReviewDto: CreateReviewDto) {
+  async create(createReviewDto: CreateReviewDto, userId: string) {
+    const cleanText = sanitizeHtml(createReviewDto.text, {
+      allowedTags: [],
+      allowedAttributes: {},
+    });
+
     return this.prisma.review.create({
-      data: createReviewDto,
+      data: {
+        ...createReviewDto,
+        text: cleanText,
+        userId: userId,
+      },
       include: {
         user: { select: { name: true, email: true } },
       },
@@ -18,6 +27,16 @@ export class ReviewsService {
   async findAllByProduct(productId: string) {
     return this.prisma.review.findMany({
       where: { productId },
+      include: {
+        user: { select: { name: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async findAllStoreReviews() {
+    return this.prisma.review.findMany({
+      where: { productId: null },
       include: {
         user: { select: { name: true } },
       },

@@ -1,14 +1,27 @@
-import { Controller, Get, Post, Body, Param, Delete, ParseIntPipe } from '@nestjs/common';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Param,
+  Delete,
+  ParseIntPipe,
+  UseGuards,
+  Req,
+} from '@nestjs/common';
 import { ReviewsService } from './reviews.service';
 import { CreateReviewDto } from './dto/create-review.dto';
+import { JwtAuthGuard } from '../auth/guards/jwt-auth.guard';
 
 @Controller('reviews')
 export class ReviewsController {
   constructor(private readonly reviewsService: ReviewsService) {}
 
+  @UseGuards(JwtAuthGuard)
   @Post()
-  create(@Body() createReviewDto: CreateReviewDto) {
-    return this.reviewsService.create(createReviewDto);
+  create(@Req() req: { user: { id: string } }, @Body() createReviewDto: CreateReviewDto) {
+    const userId = req.user.id;
+    return this.reviewsService.create(createReviewDto, userId);
   }
 
   @Get('product/:productId')
@@ -16,6 +29,12 @@ export class ReviewsController {
     return this.reviewsService.findAllByProduct(productId);
   }
 
+  @Get('store')
+  findAllStoreReviews() {
+    return this.reviewsService.findAllStoreReviews();
+  }
+
+  @UseGuards(JwtAuthGuard)
   @Delete(':id')
   remove(@Param('id', ParseIntPipe) id: number) {
     return this.reviewsService.remove(id);
