@@ -46,7 +46,6 @@ export const Header = () => {
           <Logo />
 
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
-            {/* Ховаємо перемикач на мобільному */}
             <Box sx={{ display: { xs: "none", md: "block" } }}>
               <ThemeToggle onToggle={toggleTheme} />
             </Box>

@@ -6,8 +6,13 @@ import type { CartItem } from "../types/cart";
 export interface CartStore {
   items: CartItem[];
   addToCart: (product: Product, size?: string, color?: string) => void;
-  removeItem: (productId: string) => void;
-  updateQuantity: (productId: string, quantity: number) => void;
+  removeItem: (productId: string, size?: string, color?: string) => void;
+  updateQuantity: (
+    productId: string,
+    size: string | undefined,
+    color: string | undefined,
+    quantity: number,
+  ) => void;
   clearCart: () => void;
   getTotalPrice: () => number;
 }
@@ -51,16 +56,27 @@ export const useCartStore = create<CartStore>()(
         });
       },
 
-      removeItem: (productId) => {
+      removeItem: (productId, size, color) => {
         set((state) => ({
-          items: state.items.filter((item) => item.id !== productId),
+          items: state.items.filter(
+            (item) =>
+              !(
+                item.id === productId &&
+                item.selectedSize === size &&
+                item.selectedColor === color
+              ),
+          ),
         }));
       },
 
-      updateQuantity: (productId, quantity) => {
+      updateQuantity: (productId, size, color, quantity) => {
         set((state) => ({
           items: state.items.map((item) =>
-            item.id === productId ? { ...item, cartQuantity: quantity } : item,
+            item.id === productId &&
+            item.selectedSize === size &&
+            item.selectedColor === color
+              ? { ...item, cartQuantity: quantity }
+              : item,
           ),
         }));
       },

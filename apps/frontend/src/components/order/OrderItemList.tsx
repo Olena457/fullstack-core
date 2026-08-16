@@ -12,7 +12,7 @@ export const OrderItemList = () => {
     <Box sx={{ flexGrow: 1 }}>
       {items.map((item) => (
         <Box
-          key={item.id}
+          key={`${item.id}-${item.selectedSize}-${item.selectedColor}`}
           sx={{
             display: "flex",
             flexDirection: { xs: "column", sm: "row" },
@@ -21,11 +21,10 @@ export const OrderItemList = () => {
             mb: 3,
             p: { xs: 2, sm: 3 },
             border: 1,
-            borderColor: "divider", 
+            borderColor: "divider",
           }}
         >
           <Box sx={{ flexGrow: 1, width: "100%" }}>
-           
             <Typography
               sx={{
                 fontWeight: 900,
@@ -72,7 +71,14 @@ export const OrderItemList = () => {
               type="number"
               size="small"
               value={item.cartQuantity}
-              onChange={(e) => updateQuantity(item.id, Number(e.target.value))}
+              onChange={(e) =>
+                updateQuantity(
+                  item.id,
+                  item.selectedSize,
+                  item.selectedColor,
+                  Number(e.target.value),
+                )
+              }
               slotProps={{ htmlInput: { min: 1, step: 1 } }}
               sx={{
                 width: { xs: "70px", sm: "80px" },
@@ -90,7 +96,9 @@ export const OrderItemList = () => {
               ${(item.price * item.cartQuantity).toFixed(2)}
             </Typography>
             <IconButton
-              onClick={() => removeItem(item.id)}
+              onClick={() =>
+                removeItem(item.id, item.selectedSize, item.selectedColor)
+              }
               sx={{
                 color: "text.primary",
                 borderRadius: 0,

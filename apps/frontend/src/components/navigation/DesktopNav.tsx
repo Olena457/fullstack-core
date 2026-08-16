@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation";
 export const DesktopNav = ({ isHome }: { isHome: boolean }) => {
   const pathname = usePathname();
 
-  const navItems = ["HOME", "PRODUCTS", "REVIEW"];
+  const navItems = ["HOME","REVIEW","PRODUCTS"];
   if (isHome) {
     navItems.push("ABOUT");
   }

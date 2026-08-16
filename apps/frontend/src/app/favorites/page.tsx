@@ -39,14 +39,25 @@ export default function FavoritesPage() {
       try {
         const promises = favorites.map(async (id) => {
           try {
-            const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/products/${id}`);
-            
+            const res = await fetch(
+              `${process.env.NEXT_PUBLIC_API_URL}/products/${id}`,
+            );
+
             if (!res.ok) {
-              console.warn(`Product not found with ID: ${id}. Status: ${res.status}`);
+              console.warn(
+                `Product not found with ID: ${id}. Status: ${res.status}`,
+              );
               return null;
             }
-            
-            return await res.json();
+
+            const text = await res.text();
+
+            if (!text) {
+              console.warn(`Empty response for product ID: ${id}`);
+              return null;
+            }
+
+            return JSON.parse(text);
           } catch (err) {
             console.error(`Error fetching product ${id}:`, err);
             return null;
@@ -54,6 +65,7 @@ export default function FavoritesPage() {
         });
 
         const productsData = await Promise.all(promises);
+
         setFavoriteProducts(productsData.filter(Boolean));
       } catch (error) {
         console.error("Failed to process favorites", error);
