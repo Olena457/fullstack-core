@@ -55,7 +55,7 @@ export const FilterSidebar = ({
   };
 
   return (
-    <Box sx={{ pr: { md: 4 } }}>
+    <Box sx={{ width: "100%" }}>
       <SearchInput value={search} onChange={onSearchChange} />
 
       <FormControl fullWidth sx={{ mb: 4 }}>

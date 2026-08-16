@@ -23,17 +23,11 @@ export const VerticalPromoSwiper = () => {
       sx={{
         width: "100%",
         maxWidth: "100%",
-        height: {
-          xs: "500px",
-          sm: "700px",
-          md: "calc(100vh - 250px)",
-          lg: "calc(100vh - 200px)",
-        },
-        minHeight: { md: "600px", lg: "750px" },
+        height: { xs: "500px", md: "365px", lg: "450px" },
         overflow: "hidden",
         position: { md: "sticky" },
         top: { md: "100px" },
-        mt: { xs: 2, md: "40px" },
+        mt: { xs: 2, md: "38px" },
         display: "block",
       }}
     >

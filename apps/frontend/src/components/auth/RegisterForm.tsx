@@ -52,7 +52,7 @@ export const RegisterForm = ({
       }}
     >
       <Typography
-        variant="h4"
+        variant="h5"
         sx={(theme) => ({
           fontWeight: 900,
           textTransform: "uppercase",
@@ -60,8 +60,11 @@ export const RegisterForm = ({
           textAlign: "center",
           color: theme.palette.mode === "dark" ? "#b3b3b3" : "text.primary", 
           fontSize: {
-            xs: "1.75rem",
-            sm: "2.125rem", 
+            xs: "1rem",
+            md: "1.25rem",
+            sm: "1.5rem", 
+            lg: "1.75rem",
+            
           },
         })}
       >
