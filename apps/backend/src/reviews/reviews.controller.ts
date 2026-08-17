@@ -24,14 +24,19 @@ export class ReviewsController {
     return this.reviewsService.create(createReviewDto, userId);
   }
 
-  @Get('product/:productId')
-  findAllByProduct(@Param('productId') productId: string) {
-    return this.reviewsService.findAllByProduct(productId);
+  @Get()
+  findAllReviewsDefault() {
+    return this.reviewsService.findAllStoreReviews();
   }
 
   @Get('store')
   findAllStoreReviews() {
     return this.reviewsService.findAllStoreReviews();
+  }
+
+  @Get('product/:productId')
+  findAllByProduct(@Param('productId') productId: string) {
+    return this.reviewsService.findAllByProduct(productId);
   }
 
   @UseGuards(JwtAuthGuard)

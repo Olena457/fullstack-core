@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateReviewDto } from './dto/create-review.dto';
 import sanitizeHtml from 'sanitize-html';
+
 @Injectable()
 export class ReviewsService {
   constructor(private readonly prisma: PrismaService) {}
@@ -14,8 +15,9 @@ export class ReviewsService {
 
     return this.prisma.review.create({
       data: {
-        ...createReviewDto,
         text: cleanText,
+        rating: createReviewDto.rating,
+        productId: createReviewDto.productId || null,
         userId: userId,
       },
       include: {
@@ -46,9 +48,11 @@ export class ReviewsService {
 
   async remove(id: number) {
     const review = await this.prisma.review.findUnique({ where: { id } });
+
     if (!review) {
       throw new NotFoundException(`Review with id ${id} not found`);
     }
+
     await this.prisma.review.delete({ where: { id } });
     return { message: 'Review deleted successfully' };
   }

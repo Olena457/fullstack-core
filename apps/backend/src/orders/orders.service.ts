@@ -38,7 +38,11 @@ export class OrdersService {
         price_data: {
           currency: 'usd',
           product_data: {
-            name: `${dbProduct.title} ${item.size ? `(Size: ${item.size})` : ''}`,
+            name: `${dbProduct.title} ${
+              item.size || item.color
+                ? `(${[item.size && `Size: ${item.size}`, item.color && `Color: ${item.color}`].filter(Boolean).join(', ')})`
+                : ''
+            }`,
             images: [dbProduct.imageUrl],
           },
           unit_amount: Math.round(dbProduct.price * 100),

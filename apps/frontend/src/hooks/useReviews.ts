@@ -10,10 +10,15 @@ export const useReviews = (token: string | null) => {
   useEffect(() => {
     const fetchReviews = async () => {
       try {
-        const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews`);
+        const res = await fetch(
+          `${process.env.NEXT_PUBLIC_API_URL}/reviews/store`,
+        );
+
         if (res.ok) {
           const data = await res.json();
           setReviews(Array.isArray(data) ? data : []);
+        } else {
+          setError("COULD NOT LOAD REVIEWS.");
         }
       } catch (err) {
         console.error(err);
@@ -37,7 +42,7 @@ export const useReviews = (token: string | null) => {
       },
       body: JSON.stringify({
         rating: data.rating,
-        comment: data.comment,
+        text: data.comment,
       }),
     });
 

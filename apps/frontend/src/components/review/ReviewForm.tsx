@@ -87,7 +87,7 @@ export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
           onChange={(_, newValue) => setRating(newValue)}
           size="large"
           sx={{
-            color: "text.primary",
+            color: "text.secondary",
             "& .MuiRating-iconEmpty": { color: "action.disabled" },
           }}
         />

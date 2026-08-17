@@ -33,11 +33,11 @@ export default function ReviewPage() {
   }
 
   return (
-    <Box sx={{ p: { xs: 2, sm: 4 }, maxWidth: "800px", margin: "0 auto" }}>
+    <Box sx={{ p: { xs: 2, sm: 4 }, maxWidth: "1200px", margin: "0 auto" }}>
       <Box
         sx={{
           display: "flex",
-          flexDirection: { xs: "column", sm: "row" }, 
+          flexDirection: { xs: "column", sm: "row" },
           justifyContent: "space-between",
           alignItems: { xs: "flex-start", sm: "center" },
           gap: { xs: 2, sm: 0 },
@@ -50,7 +50,7 @@ export default function ReviewPage() {
             fontWeight: 900,
             textTransform: "uppercase",
             color: "text.primary",
-            fontSize: { xs: "1.5rem", sm: "2.5rem", md: "3rem" }, 
+            fontSize: { xs: "1.5rem", sm: "1.8rem", md: "2rem" },
             lineHeight: 1.1,
           }}
         >
@@ -66,10 +66,10 @@ export default function ReviewPage() {
               bgcolor: "primary.main",
               color: "background.paper",
               fontWeight: "bold",
-              px: { xs: 2, sm: 3 },
-              py: { xs: 1.5, sm: 1 },
-              width: { xs: "100%", sm: "auto" }, 
-              fontSize: { xs: "0.875rem", sm: "1rem" },
+              px: { xs: 2, sm: 2 },
+              py: { xs: 1.5, sm: 0.75 },
+              width: { xs: "100%", sm: "auto" },
+              fontSize: { xs: "0.875rem", sm: "0.85rem" },
               "&:hover": { bgcolor: "action.hover", color: "text.primary" },
             }}
           >
@@ -77,21 +77,19 @@ export default function ReviewPage() {
           </Button>
         )}
       </Box>
-
       {showForm && isAuthenticated && (
         <Box
           sx={{
             mb: { xs: 4, sm: 6 },
             border: 2,
             borderColor: "text.primary",
-            p: { xs: 2, sm: 3 }, 
+            p: { xs: 2, sm: 3 },
             bgcolor: "background.paper",
           }}
         >
           <ReviewForm onSubmit={onSubmitReview} />
         </Box>
       )}
-
       {!isAuthenticated && (
         <Box
           sx={{
@@ -100,7 +98,7 @@ export default function ReviewPage() {
             p: { xs: 3, sm: 4 },
             mb: { xs: 4, sm: 6 },
             textAlign: "center",
-            bgcolor: "background.default", 
+            bgcolor: "background.default",
           }}
         >
           <Typography
@@ -115,7 +113,13 @@ export default function ReviewPage() {
           >
             Share your feedback
           </Typography>
-          <Typography sx={{ mb: 3, color: "text.secondary", fontSize: { xs: "0.9rem", sm: "1rem" } }}>
+          <Typography
+            sx={{
+              mb: 3,
+              color: "text.secondary",
+              fontSize: { xs: "0.9rem", sm: "1rem" },
+            }}
+          >
             You must be logged in to leave a store review.
           </Typography>
           <Link href="/login" passHref style={{ textDecoration: "none" }}>
@@ -128,7 +132,7 @@ export default function ReviewPage() {
                 fontWeight: "bold",
                 px: { xs: 3, sm: 4 },
                 py: { xs: 1.5, sm: 1 },
-                width: { xs: "100%", sm: "auto" }, 
+                width: { xs: "100%", sm: "auto" },
                 "&:hover": { bgcolor: "action.hover", color: "text.primary" },
               }}
             >
@@ -137,17 +141,34 @@ export default function ReviewPage() {
           </Link>
         </Box>
       )}
-
       {isLoading ? (
-        <Typography sx={{ fontWeight: "bold", color: "text.primary", fontSize: { xs: "0.9rem", sm: "1rem" } }}>
+        <Typography
+          sx={{
+            fontWeight: "bold",
+            color: "text.primary",
+            fontSize: { xs: "0.9rem", sm: "1rem" },
+          }}
+        >
           LOADING REVIEWS...
         </Typography>
       ) : error ? (
-        <Typography sx={{ color: "error.main", fontWeight: "bold", fontSize: { xs: "0.9rem", sm: "1rem" } }}>
+        <Typography
+          sx={{
+            color: "error.main",
+            fontWeight: "bold",
+            fontSize: { xs: "0.9rem", sm: "1rem" },
+          }}
+        >
           {error}
         </Typography>
       ) : reviews.length === 0 ? (
-        <Typography sx={{ fontWeight: "bold", color: "text.secondary", fontSize: { xs: "0.9rem", sm: "1rem" } }}>
+        <Typography
+          sx={{
+            fontWeight: "bold",
+            color: "text.secondary",
+            fontSize: { xs: "0.9rem", sm: "1rem" },
+          }}
+        >
           NO REVIEWS YET. BE THE FIRST TO LEAVE ONE!
         </Typography>
       ) : (

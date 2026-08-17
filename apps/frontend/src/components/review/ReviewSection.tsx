@@ -1,12 +1,19 @@
 
-import { Box, Typography, Rating } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 import type { Review } from "../../types/review";
+import { ReviewCard } from "./ReviewCard";
 
 interface ReviewSectionProps {
   reviews: Review[];
+  currentUserId?: string | null;
+  onDeleteReview?: (id: number) => void;
 }
 
-export const ReviewSection = ({ reviews }: ReviewSectionProps) => {
+export const ReviewSection = ({
+  reviews,
+  currentUserId,
+  onDeleteReview,
+}: ReviewSectionProps) => {
   return (
     <Box
       sx={{
@@ -26,7 +33,7 @@ export const ReviewSection = ({ reviews }: ReviewSectionProps) => {
           fontSize: { xs: "1.25rem", sm: "1.5rem" },
         }}
       >
-        Reviews ({reviews.length})
+        REVIEWS {reviews.length}
       </Typography>
 
       {reviews.length === 0 ? (
@@ -39,68 +46,22 @@ export const ReviewSection = ({ reviews }: ReviewSectionProps) => {
       ) : (
         <Box
           sx={{
-            display: "flex",
-            flexDirection: "column",
+            display: "grid",
+            gridTemplateColumns: {
+              xs: "1fr",
+              sm: "repeat(2, 1fr)",
+              md: "repeat(3, 1fr)",
+            },
             gap: { xs: 2, sm: 3 },
           }}
         >
           {reviews.map((review) => (
-            <Box
+            <ReviewCard
               key={review.id}
-              sx={{
-                border: 1,
-                borderColor: "divider",
-                p: { xs: 2, sm: 3 },
-                borderRadius: 0,
-              }}
-            >
-              <Box
-                sx={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  alignItems: { xs: "flex-start", sm: "center" },
-                  mb: 1,
-                  flexWrap: "wrap",
-                  gap: 1,
-                }}
-              >
-                <Typography
-                  sx={{
-                    fontWeight: "bold",
-                    textTransform: "uppercase",
-                    color: "text.primary",
-                    fontSize: { xs: "0.9rem", sm: "1rem" },
-                  }}
-                >
-                  {review.userName}
-                </Typography>
-                <Typography variant="caption" color="text.secondary">
-                  {new Date(review.createdAt).toLocaleDateString()}
-                </Typography>
-              </Box>
-
-              <Rating
-                value={review.rating}
-                readOnly
-                size="small"
-                sx={{
-                  color: "text.primary",
-                  "& .MuiRating-iconEmpty": { color: "action.disabled" },
-                }}
-              />
-
-              <Typography
-                variant="body2"
-                sx={{
-                  mt: 1.5,
-                  lineHeight: 1.6,
-                  color: "text.primary",
-                  fontSize: { xs: "0.875rem", sm: "1rem" },
-                }}
-              >
-                {review.comment}
-              </Typography>
-            </Box>
+              review={review}
+              currentUserId={currentUserId}
+              onDelete={onDeleteReview}
+            />
           ))}
         </Box>
       )}
