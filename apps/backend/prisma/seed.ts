@@ -50,6 +50,43 @@ async function main() {
         'Engineered for the streets. Features reflective neon details and a rugged sole. Made in Italy with premium recycled materials.',
     },
     {
+      sku: 'ALT-SNK-010',
+      title: 'High-Top Crimson Sneakers',
+      price: 130.0,
+      oldPrice: 180.0,
+      imageUrl:
+        'https://images.unsplash.com/photo-1588117305388-c2631a279f82?auto=format&fit=crop&w=800&q=80',
+      sizes: ['M', 'L', 'XL'],
+      colors: ['Red', 'Black', 'White'],
+      gender: "Women's",
+      description:
+        'Make a statement. Bold high-top silhouette with premium vegan leather overlays and durable polyurethane sole.',
+    },
+    {
+      sku: 'ALT-TEE-024',
+      title: 'Pure White Basic Tee',
+      price: 25.0,
+      imageUrl:
+        'https://images.unsplash.com/photo-1616006897093-5e4635c0de35?auto=format&fit=crop&w=800&q=80',
+      sizes: ['S', 'M', 'L', 'XL'],
+      colors: ['White', 'Grey'],
+      gender: "Women's",
+      description:
+        'Clean and crisp. Crafted from breathable, thick-gauge cotton with a seamless construction for perfect fit.',
+    },
+    {
+      sku: 'ALT-JKT-004',
+      title: 'Concrete Jungle Essential Jacket',
+      price: 145.5,
+      imageUrl:
+        'https://images.unsplash.com/photo-1542406775-ade58c52d2e4?auto=format&fit=crop&w=800&q=80',
+      sizes: ['S', 'M', 'L'],
+      colors: ['Navy', 'Black', 'Grey'],
+      gender: "Men's",
+      description:
+        'Defy the elements. Natural fabric hoodie with classic pockets. 100% organic cotton. Designed and crafted in Germany.',
+    },
+    {
       sku: 'ALT-DNM-002',
       title: 'Vintage Wash Everyday Denim',
       price: 89.99,
@@ -73,18 +110,6 @@ async function main() {
       gender: 'Unisex',
       description:
         'Your new armor. Heavyweight cotton fleece with an oversized boxy fit. Printed with eco-friendly water-based inks.',
-    },
-    {
-      sku: 'ALT-JKT-004',
-      title: 'Concrete Jungle Essential Jacket',
-      price: 145.5,
-      imageUrl:
-        'https://images.unsplash.com/photo-1542406775-ade58c52d2e4?auto=format&fit=crop&w=800&q=80',
-      sizes: ['S', 'M', 'L'],
-      colors: ['Navy', 'Black', 'Grey'],
-      gender: "Men's",
-      description:
-        'Defy the elements. Water-resistant outer shell with tactical pockets. 100% ripstop nylon. Designed and tested in Germany.',
     },
     {
       sku: 'ALT-CRG-005',
@@ -125,18 +150,6 @@ async function main() {
         'The finishing touch. Ribbed beanie made from 50% merino wool and 50% acrylic for durability. Seamless technology.',
     },
     {
-      sku: 'ALT-TEE-008',
-      title: 'Classic Navy Crew Tee',
-      price: 29.99,
-      imageUrl:
-        'https://images.unsplash.com/photo-1650590122055-576096fde8f9?auto=format&fit=crop&w=800&q=80',
-      sizes: ['XS', 'S', 'M', 'L', 'XL'],
-      colors: ['Navy', 'White', 'Black'],
-      gender: 'Unisex',
-      description:
-        'The foundation of your wardrobe. Premium 100% combed cotton. Basic boxy fit. Dyed with eco-friendly pigments.',
-    },
-    {
       sku: 'ALT-TRS-009',
       title: 'Retro Flare Denim Trousers',
       price: 85.0,
@@ -147,19 +160,6 @@ async function main() {
       gender: "Women's",
       description:
         'Nostalgia reimagined. Flattering high-rise waist with a dramatic 70s-inspired flare cut. Stretchy fabric. Made in Morocco.',
-    },
-    {
-      sku: 'ALT-SNK-010',
-      title: 'High-Top Crimson Sneakers',
-      price: 130.0,
-      oldPrice: 180.0,
-      imageUrl:
-        'https://images.unsplash.com/photo-1588117305388-c2631a279f82?auto=format&fit=crop&w=800&q=80',
-      sizes: ['M', 'L', 'XL'],
-      colors: ['Red', 'Black', 'White'],
-      gender: "Men's",
-      description:
-        'Make a statement. Bold high-top silhouette with premium vegan leather overlays and durable polyurethane sole.',
     },
     {
       sku: 'ALT-VST-011',
@@ -209,18 +209,6 @@ async function main() {
       gender: 'Unisex',
       description:
         'Wearable art. Features an exclusive high-density plastisol print. Pattern applied with fade-resistant eco-inks.',
-    },
-    {
-      sku: 'ALT-JKT-015',
-      title: 'Crimson Peak Puffer Jacket',
-      price: 210.0,
-      imageUrl:
-        'https://images.unsplash.com/photo-1511474130345-b32b55925dd2?auto=format&fit=crop&w=800&q=80',
-      sizes: ['S', 'M', 'L'],
-      colors: ['Red', 'Black'],
-      gender: "Women's",
-      description:
-        'Command attention. Extreme oversized puffer jacket. 100% recycled eco-down (Thermolite) filling. Rated for sub-zero temperatures.',
     },
     {
       sku: 'ALT-PUL-016',
@@ -296,6 +284,18 @@ async function main() {
         'Old school soul, modern tech. Suede and mesh upper combined with a shock-absorbing EVA midsole. Breathable lining.',
     },
     {
+      sku: 'ALT-JKT-015',
+      title: 'Crimson Peak Puffer Jacket',
+      price: 210.0,
+      imageUrl:
+        'https://images.unsplash.com/photo-1511474130345-b32b55925dd2?auto=format&fit=crop&w=800&q=80',
+      sizes: ['S', 'M', 'L'],
+      colors: ['Red', 'Black', 'White'],
+      gender: 'Unisex',
+      description:
+        'Command attention. Extreme oversized summer T-shirt. 100% breathable cotton fabric. Perfect for hot temperatures.',
+    },
+    {
       sku: 'ALT-COA-022',
       title: 'Crimson Padded Coat',
       price: 199.99,
@@ -321,16 +321,16 @@ async function main() {
         'Street meets botanical. Lightweight windbreaker with unique digital sublimation floral print.',
     },
     {
-      sku: 'ALT-TEE-024',
-      title: 'Pure White Basic Tee',
-      price: 25.0,
+      sku: 'ALT-TEE-008',
+      title: 'Classic Navy Crew Tee',
+      price: 29.99,
       imageUrl:
-        'https://images.unsplash.com/photo-1616006897093-5e4635c0de35?auto=format&fit=crop&w=800&q=80',
-      sizes: ['S', 'M', 'L', 'XL'],
-      colors: ['White', 'Grey'],
+        'https://images.unsplash.com/photo-1650590122055-576096fde8f9?auto=format&fit=crop&w=800&q=80',
+      sizes: ['XS', 'S', 'M', 'L', 'XL'],
+      colors: ['Navy', 'White', 'Black'],
       gender: 'Unisex',
       description:
-        'Clean and crisp. Crafted from breathable, thick-gauge cotton with a seamless construction for perfect fit.',
+        'The foundation of your wardrobe. Premium 100% combed cotton. Basic boxy fit. Dyed with eco-friendly pigments.',
     },
   ];
 

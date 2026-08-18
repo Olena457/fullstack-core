@@ -85,11 +85,8 @@ export default function ProductDetailPage({ params }: ProductPageProps) {
             display: "flex",
             justifyContent: "center",
             alignItems: "center",
-
             overflow: "hidden",
             bgcolor: "transparent",
-            border: "1px solid",
-            borderColor: "divider",
             transition:
               "background-color 0.4s ease-out, border-color 0.4s ease-out",
 

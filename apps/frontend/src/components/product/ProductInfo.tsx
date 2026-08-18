@@ -65,7 +65,9 @@ export const ProductInfo = ({
             lineHeight: 1.2,
             width: "100%",
             cursor: "default",
-            
+            "&:hover": {
+              color: "action.hover",
+            },
           }}
         >
           {product.title}
@@ -155,7 +157,7 @@ export const ProductInfo = ({
       <Button
         variant="contained"
         onClick={onAddToCart}
-        sx={{
+        sx={(theme) => ({
           height: { xs: "46px", sm: "52px" },
           borderRadius: 0,
           bgcolor: isReadyToCart ? "primary.main" : "action.disabledBackground",
@@ -166,11 +168,13 @@ export const ProductInfo = ({
           whiteSpace: "nowrap",
           minWidth: 0,
           "&:hover": {
-            bgcolor: isReadyToCart
-              ? "action.hover"
-              : "action.disabledBackground",
+            // bgcolor: isReadyToCart
+            //   ? "action.hover"
+            //   : "action.disabledBackground",
+            bgcolor:
+              theme.palette.mode === "light" ? "action.hover" : "primary.main",
           },
-        }}
+       })}
       >
         {isReadyToCart ? "Add to Cart" : "Select Options"}
       </Button>
@@ -204,8 +208,8 @@ export const ProductInfo = ({
           height: { xs: "46px", sm: "52px" },
           width: { xs: "46px", sm: "52px" },
           borderRadius: 0,
-          border: 1,
-          borderColor: "divider",
+          boxShadow: 2,
+          bgcolor: isReadyToCart ? "primary.main" : "action.disabledBackground",
           color: isFav ? "secondary.main" : "text.secondary",
           transition: "all 0.2s ease",
           "&:hover": {
