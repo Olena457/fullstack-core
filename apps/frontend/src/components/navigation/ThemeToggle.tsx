@@ -16,12 +16,13 @@ export const ThemeToggle = ({ onToggle }: ThemeToggleProps) => {
       sx={{
         display: "flex",
         border: 1,
-        borderColor: "divider",
+        borderColor: "action.hover",
         cursor: "pointer",
         width: 56,
         height: 28,
         transition: "all 0.2s ease-in-out",
         "&:hover": {
+          
           borderColor: "secondary.main",
         },
       }}

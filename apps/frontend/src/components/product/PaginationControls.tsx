@@ -20,7 +20,7 @@ export const PaginationControls = ({ page, count, onChange }: Props) => {
         sx={{
           "& .MuiPaginationItem-root": {
             border: 1,
-            borderColor: "divider",
+            borderColor: "text",
             borderRadius: 0,
             color: "text.primary",
             fontWeight: "bold",
