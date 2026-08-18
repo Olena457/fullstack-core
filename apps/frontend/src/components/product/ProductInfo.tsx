@@ -168,9 +168,6 @@ export const ProductInfo = ({
           whiteSpace: "nowrap",
           minWidth: 0,
           "&:hover": {
-            // bgcolor: isReadyToCart
-            //   ? "action.hover"
-            //   : "action.disabledBackground",
             bgcolor:
               theme.palette.mode === "light" ? "action.hover" : "primary.main",
           },
