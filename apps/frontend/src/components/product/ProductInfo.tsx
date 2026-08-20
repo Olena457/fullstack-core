@@ -171,21 +171,26 @@ export const ProductInfo = ({
       <Button
         variant="contained"
         onClick={onAddToCart}
-        sx={(theme) => ({
+        sx={{
           height: { xs: "46px", sm: "52px" },
           borderRadius: 0,
-          bgcolor: isReadyToCart ? "primary.main" : "action.disabledBackground",
+          boxShadow: 2,
+          border: 1,
+          borderColor: isReadyToCart ? "primary.main" : "divider",
+          bgcolor: isReadyToCart ? "primary.main" : "background.paper",
           color: isReadyToCart ? "background.paper" : "text.secondary",
           fontWeight: "bold",
           fontSize: { xs: "0.7rem", sm: "1rem" },
           textTransform: "uppercase",
           whiteSpace: "nowrap",
           minWidth: 0,
+          transition: "all 0.2s ease",
           "&:hover": {
-            bgcolor:
-              theme.palette.mode === "light" ? "action.hover" : "primary.main",
+            bgcolor: isReadyToCart ? "primary.dark" : "action.hover",
+            borderColor: isReadyToCart ? "primary.dark" : "text.primary",
+            boxShadow: 4,
           },
-        })}
+        }}
       >
         {isReadyToCart ? "Add to Cart" : "Select Options"}
       </Button>
@@ -199,28 +204,36 @@ export const ProductInfo = ({
             borderRadius: 0,
             border: 1,
             borderColor: "divider",
+            boxShadow: 2,
+            bgcolor: "background.paper",
             color: "text.primary",
             px: { xs: 1, sm: 2 },
             fontWeight: "bold",
             fontSize: { xs: "0.7rem", sm: "1rem" },
             whiteSpace: "nowrap",
             minWidth: { xs: "auto", sm: "100px" },
-            "&:hover": { borderColor: "text.primary", bgcolor: "action.hover" },
+            transition: "all 0.2s ease",
+            "&:hover": {
+              borderColor: "text.primary",
+              bgcolor: "action.hover",
+              boxShadow: 4,
+            },
           }}
         >
           CANCEL
         </Button>
       )}
 
-      {/* FAVORITE BUTTON */}
       <IconButton
         onClick={onToggleFavorite}
         sx={(theme) => ({
           height: { xs: "46px", sm: "52px" },
           width: { xs: "46px", sm: "52px" },
           borderRadius: 0,
+          border: 1,
+          borderColor: "divider",
           boxShadow: 2,
-          bgcolor: isReadyToCart ? "primary.main" : "action.disabledBackground",
+          bgcolor: "background.paper",
           color: isFav ? "secondary.main" : "text.secondary",
           transition: "all 0.2s ease",
           "&:hover": {
@@ -228,6 +241,7 @@ export const ProductInfo = ({
               theme.palette.mode === "light" ? "action.hover" : "primary.main",
             borderColor: "text.primary",
             color: "secondary.main",
+            boxShadow: 4,
           },
         })}
       >

@@ -72,18 +72,15 @@ export const ContactWidget = () => {
               sx={{
                 bgcolor: "background.paper",
                 color: "text.primary",
-                border: 2,
-                borderColor: "primary.main",
+                border: 1,
+                borderColor: "divider",
                 px: 2,
-                py: 0.5,
-                fontWeight: 900,
+                py: 1,
+                fontWeight: "bold",
                 textTransform: "uppercase",
-                fontSize: "14px",
+                fontSize: "0.85rem",
                 whiteSpace: "nowrap",
-                boxShadow: (theme) =>
-                  theme.palette.mode === "light"
-                    ? "4px 4px 0px #000"
-                    : "4px 4px 0px #fff",
+                boxShadow: 2, 
               }}
             >
               {contact.label}
@@ -91,30 +88,26 @@ export const ContactWidget = () => {
 
             <Link href={contact.href} target="_blank" rel="noopener noreferrer">
               <IconButton
-                sx={{
+                sx={(theme) => ({
                   bgcolor: "background.paper",
                   color: "text.primary",
-                  border: 2,
-                  borderColor: "primary.main",
+                  border: 1,
+                  borderColor: "divider",
                   borderRadius: 0,
-                  width: 52,
-                  height: 52,
-                  boxShadow: (theme) =>
-                    theme.palette.mode === "light"
-                      ? "4px 4px 0px #000"
-                      : "4px 4px 0px #fff",
+                  width: { xs: 46, sm: 52 },
+                  height: { xs: 46, sm: 52 },
+                  boxShadow: 2, 
                   transition: "all 0.2s ease",
                   "&:hover": {
-                    bgcolor: "secondary.main",
-                    color: "#fff",
-                    borderColor: "secondary.main",
-                    transform: "translate(2px, 2px)",
-                    boxShadow: (theme) =>
+                    bgcolor:
                       theme.palette.mode === "light"
-                        ? "2px 2px 0px #000"
-                        : "2px 2px 0px #fff",
+                        ? "action.hover"
+                        : "primary.main",
+                    color: "secondary.main",
+                    borderColor: "primary.main",
+                    boxShadow: 4, 
                   },
-                }}
+                })}
               >
                 {contact.icon}
               </IconButton>
@@ -123,40 +116,36 @@ export const ContactWidget = () => {
         ))}
       </Box>
 
-      {/*button */}
+      {/* main button */}
       <IconButton
         onClick={() => setIsOpen(!isOpen)}
-        sx={{
+        sx={(theme) => ({
           pointerEvents: "auto",
-
           bgcolor: isOpen ? "secondary.main" : "background.paper",
           color: isOpen ? "#fff" : "text.primary",
-          border: 2,
-          borderColor: isOpen ? "secondary.main" : "primary.main",
+          border: 1,
+          borderColor: isOpen ? "secondary.main" : "divider",
           borderRadius: 0,
-          width: { xs: 44, sm: 48 },
-          height: { xs: 44, sm: 48 },
+          width: { xs: 46, sm: 52 },
+          height: { xs: 46, sm: 52 },
           transition: "all 0.3s ease",
-          boxShadow: (theme) =>
-            theme.palette.mode === "light"
-              ? "6px 6px 0px #000"
-              : "6px 6px 0px #fff",
+          boxShadow: 2, 
           "&:hover": {
-            bgcolor: "primary.main",
-            color: "background.paper",
-            borderColor: "primary.main",
-            transform: "translate(2px, 2px)",
-            boxShadow: (theme) =>
-              theme.palette.mode === "light"
-                ? "4px 4px 0px #000"
-                : "4px 4px 0px #fff",
+            bgcolor: isOpen
+              ? "secondary.main"
+              : theme.palette.mode === "light"
+                ? "action.hover"
+                : "primary.main",
+            color: isOpen ? "#fff" : "secondary.main",
+            borderColor: isOpen ? "secondary.main" : "primary.main",
+            boxShadow: 4, 
           },
-        }}
+        })}
       >
         {isOpen ? (
-          <X size={32} strokeWidth={2.5} />
+          <X size={28} strokeWidth={2.5} />
         ) : (
-          <Phone size={32} strokeWidth={2.5} />
+          <Phone size={28} strokeWidth={2.5} />
         )}
       </IconButton>
     </Box>
