@@ -1,4 +1,3 @@
-
 import {
   Box,
   Typography,
@@ -13,19 +12,19 @@ import { ChevronDown } from "lucide-react";
 import { ProductOptions } from "./ProductOptions";
 import type { Product } from "../../types/product";
 import { ContactWidget } from "../../components/ui/ContactWidget";
-import { FavoriteIcon } from "../ui/FavoriteIcon"; 
+import { FavoriteIcon } from "../ui/FavoriteIcon";
 
 interface ProductInfoProps {
   product: Product;
   selectedSize: string;
   selectedColor: string;
   isReadyToCart: boolean;
-  isFav: boolean; 
+  isFav: boolean;
   onSizeChange: (size: string) => void;
   onColorChange: (color: string) => void;
   onAddToCart: () => void;
   onClearSelection: () => void;
-  onToggleFavorite: () => void; 
+  onToggleFavorite: () => void;
 }
 
 export const ProductInfo = ({
@@ -74,17 +73,32 @@ export const ProductInfo = ({
         </Typography>
       </Tooltip>
 
-      <Typography
-        variant="h6"
-        sx={{
-          fontWeight: "bold",
-          color: "text.primary",
-          mb: 2,
-          fontSize: { xs: "1.1rem", sm: "1.25rem" },
-        }}
-      >
-        ${product.price.toFixed(2)}
-      </Typography>
+      {/* prices */}
+      <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
+        {product.oldPrice && (
+          <Typography
+            variant="h6"
+            sx={{
+              color: "text.secondary",
+              textDecoration: "line-through",
+              fontWeight: "normal",
+              fontSize: { xs: "1rem", sm: "1.1rem" },
+            }}
+          >
+            ${product.oldPrice.toFixed(2)}
+          </Typography>
+        )}
+        <Typography
+          variant="h6"
+          sx={{
+            fontWeight: "bold",
+            color: product.oldPrice ? "secondary.main" : "text.primary",
+            fontSize: { xs: "1.1rem", sm: "1.25rem" },
+          }}
+        >
+          ${product.price.toFixed(2)}
+        </Typography>
+      </Box>
     </Box>
 
     <Box sx={{ mt: -1, mb: 1 }}>
@@ -171,7 +185,7 @@ export const ProductInfo = ({
             bgcolor:
               theme.palette.mode === "light" ? "action.hover" : "primary.main",
           },
-       })}
+        })}
       >
         {isReadyToCart ? "Add to Cart" : "Select Options"}
       </Button>
