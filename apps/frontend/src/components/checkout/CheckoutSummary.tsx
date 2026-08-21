@@ -22,7 +22,7 @@ export const CheckoutSummary = () => {
           p: 3,
           borderRadius: 0,
           borderColor: "divider",
-          bgcolor: "background.paper",
+          bgcolor: "background.default",
           position: "sticky",
           top: "100px",
         }}
