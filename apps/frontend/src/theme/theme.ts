@@ -15,7 +15,7 @@ export const getAppTheme = (mode: PaletteMode) => {
         main: "#FF4500",
       },
       background: {
-        default: isDark ? "#0a0a0a" : "#ededed", // Page background
+        default: isDark ? "#0a0a0a" : "#f5f8fe", // Page background
         paper: isDark ? "#121212" : "#ededed", // Cards and blocks
       },
       text: {

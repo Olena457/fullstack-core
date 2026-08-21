@@ -55,8 +55,6 @@ export const ReviewForm = ({ onSubmit }: ReviewFormProps) => {
       sx={{
         mt: 4,
         mb: 6,
-        border: 1,
-        borderColor: "divider",
         p: { xs: 2, sm: 4 },
       }}
     >

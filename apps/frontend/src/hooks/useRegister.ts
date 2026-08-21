@@ -34,7 +34,7 @@ export const useRegister = () => {
       }
 
       loginToStore(result.user, result.accessToken);
-      router.push("/");
+      router.push("/product");
     } catch (error: unknown) {
       if (error instanceof Error) {
         setApiError(error.message);

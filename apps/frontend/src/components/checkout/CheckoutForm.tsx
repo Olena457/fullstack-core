@@ -30,7 +30,6 @@ export const CheckoutForm = ({
   isLoading,
   defaultValues,
 }: CheckoutFormProps) => {
-  // Тепер витягуємо також control та setValue з хука форми
   const {
     register,
     handleSubmit,
@@ -102,7 +101,6 @@ export const CheckoutForm = ({
       </Box>
 
       <Box sx={{ display: "flex", gap: 2, flexDirection: { xs: "column", sm: "row" } }}>
-        {/* Викликаємо наш новий, ізольований і суворо типізований компонент */}
         <NovaPoshtaFields 
           control={control} 
           setValue={setValue} 

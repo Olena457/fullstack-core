@@ -55,11 +55,11 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
         display: "flex",
         flexDirection: "column",
         boxShadow: "none",
-        bgcolor: "background.paper",
+        bgcolor: "text.secondary",
         transition: "box-shadow 0.3s ease, border-color 0.3s ease",
-        border: "1px solid #a0a0a0",
         "&:hover": {
           borderColor: "divider",
+          bgcolor: "text.secondary",
           boxShadow: 2,
         },
       }}
@@ -103,6 +103,7 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
               transition: "transform 0.4s ease-out, filter 0.4s ease-out",
               "&:hover": {
                 transform: "scale(0.98)",
+
                 filter: "grayscale(100%) brightness(110%) contrast(105%)",
               },
             }}

@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Box, Typography, Paper, Divider } from "@mui/material";
@@ -53,7 +52,7 @@ export const CheckoutSummary = () => {
                 >
                   {item.title}{" "}
                   <Typography component="span" color="text.secondary">
-                    × {item.cartQuantity}
+                    U+0078; {item.cartQuantity}
                   </Typography>
                 </Typography>
                 {(item.selectedSize || item.selectedColor) && (

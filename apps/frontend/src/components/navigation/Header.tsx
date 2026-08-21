@@ -27,7 +27,7 @@ export const Header = () => {
         position="sticky"
         elevation={0}
         sx={{
-          bgcolor: "background.paper",
+          bgcolor: "background.default",
           color: "divider",
           boxShadow: "none",
           backgroundImage: "none",
