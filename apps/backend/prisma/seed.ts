@@ -49,7 +49,7 @@ async function main() {
     },
     {
       sku: 'ALT-SNK-010',
-      title: 'High-Top Crimson Sneakers',
+      title: 'High-Top Sneakers',
       price: 130.0,
       oldPrice: 180.0,
       imageUrl:
