@@ -32,7 +32,6 @@ export default function ProductsPage() {
   return (
     <Box
       sx={{
-        // 1. Адаптивні бокові відступи: менші на мобілках, більші на ПК
         p: { xs: 2, sm: 3, md: 4 },
         maxWidth: "1400px",
         margin: "0 auto",

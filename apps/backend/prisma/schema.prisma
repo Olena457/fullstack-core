@@ -44,6 +44,9 @@ model Product {
   sizes       String[]
   colors      String[]
   gender      String   @default("Unisex")
+
+  sortOrder   Int         @default(999) @map("sort_order")
+  
   orderItems  OrderItem[]
   reviews     Review[]
 

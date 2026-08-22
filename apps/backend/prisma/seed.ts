@@ -335,7 +335,10 @@ async function main() {
   ];
 
   await prisma.product.createMany({
-    data: productsData,
+    data: productsData.map((product, index) => ({
+      ...product,
+      sortOrder: index,
+    })),
   });
 
   console.log('Creating reviews...');

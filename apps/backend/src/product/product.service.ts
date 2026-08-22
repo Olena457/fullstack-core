@@ -24,6 +24,10 @@ export class ProductService {
       where.title = { contains: search, mode: 'insensitive' };
     }
 
+    if (gender) {
+      where.gender = gender;
+    }
+
     if (color) {
       where.colors = { has: color };
     }
@@ -32,7 +36,8 @@ export class ProductService {
       where.sizes = { has: size };
     }
 
-    let orderBy: Prisma.ProductOrderByWithRelationInput = { title: 'asc' };
+    let orderBy: Prisma.ProductOrderByWithRelationInput | Prisma.ProductOrderByWithRelationInput[] =
+      { sortOrder: 'asc' };
 
     if (sort === 'price_asc') orderBy = { price: 'asc' };
     if (sort === 'price_desc') orderBy = { price: 'desc' };
