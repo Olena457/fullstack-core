@@ -79,23 +79,23 @@ export const FilterSidebar = ({
       </FormControl>
 
       <FormControl fullWidth sx={{ mb: 4 }}>
-        <InputLabel id="gender-select-label" sx={labelStyles}>
-          Gender
+        <InputLabel id="size-select-label" sx={labelStyles}>
+          Size
         </InputLabel>
         <Select
-          labelId="gender-select-label"
-          value={selectedGender}
-          label="Gender"
-          onChange={(e) => onGenderChange(e.target.value)}
+          labelId="size-select-label"
+          value={selectedSize}
+          label="Size"
+          onChange={(e) => onSizeChange(e.target.value)}
           sx={selectStyles}
           MenuProps={{ disableScrollLock: true }}
         >
           <MenuItem value="">
-            <em>All Genders</em>
+            <em>All Sizes</em>
           </MenuItem>
-          {filters.gender.map((g) => (
-            <MenuItem key={g} value={g}>
-              {g}
+          {filters.size.map((s) => (
+            <MenuItem key={s} value={s}>
+              {s}
             </MenuItem>
           ))}
         </Select>
@@ -125,23 +125,23 @@ export const FilterSidebar = ({
       </FormControl>
 
       <FormControl fullWidth sx={{ mb: 4 }}>
-        <InputLabel id="size-select-label" sx={labelStyles}>
-          Size
+        <InputLabel id="gender-select-label" sx={labelStyles}>
+          Gender
         </InputLabel>
         <Select
-          labelId="size-select-label"
-          value={selectedSize}
-          label="Size"
-          onChange={(e) => onSizeChange(e.target.value)}
+          labelId="gender-select-label"
+          value={selectedGender}
+          label="Gender"
+          onChange={(e) => onGenderChange(e.target.value)}
           sx={selectStyles}
           MenuProps={{ disableScrollLock: true }}
         >
           <MenuItem value="">
-            <em>All Sizes</em>
+            <em>All Genders</em>
           </MenuItem>
-          {filters.size.map((s) => (
-            <MenuItem key={s} value={s}>
-              {s}
+          {filters.gender.map((g) => (
+            <MenuItem key={g} value={g}>
+              {g}
             </MenuItem>
           ))}
         </Select>

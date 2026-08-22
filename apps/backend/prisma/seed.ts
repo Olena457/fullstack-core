@@ -36,17 +36,16 @@ async function main() {
 
   const productsData = [
     {
-      sku: 'ALT-STW-025',
-      title: 'City Nomad Relaxed Fit',
-      price: 135.0,
-      oldPrice: 165.0,
+      sku: 'ALT-TEE-024',
+      title: 'Pure White Basic Tee',
+      price: 25.0,
       imageUrl:
-        'https://images.unsplash.com/photo-1779154138483-37906af802ad?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1616006897093-5e4635c0de35?auto=format&fit=crop&w=800&q=80',
       sizes: ['S', 'M', 'L', 'XL'],
-      colors: ['Black', 'Grey', 'Olive'],
-      gender: 'Unisex',
+      colors: ['White', 'Grey'],
+      gender: "Women's",
       description:
-        'Perfect for the urban explorer. Features a relaxed silhouette with premium stitching and breathable fabric for all-day comfort.',
+        'Clean and crisp. Crafted from breathable, thick-gauge cotton with a seamless construction for perfect fit.',
     },
     {
       sku: 'ALT-SNK-010',
@@ -75,16 +74,17 @@ async function main() {
         'Your new armor. Heavyweight cotton fleece with an oversized boxy fit. Printed with eco-friendly water-based inks.',
     },
     {
-      sku: 'ALT-TEE-024',
-      title: 'Pure White Basic Tee',
-      price: 25.0,
+      sku: 'ALT-STW-025',
+      title: 'City Nomad Relaxed Fit',
+      price: 135.0,
+      oldPrice: 165.0,
       imageUrl:
-        'https://images.unsplash.com/photo-1616006897093-5e4635c0de35?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1779154138483-37906af802ad?auto=format&fit=crop&w=800&q=80',
       sizes: ['S', 'M', 'L', 'XL'],
-      colors: ['White', 'Grey'],
-      gender: "Women's",
+      colors: ['Black', 'Grey', 'Olive'],
+      gender: 'Unisex',
       description:
-        'Clean and crisp. Crafted from breathable, thick-gauge cotton with a seamless construction for perfect fit.',
+        'Perfect for the urban explorer. Features a relaxed silhouette with premium stitching and breathable fabric for all-day comfort.',
     },
     {
       sku: 'ALT-DNM-002',
@@ -125,17 +125,16 @@ async function main() {
         'Maximum utility meets modern cut. Military-grade cargo pockets. PFC-free water-repellent coating. Made in Italy.',
     },
     {
-      sku: 'ALT-SNK-001',
-      title: 'Neon Drift Low-Top Sneakers',
-      price: 115.0,
-      oldPrice: 150.0,
+      sku: 'ALT-JKT-009',
+      title: 'Urban Utility Jacket',
+      price: 85.0,
       imageUrl:
-        'https://images.unsplash.com/photo-1624911104820-5316c700b907?auto=format&fit=crop&w=800&q=80',
-      sizes: ['S', 'M', 'L', 'XL'],
-      colors: ['White', 'Grey', 'Green'],
-      gender: 'Unisex',
+        'https://images.unsplash.com/photo-1586231912972-d0970f9ce787?auto=format&fit=crop&w=800&q=80',
+      sizes: ['S', 'M', 'L', 'XL', 'XXL'],
+      colors: ['Black', 'Olive', 'Navy'],
+      gender: "Men's",
       description:
-        'Engineered for the streets. Features reflective neon details and a rugged sole. Made in Italy with premium recycled materials.',
+        'A modern take on a classic silhouette. This durable jacket features weather-resistant fabric, functional pockets, and a tailored street fit. Perfect for everyday layering.', // Новий опис
     },
     {
       sku: 'ALT-DNM-006',
@@ -163,16 +162,17 @@ async function main() {
         'The finishing touch. Ribbed beanie made from 50% merino wool and 50% acrylic for durability. Seamless technology.',
     },
     {
-      sku: 'ALT-TRS-009',
-      title: 'Retro Flare Denim Trousers',
-      price: 85.0,
+      sku: 'ALT-PNT-001',
+      title: 'City Flow Wide-Leg Trousers',
+      price: 115.0,
+      oldPrice: 150.0,
       imageUrl:
-        'https://images.unsplash.com/photo-1586231912972-d0970f9ce787?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1624911104820-5316c700b907?auto=format&fit=crop&w=800&q=80',
       sizes: ['XS', 'S', 'M', 'L'],
-      colors: ['Blue', 'Black'],
+      colors: ['Black', 'Grey', 'Beige'],
       gender: "Women's",
       description:
-        'Nostalgia reimagined. Flattering high-rise waist with a dramatic 70s-inspired flare cut. Stretchy fabric. Made in Morocco.',
+        'Elevate your everyday look. High-waisted, wide-leg trousers offering a relaxed fit with premium structural fabric. Designed for both absolute comfort and a bold street aesthetic.', // Новий опис для жіночих штанів
     },
     {
       sku: 'ALT-VST-011',
