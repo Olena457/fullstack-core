@@ -41,7 +41,7 @@ async function main() {
       price: 135.0,
       oldPrice: 165.0,
       imageUrl:
-        'https://images.unsplash.com/photo-1779154138210-18cd7f96f7a5?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1779154138483-37906af802ad?auto=format&fit=crop&w=800&q=80',
       sizes: ['S', 'M', 'L', 'XL'],
       colors: ['Black', 'Grey', 'Olive'],
       gender: 'Unisex',
@@ -63,15 +63,16 @@ async function main() {
     },
     {
       sku: 'ALT-JKT-004',
-      title: 'Concrete Jungle Essential Jacket',
-      price: 145.5,
+      title: 'Urban Pulse Oversized Hoodie',
+      price: 95.0,
+      oldPrice: 145.5,
       imageUrl:
         'https://images.unsplash.com/photo-1542406775-ade58c52d2e4?auto=format&fit=crop&w=800&q=80',
       sizes: ['S', 'M', 'L'],
       colors: ['Navy', 'Black', 'Grey'],
       gender: "Men's",
       description:
-        'Defy the elements. Natural fabric hoodie with classic pockets. 100% organic cotton. Designed and crafted in Germany.',
+        'Your new armor. Heavyweight cotton fleece with an oversized boxy fit. Printed with eco-friendly water-based inks.',
     },
     {
       sku: 'ALT-TEE-024',
@@ -87,7 +88,7 @@ async function main() {
     },
     {
       sku: 'ALT-DNM-002',
-      title: 'Vintage Wash Everyday Denim',
+      title: 'Vintage Everyday Denim',
       price: 89.99,
       imageUrl:
         'https://images.unsplash.com/photo-1602078019624-f4355d0687fd?auto=format&fit=crop&w=800&q=80',
@@ -98,8 +99,8 @@ async function main() {
         'A timeless classic reconstructed. Hand-distressed vintage wash denim with a relaxed fit. High-quality 14oz denim. Made in Morocco.',
     },
     {
-      sku: 'ALT-HOD-003',
-      title: 'Urban Pulse Oversized Hoodie',
+      sku: 'ALT-TEE-003',
+      title: 'Essential Black Street Tee',
       price: 65.0,
       oldPrice: 95.0,
       imageUrl:
@@ -108,7 +109,7 @@ async function main() {
       colors: ['Black', 'Grey', 'Navy'],
       gender: 'Unisex',
       description:
-        'Your new armor. Heavyweight cotton fleece with an oversized boxy fit. Printed with eco-friendly water-based inks.',
+        'The foundation of any street look. A perfectly cut, mid-weight cotton t-shirt designed for a relaxed, natural drape and lasting durability.', // Новий опис, що підходить під фото
     },
     {
       sku: 'ALT-CRG-005',
