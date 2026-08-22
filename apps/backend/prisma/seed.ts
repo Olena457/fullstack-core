@@ -34,7 +34,6 @@ async function main() {
     },
   });
 
-  console.log('Adding products with English descriptions...');
   const productsData = [
     {
       sku: 'ALT-SNK-001',
