@@ -36,17 +36,17 @@ async function main() {
 
   const productsData = [
     {
-      sku: 'ALT-SNK-001',
-      title: 'Neon Drift Low-Top Sneakers',
-      price: 115.0,
-      oldPrice: 150.0,
+      sku: 'ALT-STW-025',
+      title: 'City Nomad Relaxed Fit',
+      price: 135.0,
+      oldPrice: 165.0,
       imageUrl:
-        'https://images.unsplash.com/photo-1624911104820-5316c700b907?auto=format&fit=crop&w=800&q=80',
+        'https://images.unsplash.com/photo-1779154138210-18cd7f96f7a5?auto=format&fit=crop&w=800&q=80',
       sizes: ['S', 'M', 'L', 'XL'],
-      colors: ['White', 'Grey', 'Green'],
+      colors: ['Black', 'Grey', 'Olive'],
       gender: 'Unisex',
       description:
-        'Engineered for the streets. Features reflective neon details and a rugged sole. Made in Italy with premium recycled materials.',
+        'Perfect for the urban explorer. Features a relaxed silhouette with premium stitching and breathable fabric for all-day comfort.',
     },
     {
       sku: 'ALT-SNK-010',
@@ -62,18 +62,6 @@ async function main() {
         'Make a statement. Bold high-top silhouette with premium vegan leather overlays and durable polyurethane sole.',
     },
     {
-      sku: 'ALT-TEE-024',
-      title: 'Pure White Basic Tee',
-      price: 25.0,
-      imageUrl:
-        'https://images.unsplash.com/photo-1616006897093-5e4635c0de35?auto=format&fit=crop&w=800&q=80',
-      sizes: ['S', 'M', 'L', 'XL'],
-      colors: ['White', 'Grey'],
-      gender: "Women's",
-      description:
-        'Clean and crisp. Crafted from breathable, thick-gauge cotton with a seamless construction for perfect fit.',
-    },
-    {
       sku: 'ALT-JKT-004',
       title: 'Concrete Jungle Essential Jacket',
       price: 145.5,
@@ -84,6 +72,18 @@ async function main() {
       gender: "Men's",
       description:
         'Defy the elements. Natural fabric hoodie with classic pockets. 100% organic cotton. Designed and crafted in Germany.',
+    },
+    {
+      sku: 'ALT-TEE-024',
+      title: 'Pure White Basic Tee',
+      price: 25.0,
+      imageUrl:
+        'https://images.unsplash.com/photo-1616006897093-5e4635c0de35?auto=format&fit=crop&w=800&q=80',
+      sizes: ['S', 'M', 'L', 'XL'],
+      colors: ['White', 'Grey'],
+      gender: "Women's",
+      description:
+        'Clean and crisp. Crafted from breathable, thick-gauge cotton with a seamless construction for perfect fit.',
     },
     {
       sku: 'ALT-DNM-002',
@@ -122,6 +122,19 @@ async function main() {
       gender: "Men's",
       description:
         'Maximum utility meets modern cut. Military-grade cargo pockets. PFC-free water-repellent coating. Made in Italy.',
+    },
+    {
+      sku: 'ALT-SNK-001',
+      title: 'Neon Drift Low-Top Sneakers',
+      price: 115.0,
+      oldPrice: 150.0,
+      imageUrl:
+        'https://images.unsplash.com/photo-1624911104820-5316c700b907?auto=format&fit=crop&w=800&q=80',
+      sizes: ['S', 'M', 'L', 'XL'],
+      colors: ['White', 'Grey', 'Green'],
+      gender: 'Unisex',
+      description:
+        'Engineered for the streets. Features reflective neon details and a rugged sole. Made in Italy with premium recycled materials.',
     },
     {
       sku: 'ALT-DNM-006',
