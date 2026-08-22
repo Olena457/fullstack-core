@@ -2,6 +2,7 @@ import { Injectable, NotFoundException } from '@nestjs/common';
 import { PrismaService } from '../prisma/prisma.service';
 import { CreateOrderDto } from './dto/create-order.dto';
 import Stripe from 'stripe';
+import { OrderStatus } from '@prisma/client/edge';
 
 @Injectable()
 export class OrdersService {
@@ -98,6 +99,29 @@ export class OrdersService {
         },
       },
       orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async findAll() {
+    return this.prisma.order.findMany({
+      include: {
+        user: { select: { id: true, name: true, email: true } },
+        items: { include: { product: true } },
+      },
+      orderBy: { createdAt: 'desc' },
+    });
+  }
+
+  async updateStatus(id: string, status: OrderStatus) {
+    const order = await this.prisma.order.findUnique({ where: { id } });
+
+    if (!order) {
+      throw new NotFoundException('Order not found');
+    }
+
+    return this.prisma.order.update({
+      where: { id },
+      data: { status },
     });
   }
 }

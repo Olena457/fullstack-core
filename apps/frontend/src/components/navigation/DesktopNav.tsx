@@ -4,21 +4,29 @@
 import { Box, Typography } from "@mui/material";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { useAuthStore } from "../../store/authStore";
 
 export const DesktopNav = ({ isHome }: { isHome: boolean }) => {
   const pathname = usePathname();
 
-  const navItems = ["HOME","REVIEW","PRODUCTS"];
+  const navItems = ["HOME", "REVIEW", "PRODUCTS"];
   if (isHome) {
     navItems.push("ABOUT");
+  }
+
+  const user = useAuthStore(
+    (state: { user: { role?: string } | null }) => state.user,
+  );
+  if (user?.role === "ADMIN") {
+    navItems.push("ADMIN");
   }
 
   return (
     <Box
       sx={{
         display: { xs: "none", md: "flex" },
-        alignItems: "stretch", 
-        alignSelf: "stretch", 
+        alignItems: "stretch",
+        alignSelf: "stretch",
       }}
     >
       {navItems.map((item) => {
@@ -63,4 +71,4 @@ export const DesktopNav = ({ isHome }: { isHome: boolean }) => {
       })}
     </Box>
   );
-};
+};;

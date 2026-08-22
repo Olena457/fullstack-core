@@ -69,6 +69,7 @@ export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
 
   const navItems = ["HOME", "PRODUCTS", "REVIEW"];
   if (isHome) navItems.push("ABOUT");
+  if (user?.role === "ADMIN") navItems.push("ADMIN");
 
   return (
     <Drawer

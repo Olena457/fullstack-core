@@ -34,6 +34,15 @@ async function main() {
     },
   });
 
+  await prisma.user.create({
+    data: {
+      email: 'admin@test.com',
+      password: hashedPassword,
+      name: 'Admin User',
+      role: 'ADMIN',
+    },
+  });
+
   const productsData = [
     {
       sku: 'ALT-TEE-024',
