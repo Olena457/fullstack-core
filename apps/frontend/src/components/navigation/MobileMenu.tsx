@@ -1,4 +1,3 @@
-
 "use client";
 
 import { Box, Drawer, IconButton, Typography, Badge } from "@mui/material";
@@ -7,11 +6,14 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuthStore } from "../../../src/store/authStore";
 import { useCartStore } from "../../../src/store/cartStore";
-import { useThemeStore } from "../../../src/store/themeStore"; 
+import { useThemeStore } from "../../../src/store/themeStore";
 import { useState, useEffect } from "react";
-import { ThemeToggle } from "./ThemeToggle"; 
+import { ThemeToggle } from "./ThemeToggle";
 
-import type { MobileMenuProps, MobileMenuItemProps } from "../../types/mobileMenu";
+import type {
+  MobileMenuProps,
+  MobileMenuItemProps,
+} from "../../types/mobileMenu";
 
 const MobileMenuItem = ({
   href,
@@ -55,7 +57,7 @@ export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
   const totalItems = items.reduce((sum, item) => sum + item.cartQuantity, 0);
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
-  const toggleTheme = useThemeStore((state) => state.toggleTheme); 
+  const toggleTheme = useThemeStore((state) => state.toggleTheme);
 
   const [isMounted, setIsMounted] = useState(false);
 
@@ -88,15 +90,15 @@ export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
       <Box
         sx={{
           display: "flex",
-          justifyContent: "space-between", 
+          justifyContent: "space-between",
           alignItems: "center",
           p: 2,
           borderBottom: 2,
           borderColor: "divider",
         }}
       >
-        <ThemeToggle onToggle={toggleTheme} /> 
-        
+        <ThemeToggle onToggle={toggleTheme} />
+
         <IconButton
           onClick={onClose}
           sx={{
@@ -131,31 +133,31 @@ export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
       </Box>
 
       <Box sx={{ mt: "auto", borderTop: 2, borderColor: "divider" }}>
-        <MobileMenuItem
-          href="/cart"
-          isActive={pathname === "/cart"}
-          onClick={onClose}
-          endIcon={
-            <Badge
-              badgeContent={isMounted ? totalItems : 0}
-              color="error"
-              sx={{
-                "& .MuiBadge-badge": {
-                  borderRadius: 0,
-                  fontWeight: "bold",
-                  border: 1,
-                  borderColor: "background.paper",
-                },
-              }}
-            />
-          }
-        >
-          CART
-        </MobileMenuItem>
-
         {isMounted ? (
           user ? (
             <>
+              <MobileMenuItem
+                href="/cart"
+                isActive={pathname === "/cart"}
+                onClick={onClose}
+                endIcon={
+                  <Badge
+                    badgeContent={totalItems}
+                    color="error"
+                    sx={{
+                      "& .MuiBadge-badge": {
+                        borderRadius: 0,
+                        fontWeight: "bold",
+                        border: 1,
+                        borderColor: "background.paper",
+                      },
+                    }}
+                  />
+                }
+              >
+                CART
+              </MobileMenuItem>
+
               <MobileMenuItem
                 href="/favorites"
                 isActive={pathname === "/favorites"}

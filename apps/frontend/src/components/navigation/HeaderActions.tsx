@@ -42,47 +42,48 @@ export const HeaderActions = () => {
         fontSize: "16px",
       }}
     >
-      <Link
-        href="/cart"
-        style={{
-          textDecoration: "none",
-          display: "flex",
-          alignItems: "stretch",
-        }}
-      >
-        <IconButton
-          sx={{
-            color: "text.primary",
-            borderRadius: 0,
-            px: 2,
-            mr: 1,
-            height: "100%",
-            bgcolor: isOrderActive ? "action.selected" : "transparent",
-            "&:hover": {
-              bgcolor: isOrderActive ? "action.selected" : "action.hover",
-            },
-          }}
-        >
-          <Badge
-            badgeContent={isMounted ? totalItems : 0}
-            color="error"
-            sx={{
-              "& .MuiBadge-badge": {
-                borderRadius: 0,
-                fontWeight: "bold",
-                bgcolor: "#ff4500"
-              },
-            }}
-          >
-            <Typography sx={{ fontWeight: 500, textTransform: "uppercase" }}>
-              ORDER
-            </Typography>
-          </Badge>
-        </IconButton>
-      </Link>
-
       {isMounted && user && (
         <>
+          <Link
+            href="/cart"
+            style={{
+              textDecoration: "none",
+              display: "flex",
+              alignItems: "stretch",
+            }}
+          >
+            <IconButton
+              sx={{
+                color: "text.primary",
+                borderRadius: 0,
+                px: 2,
+                mr: 1,
+                height: "100%",
+                bgcolor: isOrderActive ? "action.selected" : "transparent",
+                "&:hover": {
+                  bgcolor: isOrderActive ? "action.selected" : "action.hover",
+                },
+              }}
+            >
+              <Badge
+                badgeContent={totalItems}
+                color="error"
+                sx={{
+                  "& .MuiBadge-badge": {
+                    borderRadius: 0,
+                    fontWeight: "bold",
+                    bgcolor: "#ff4500",
+                  },
+                }}
+              >
+                <Typography
+                  sx={{ fontWeight: 500, textTransform: "uppercase" }}
+                >
+                  ORDER
+                </Typography>
+              </Badge>
+            </IconButton>
+          </Link>
           <MenuButton href="/favorites">FAVORITES</MenuButton>
           <MenuButton href="/history">HISTORY</MenuButton>
         </>
