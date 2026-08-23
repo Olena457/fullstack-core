@@ -1,13 +1,22 @@
-
 "use client";
 
 import { Box, Typography } from "@mui/material";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useAuthStore } from "../../store/authStore";
+import { useState, useEffect } from "react";
 
 export const DesktopNav = ({ isHome }: { isHome: boolean }) => {
   const pathname = usePathname();
+  const [isMounted, setIsMounted] = useState(false);
+
+ useEffect(() => {
+   const timer = setTimeout(() => {
+     setIsMounted(true);
+   }, 0);
+
+   return () => clearTimeout(timer);
+ }, []);
 
   const navItems = ["HOME", "REVIEW", "PRODUCTS"];
   if (isHome) {
@@ -17,7 +26,8 @@ export const DesktopNav = ({ isHome }: { isHome: boolean }) => {
   const user = useAuthStore(
     (state: { user: { role?: string } | null }) => state.user,
   );
-  if (user?.role === "ADMIN") {
+
+  if (isMounted && user?.role === "ADMIN") {
     navItems.push("ADMIN");
   }
 
@@ -71,4 +81,4 @@ export const DesktopNav = ({ isHome }: { isHome: boolean }) => {
       })}
     </Box>
   );
-};;
+};

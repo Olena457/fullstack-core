@@ -1,6 +1,7 @@
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
 import type { User, AuthStore } from "../types/auth";
+import { useCartStore } from "./cartStore";
 
 export const useAuthStore = create<AuthStore>()(
   persist(
@@ -10,7 +11,11 @@ export const useAuthStore = create<AuthStore>()(
 
       login: (user: User, token: string) => set({ user, token }),
 
-      logout: () => set({ user: null, token: null }),
+      logout: () => {
+        set({ user: null, token: null });
+        useCartStore.getState().clearCart();
+        localStorage.removeItem("favorites-storage");
+      },
 
       isAuthenticated: () => {
         const hasToken = !!get().token;
@@ -18,7 +23,7 @@ export const useAuthStore = create<AuthStore>()(
       },
     }),
     {
-      name: "auth-storage", 
+      name: "auth-storage",
     },
   ),
 );
