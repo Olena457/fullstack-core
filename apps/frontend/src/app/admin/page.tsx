@@ -9,7 +9,7 @@ import {
   FormControl,
   InputLabel,
 } from "@mui/material";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import { useAuthStore } from "../../store/authStore";
 import { useRouter } from "next/navigation";
 import { OrderCard } from "../../components/order/OrderCard";
@@ -18,25 +18,26 @@ import type { AuthState, AdminOrder } from "../../types/admin";
 export default function AdminPage() {
   const router = useRouter();
 
-  const { user, token } = useAuthStore((state: AuthState) => ({
-    user: state.user,
-    token: state.token,
-  }));
+  const user = useAuthStore((state: AuthState) => state.user);
+  const token = useAuthStore((state: AuthState) => state.token);
 
   const [orders, setOrders] = useState<AdminOrder[]>([]);
   const [loading, setLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
 
+  const hasFetched = useRef(false);
+
   useEffect(() => {
     const timer = setTimeout(() => {
       setIsMounted(true);
     }, 0);
-
     return () => clearTimeout(timer);
   }, []);
 
   useEffect(() => {
     if (!isMounted) return;
+
+    if (hasFetched.current) return;
 
     if (!user || user.role !== "ADMIN") {
       router.push("/");
@@ -65,8 +66,8 @@ export default function AdminPage() {
     };
 
     fetchOrders();
-  }, [user, router, token, isMounted]);
-
+    hasFetched.current = true;
+  }, [user, token, isMounted, router]);
   const handleStatusChange = async (orderId: string, newStatus: string) => {
     try {
       const response = await fetch(
@@ -93,6 +94,7 @@ export default function AdminPage() {
   };
 
   if (!isMounted) return null;
+
   if (loading)
     return (
       <Box sx={{ p: 4 }}>
