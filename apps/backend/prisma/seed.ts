@@ -1,5 +1,5 @@
 import 'dotenv/config';
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient, OrderStatus } from '@prisma/client';
 import { PrismaPg } from '@prisma/adapter-pg';
 import { Pool } from 'pg';
 import * as bcrypt from 'bcrypt';
@@ -7,6 +7,7 @@ import * as bcrypt from 'bcrypt';
 const pool = new Pool({ connectionString: process.env.DIRECT_URL });
 const adapter = new PrismaPg(pool);
 const prisma = new PrismaClient({ adapter });
+const getRandomItem = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
 async function main() {
   const hashedPassword = await bcrypt.hash('Password1!', 10);
@@ -42,6 +43,33 @@ async function main() {
       role: 'ADMIN',
     },
   });
+
+  const fakeUsersData = [
+    { email: 'michael.j@example.com', name: 'Michael Jordan' },
+    { email: 'sarah.connor@example.com', name: 'Sarah Connor' },
+    { email: 'david.smith@example.com', name: 'David Smith' },
+    { email: 'emily.rose@example.com', name: 'Emily Rose' },
+    { email: 'james.bond@example.com', name: 'James Bond' },
+    { email: 'bruce.wayne@example.com', name: 'Bruce Wayne' },
+    { email: 'diana.prince@example.com', name: 'Diana Prince' },
+    { email: 'clark.kent@example.com', name: 'Clark Kent' },
+    { email: 'peter.parker@example.com', name: 'Peter Parker' },
+    { email: 'tony.stark@example.com', name: 'Tony Stark' },
+    { email: 'natasha.r@example.com', name: 'Natasha Romanoff' },
+    { email: 'steve.rogers@example.com', name: 'Steve Rogers' },
+    { email: 'wanda.m@example.com', name: 'Wanda Maximoff' },
+    { email: 'arthur.curry@example.com', name: 'Arthur Curry' },
+    { email: 'barry.allen@example.com', name: 'Barry Allen' },
+  ];
+  await prisma.user.createMany({
+    data: fakeUsersData.map((u) => ({
+      ...u,
+      password: hashedPassword,
+      role: 'USER',
+    })),
+  });
+
+  console.log('Creating products...');
 
   const productsData = [
     {
@@ -362,7 +390,8 @@ async function main() {
       sortOrder: index,
     })),
   });
-
+  const dbProducts = await prisma.product.findMany();
+  const dbUsers = await prisma.user.findMany({ where: { role: 'USER' } });
   console.log('Creating reviews...');
 
   await prisma.review.createMany({
@@ -395,8 +424,74 @@ async function main() {
     ],
   });
 
-  console.log('E-commerce seed completed.');
-}
+  console.log('Creating fake orders...');
+  const orderStatuses: OrderStatus[] = ['PENDING', 'PAID', 'SHIPPED', 'CANCELLED'];
+  const cities = [
+    'Kyiv',
+    'Lviv',
+    'Odesa',
+    'Kharkiv',
+    'Dnipro',
+    'Zaporizhzhia',
+    'Ivano-Frankivsk',
+    'Vinnytsia',
+  ];
+
+  for (let i = 0; i < 50; i++) {
+    const randomUser = getRandomItem(dbUsers);
+    const randomStatus = getRandomItem(orderStatuses);
+    const numItems = Math.floor(Math.random() * 3) + 1;
+
+    let orderTotalPrice = 0;
+    const itemsToCreate: {
+      productId: string;
+      quantity: number;
+      size: string | null;
+      color: string | null;
+    }[] = [];
+
+    for (let j = 0; j < numItems; j++) {
+      const randomProduct = getRandomItem(dbProducts);
+      const quantity = Math.floor(Math.random() * 2) + 1;
+
+      const selectedSize =
+        randomProduct.sizes.length > 0 ? getRandomItem(randomProduct.sizes) : null;
+      const selectedColor =
+        randomProduct.colors.length > 0 ? getRandomItem(randomProduct.colors) : null;
+
+      orderTotalPrice += randomProduct.price * quantity;
+
+      itemsToCreate.push({
+        productId: randomProduct.id,
+        quantity: quantity,
+        size: selectedSize,
+        color: selectedColor,
+      });
+    }
+
+    const [firstName, lastName] = (randomUser.name || 'Anonymous User').split(' ');
+
+    await prisma.order.create({
+      data: {
+        userId: randomUser.id,
+        status: randomStatus,
+        totalPrice: orderTotalPrice,
+        firstName: firstName || 'Anonymous',
+        lastName: lastName || 'User',
+        email: randomUser.email,
+        phone: `+38099${Math.floor(1000000 + Math.random() * 9000000)}`,
+        npCity: getRandomItem(cities),
+        npBranch: `Department №${Math.floor(Math.random() * 100) + 1}`,
+        items: {
+          create: itemsToCreate,
+        },
+      },
+    });
+  }
+
+  console.log('E-commerce seed completed successfully.');
+} // ОСТЬ ТУТ ЗАКРИВАЄТЬСЯ ФУНКЦІЯ MAIN()
+
 main()
   .catch((error) => {
     console.error(error);

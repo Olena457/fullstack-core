@@ -34,7 +34,20 @@ export class OrdersController {
   findAll() {
     return this.ordersService.findAll();
   }
-
+  @Get('analytics')
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
+  @ApiOperation({ summary: 'Get orders analytics (Admin only)' })
+  getAnalytics() {
+    return this.ordersService.getAnalytics();
+  }
+  @Get(':id')
+  @Roles('ADMIN')
+  @UseGuards(RolesGuard)
+  @ApiOperation({ summary: 'Get order details by ID (Admin only)' })
+  findOne(@Param('id') id: string) {
+    return this.ordersService.findOne(id);
+  }
   @Patch(':id/status')
   @Roles('ADMIN')
   @UseGuards(RolesGuard)

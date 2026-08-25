@@ -1,4 +1,4 @@
-import type { ComponentProps } from "react";
+import type { ComponentProps, ReactNode } from "react";
 import { OrderCard } from "../components/order/OrderCard";
 
 export interface AuthState {
@@ -10,13 +10,26 @@ export interface AuthState {
   token: string | null;
 }
 
+export type OrderStatus = "PENDING" | "PAID" | "SHIPPED" | "CANCELLED";
+
 export type AdminOrder = ComponentProps<typeof OrderCard>["order"] & {
   user?: {
+    id?: string;
     name: string;
     email: string;
-  };
-  npCity?: string;
-  npBranch?: string;
-  phone?: string;
-  status: string;
+  } | null;
+  firstName?: string | null;
+  lastName?: string | null;
+  email?: string | null;
+  npCity?: string | null;
+  npBranch?: string | null;
+  phone?: string | null;
+  status: OrderStatus;
 };
+
+export interface TableColumn<T> {
+  key: string;
+  label: string | ReactNode;
+  render: (row: T) => ReactNode;
+  width?: string | number;
+}

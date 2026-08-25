@@ -111,7 +111,39 @@ export class OrdersService {
       orderBy: { createdAt: 'desc' },
     });
   }
+  async findOne(id: string) {
+    const order = await this.prisma.order.findUnique({
+      where: { id },
+      include: {
+        user: { select: { id: true, name: true, email: true } },
+        items: { include: { product: true } },
+      },
+    });
 
+    if (!order) {
+      throw new NotFoundException(`Order with ID ${id} not found`);
+    }
+
+    return order;
+  }
+  async getAnalytics() {
+    const totalOrders = await this.prisma.order.count();
+
+    const pendingOrders = await this.prisma.order.count({
+      where: { status: 'PENDING' },
+    });
+
+    const revenueResult = await this.prisma.order.aggregate({
+      where: { status: { in: ['PAID', 'SHIPPED'] } },
+      _sum: { totalPrice: true },
+    });
+
+    return {
+      totalOrders,
+      pendingOrders,
+      totalRevenue: revenueResult._sum.totalPrice || 0,
+    };
+  }
   async updateStatus(id: string, status: OrderStatus) {
     const order = await this.prisma.order.findUnique({ where: { id } });
 
