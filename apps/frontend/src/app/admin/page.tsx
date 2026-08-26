@@ -6,6 +6,7 @@ import { useAuthStore } from "../../store/authStore";
 import { useRouter } from "next/navigation";
 import { SummaryCard } from "../../components/admin/SummaryCard";
 import { AdminOrdersTable } from "../../components/admin/AdminOrdersTable";
+import { Pagination } from "../../components/admin/Pagination";
 import type { AuthState, AdminOrder } from "../../types/admin";
 
 export default function AdminPage() {
@@ -20,6 +21,9 @@ export default function AdminPage() {
 
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
+
+  const [page, setPage] = useState(1);
+  const limit = 8;
 
   useEffect(() => {
     const timer = setTimeout(() => setIsMounted(true), 0);
@@ -63,6 +67,7 @@ export default function AdminPage() {
       setSortBy(columnKey);
       setSortOrder("desc");
     }
+    setPage(1);
   };
 
   const sortedOrders = useMemo(() => {
@@ -100,6 +105,13 @@ export default function AdminPage() {
 
   const pendingOrders = orders.filter((o) => o.status === "PENDING").length;
 
+  const total = sortedOrders.length;
+  const totalPages = Math.max(1, Math.ceil(total / limit));
+  const from = total === 0 ? 0 : (page - 1) * limit + 1;
+  const to = Math.min(page * limit, total);
+
+  const paginatedOrders = sortedOrders.slice((page - 1) * limit, page * limit);
+
   if (!isMounted) return null;
   if (loading)
     return (
@@ -131,11 +143,23 @@ export default function AdminPage() {
       </Box>
 
       <AdminOrdersTable
-        orders={sortedOrders}
+        orders={paginatedOrders}
         sortBy={sortBy}
         sortOrder={sortOrder}
         onSort={handleSort}
       />
+
+      {total > 0 && (
+        <Pagination
+          entityName="orders"
+          from={from}
+          to={to}
+          total={total}
+          totalPages={totalPages}
+          page={page}
+          onPageChange={setPage}
+        />
+      )}
     </Box>
   );
 }

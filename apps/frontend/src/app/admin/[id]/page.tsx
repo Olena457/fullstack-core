@@ -1,6 +1,5 @@
 "use client";
 
-import { use } from "react";
 import {
   Box,
   Typography,
@@ -23,11 +22,11 @@ import type {
 } from "../../../types/admin";
 
 interface Props {
-  params: Promise<{ id: string }>;
+  params: { id: string };
 }
 
 export default function OrderDetailsPage({ params }: Props) {
-  const { id } = use(params);
+  const { id } = params;
   const router = useRouter();
   const token = useAuthStore((state: AuthState) => state.token);
 
@@ -97,6 +96,8 @@ export default function OrderDetailsPage({ params }: Props) {
     );
   }
 
+  const customerName = order.user?.name || `${order.firstName || ""} ${order.lastName || ""}`.trim() || "Unknown";
+
   return (
     <Box sx={{ maxWidth: 1000, mx: "auto", p: { xs: 2, md: 4 } }}>
       <Button
@@ -125,18 +126,13 @@ export default function OrderDetailsPage({ params }: Props) {
             Order Details
           </Typography>
           <Typography color="text.secondary" sx={{ mt: 1 }}>
-            Customer:{" "}
-            {order.user?.name ||
-              `${order.firstName} ${order.lastName}` ||
-              "Unknown"}{" "}
-            ({order.user?.email || order.email})
+            Customer: {customerName} ({order.user?.email || order.email})
           </Typography>
           <Typography color="text.secondary">
             Delivery: {order.npCity}, {order.npBranch} | Phone: {order.phone}
           </Typography>
         </Box>
 
-        {/* status */}
         <FormControl size="small" sx={{ minWidth: 200 }}>
           <InputLabel>Order Status</InputLabel>
           <Select
