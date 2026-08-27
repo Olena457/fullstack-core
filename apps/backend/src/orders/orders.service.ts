@@ -111,6 +111,7 @@ export class OrdersService {
       orderBy: { createdAt: 'desc' },
     });
   }
+
   async findOne(id: string) {
     const order = await this.prisma.order.findUnique({
       where: { id },
@@ -126,6 +127,7 @@ export class OrdersService {
 
     return order;
   }
+
   async getAnalytics() {
     const totalOrders = await this.prisma.order.count();
 
@@ -144,6 +146,7 @@ export class OrdersService {
       totalRevenue: revenueResult._sum.totalPrice || 0,
     };
   }
+
   async updateStatus(id: string, status: OrderStatus) {
     const order = await this.prisma.order.findUnique({ where: { id } });
 

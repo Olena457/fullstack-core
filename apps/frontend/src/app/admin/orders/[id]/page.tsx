@@ -1,3 +1,4 @@
+
 "use client";
 
 import {
@@ -12,7 +13,7 @@ import {
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use } from "react"; 
 import { useAuthStore } from "../../../../store/authStore";
 import { OrderCard } from "../../../../components/order/OrderCard";
 import type {
@@ -22,11 +23,11 @@ import type {
 } from "../../../../types/admin";
 
 interface Props {
-  params: { id: string };
+  params: Promise<{ id: string }>; // Повернули Promise
 }
 
 export default function OrderDetailsPage({ params }: Props) {
-  const { id } = params;
+  const { id } = use(params); // Повернули use(params)
   const router = useRouter();
   const token = useAuthStore((state: AuthState) => state.token);
 
