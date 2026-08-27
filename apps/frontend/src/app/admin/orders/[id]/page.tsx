@@ -13,13 +13,13 @@ import {
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
-import { useAuthStore } from "../../../store/authStore";
-import { OrderCard } from "../../../components/order/OrderCard";
+import { useAuthStore } from "../../../../store/authStore";
+import { OrderCard } from "../../../../components/order/OrderCard";
 import type {
   AuthState,
   AdminOrder,
   OrderStatus,
-} from "../../../types/admin";
+} from "../../../../types/admin";
 
 interface Props {
   params: { id: string };
@@ -96,7 +96,10 @@ export default function OrderDetailsPage({ params }: Props) {
     );
   }
 
-  const customerName = order.user?.name || `${order.firstName || ""} ${order.lastName || ""}`.trim() || "Unknown";
+  const customerName =
+    order.user?.name ||
+    `${order.firstName || ""} ${order.lastName || ""}`.trim() ||
+    "Unknown";
 
   return (
     <Box sx={{ maxWidth: 1000, mx: "auto", p: { xs: 2, md: 4 } }}>
