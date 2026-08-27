@@ -10,11 +10,11 @@ export function StatusBadge({ status }: { status: OrderStatus }) {
         return { bg: "secondary.main", color: "#fff" };
       case "PAID":
         return { bg: "success.main", color: "#fff" };
-      case "SHIPPED": 
+      case "SHIPPED":
         return { bg: "primary.main", color: "background.default" };
       case "CANCELLED":
         return { bg: "error.main", color: "#fff" };
-      default: 
+      default:
         return { bg: "divider", color: "text.primary" };
     }
   };
@@ -28,6 +28,8 @@ export function StatusBadge({ status }: { status: OrderStatus }) {
         px: 1.5,
         py: 0.5,
         display: "inline-flex",
+        minWidth: "110px", 
+        justifyContent: "center", 
       }}
     >
       <Typography

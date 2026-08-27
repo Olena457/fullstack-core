@@ -44,17 +44,7 @@ export const Logo = () => {
             },
           }}
         >
-          ALTER
-          <Box
-            component="span"
-            className="ego-text"
-            sx={{
-              color: theme.palette.secondary.main,
-              transition: "all 0.3s ease-in-out",
-            }}
-          >
-            EGO
-          </Box>
+          ALTEREGO
         </Typography>
       </Box>
     </Link>
