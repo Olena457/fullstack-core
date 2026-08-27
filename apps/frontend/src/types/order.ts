@@ -9,6 +9,7 @@ export interface OrderItemType {
     title: string;
     price: number;
     imageUrl: string;
+    sku?: string;
   };
 }
 

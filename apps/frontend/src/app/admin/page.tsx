@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Box, Typography } from "@mui/material";
@@ -7,6 +8,7 @@ import { useRouter } from "next/navigation";
 import { SummaryCard } from "../../components/admin/SummaryCard";
 import { AdminOrdersTable } from "../../components/admin/AdminOrdersTable";
 import { Pagination } from "../../components/admin/Pagination";
+import { SearchInput } from "../../components/product/SearchInput";
 import type { AuthState, AdminOrder } from "../../types/admin";
 
 export default function AdminPage() {
@@ -18,6 +20,9 @@ export default function AdminPage() {
   const [loading, setLoading] = useState(true);
   const [isMounted, setIsMounted] = useState(false);
   const hasFetched = useRef(false);
+
+  // Стан для пошуку
+  const [searchQuery, setSearchQuery] = useState("");
 
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
@@ -60,6 +65,12 @@ export default function AdminPage() {
     hasFetched.current = true;
   }, [user, token, isMounted, router]);
 
+  // НОВА ФУНКЦІЯ: Одночасно оновлює пошук і скидає сторінку на 1
+  const handleSearchChange = (value: string) => {
+    setSearchQuery(value);
+    setPage(1);
+  };
+
   const handleSort = (columnKey: string) => {
     if (sortBy === columnKey) {
       setSortOrder(sortOrder === "asc" ? "desc" : "asc");
@@ -70,9 +81,35 @@ export default function AdminPage() {
     setPage(1);
   };
 
-  const sortedOrders = useMemo(() => {
-    const result = [...orders];
+  // Фільтрація та сортування об'єднані
+  const filteredAndSortedOrders = useMemo(() => {
+    let result = [...orders];
 
+    // 1. Спочатку фільтруємо замовлення, якщо є пошуковий запит
+    if (searchQuery.trim() !== "") {
+      const query = searchQuery.toLowerCase();
+      result = result.filter((order) => {
+        const customerName = (
+          order.user?.name ||
+          order.firstName ||
+          ""
+        ).toLowerCase();
+        const customerEmail = (
+          order.user?.email ||
+          order.email ||
+          ""
+        ).toLowerCase();
+        const orderId = order.id.toLowerCase();
+
+        return (
+          customerName.includes(query) ||
+          customerEmail.includes(query) ||
+          orderId.includes(query)
+        );
+      });
+    }
+
+    // 2. Потім сортуємо відфільтровані результати
     result.sort((a, b) => {
       let valA: string | number = "";
       let valB: string | number = "";
@@ -97,7 +134,7 @@ export default function AdminPage() {
     });
 
     return result;
-  }, [orders, sortBy, sortOrder]);
+  }, [orders, sortBy, sortOrder, searchQuery]);
 
   const totalRevenue = orders
     .filter((o) => o.status === "PAID" || o.status === "SHIPPED")
@@ -105,12 +142,16 @@ export default function AdminPage() {
 
   const pendingOrders = orders.filter((o) => o.status === "PENDING").length;
 
-  const total = sortedOrders.length;
+  // Використовуємо відфільтровані дані для пагінації
+  const total = filteredAndSortedOrders.length;
   const totalPages = Math.max(1, Math.ceil(total / limit));
   const from = total === 0 ? 0 : (page - 1) * limit + 1;
   const to = Math.min(page * limit, total);
 
-  const paginatedOrders = sortedOrders.slice((page - 1) * limit, page * limit);
+  const paginatedOrders = filteredAndSortedOrders.slice(
+    (page - 1) * limit,
+    page * limit,
+  );
 
   if (!isMounted) return null;
   if (loading)
@@ -142,6 +183,15 @@ export default function AdminPage() {
         <SummaryCard title="Total Orders" value={orders.length} />
       </Box>
 
+      {/* Компонент пошуку обгорнуто в Box для обмеження ширини */}
+      <Box sx={{ maxWidth: { xs: "100%", md: 500 } }}>
+        <SearchInput
+          value={searchQuery}
+          onChange={handleSearchChange} // Використовуємо нову функцію
+          placeholder="SEARCH ORDERS BY ID, NAME OR EMAIL..."
+        />
+      </Box>
+
       <AdminOrdersTable
         orders={paginatedOrders}
         sortBy={sortBy}
@@ -159,6 +209,14 @@ export default function AdminPage() {
           page={page}
           onPageChange={setPage}
         />
+      )}
+
+      {total === 0 && (
+        <Typography
+          sx={{ mt: 4, textAlign: "center", color: "text.secondary" }}
+        >
+          No orders found matching your search.
+        </Typography>
       )}
     </Box>
   );

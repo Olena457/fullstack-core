@@ -4,9 +4,14 @@ import { Search, X } from "lucide-react";
 interface SearchInputProps {
   value: string;
   onChange: (val: string) => void;
+  placeholder?: string; 
 }
 
-export const SearchInput = ({ value, onChange }: SearchInputProps) => {
+export const SearchInput = ({
+  value,
+  onChange,
+  placeholder = "SEARCH PRODUCT...",
+}: SearchInputProps) => {
   const theme = useTheme();
 
   const inputStyles = {
@@ -33,7 +38,7 @@ export const SearchInput = ({ value, onChange }: SearchInputProps) => {
     <TextField
       fullWidth
       size="small"
-      placeholder="SEARCH PRODUCT..."
+      placeholder={placeholder} 
       value={value}
       onChange={(e) => onChange(e.target.value)}
       autoComplete="off"
