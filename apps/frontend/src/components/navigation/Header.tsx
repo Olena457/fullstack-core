@@ -1,7 +1,8 @@
 
+
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { AppBar, Toolbar, IconButton, Box } from "@mui/material";
 import { Menu } from "lucide-react"; 
 import { usePathname } from "next/navigation";
@@ -10,29 +11,15 @@ import { HeaderActions } from "./HeaderActions";
 import { Logo } from "../ui/Logo";
 import { ThemeToggle } from "./ThemeToggle";
 import { MobileMenu } from "./MobileMenu"; 
-
 import { useThemeStore } from "../../../src/store/themeStore";
 
 export const Header = () => {
   const pathname = usePathname();
   const isHome = pathname === "/";
-
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isMounted, setIsMounted] = useState(false); 
-
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
 
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsMounted(true);
-    }, 0);
-
-    return () => clearTimeout(timer);
-  }, []);
-
-  if (!isMounted) {
-    return <Box sx={{ height: { xs: "56px", md: "64px" } }} />;
-  }
+  if (isHome) return null; 
 
   return (
     <>
@@ -57,15 +44,16 @@ export const Header = () => {
           }}
         >
           <Logo />
-
           <Box sx={{ display: "flex", alignItems: "center", gap: 2 }}>
             <Box sx={{ display: { xs: "none", md: "block" } }}>
               <ThemeToggle onToggle={toggleTheme} />
             </Box>
-
-            {/*burger button*/}
+            {/* burger button */}
             <IconButton
-              onClick={() => setIsMobileMenuOpen(true)}
+              onClick={(e) => {
+                e.currentTarget.blur(); 
+                setIsMobileMenuOpen(true);
+              }}
               sx={{
                 display: { xs: "flex", md: "none" },
                 borderRadius: 0,
@@ -82,29 +70,27 @@ export const Header = () => {
           </Box>
         </Toolbar>
 
-        {/* desctop menu */}
-        {!isHome && (
-          <Toolbar
-            sx={{
-              display: { xs: "none", md: "flex" },
-              justifyContent: "space-between",
-              borderBottom: 2,
-              borderColor: "divider",
-              px: { xs: 2, md: 3 },
-              alignItems: "stretch",
-              minHeight: "38px !important",
-            }}
-          >
-            <DesktopNav isHome={isHome} />
-            <HeaderActions />
-          </Toolbar>
-        )}
+        {/* desktop menu */}
+        <Toolbar
+          sx={{
+            display: { xs: "none", md: "flex" },
+            justifyContent: "space-between",
+            borderBottom: 2,
+            borderColor: "divider",
+            px: { xs: 2, md: 3 },
+            alignItems: "stretch",
+            minHeight: "38px !important",
+          }}
+        >
+          <DesktopNav isHome={false} />
+          <HeaderActions />
+        </Toolbar>
       </AppBar>
 
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
-        isHome={isHome}
+        isHome={false}
       />
     </>
   );

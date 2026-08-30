@@ -9,8 +9,7 @@ interface LogoIconProps {
 export const LogoIcon = ({
   width = 40,
   height = 40,
-  color = "#FF4500", 
-  
+  color = "#FF4500",
 }: LogoIconProps) => {
   return (
     <Box
@@ -43,7 +42,6 @@ export const LogoIcon = ({
           strokeLinejoin="round"
         />
 
-       
         <polygon
           points="50,46 15,96 85,96"
           fill={color}
