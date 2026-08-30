@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Box, Typography } from "@mui/material";
@@ -6,23 +7,20 @@ import { usePathname } from "next/navigation";
 import { useAuthStore } from "../../store/authStore";
 import { useState, useEffect } from "react";
 
-export const DesktopNav = ({ isHome }: { isHome: boolean }) => {
+export const DesktopNav = () => {
   const pathname = usePathname();
   const [isMounted, setIsMounted] = useState(false);
 
- useEffect(() => {
-   const timer = setTimeout(() => {
-     setIsMounted(true);
-   }, 0);
+  useEffect(() => {
+    const timer = setTimeout(() => {
+      setIsMounted(true);
+    }, 0);
 
-   return () => clearTimeout(timer);
- }, []);
+    return () => clearTimeout(timer);
+  }, []);
 
-  const navItems = ["HOME", "REVIEW", "PRODUCTS"];
-  if (isHome) {
-    navItems.push("ABOUT");
-  }
-
+  const navItems = ["HOME", "REVIEW", "PRODUCTS", "ABOUT"]; 
+  
   const user = useAuthStore(
     (state: { user: { role?: string } | null }) => state.user,
   );

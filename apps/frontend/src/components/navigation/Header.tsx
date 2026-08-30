@@ -1,5 +1,6 @@
 
 
+
 "use client";
 
 import { useState } from "react";
@@ -33,7 +34,6 @@ export const Header = () => {
           backgroundImage: "none",
         }}
       >
-        {/* logo */}
         <Toolbar
           sx={{
             borderBottom: 2,
@@ -48,7 +48,6 @@ export const Header = () => {
             <Box sx={{ display: { xs: "none", md: "block" } }}>
               <ThemeToggle onToggle={toggleTheme} />
             </Box>
-            {/* burger button */}
             <IconButton
               onClick={(e) => {
                 e.currentTarget.blur(); 
@@ -70,7 +69,6 @@ export const Header = () => {
           </Box>
         </Toolbar>
 
-        {/* desktop menu */}
         <Toolbar
           sx={{
             display: { xs: "none", md: "flex" },
@@ -82,7 +80,7 @@ export const Header = () => {
             minHeight: "38px !important",
           }}
         >
-          <DesktopNav isHome={false} />
+          <DesktopNav />
           <HeaderActions />
         </Toolbar>
       </AppBar>
@@ -90,7 +88,6 @@ export const Header = () => {
       <MobileMenu
         isOpen={isMobileMenuOpen}
         onClose={() => setIsMobileMenuOpen(false)}
-        isHome={false}
       />
     </>
   );

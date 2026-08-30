@@ -49,7 +49,7 @@ const MobileMenuItem = ({
   </Link>
 );
 
-export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
+export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
   const pathname = usePathname();
   const router = useRouter();
 
@@ -69,8 +69,7 @@ export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
     return () => clearTimeout(timer);
   }, []);
 
-  const navItems = ["HOME", "PRODUCTS", "REVIEW"];
-  if (isHome) navItems.push("ABOUT");
+const navItems = ["HOME", "PRODUCTS", "REVIEW", "ABOUT"];
   if (user?.role === "ADMIN") navItems.push("ADMIN");
 
   return (
@@ -86,7 +85,6 @@ export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
         },
       }}
     >
-      {/* menu header */}
       <Box
         sx={{
           display: "flex",
@@ -113,7 +111,6 @@ export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
         </IconButton>
       </Box>
 
-      {/*nav */}
       <Box sx={{ display: "flex", flexDirection: "column" }}>
         {navItems.map((item) => {
           const href = item === "HOME" ? "/" : `/${item.toLowerCase()}`;
@@ -173,7 +170,6 @@ export const MobileMenu = ({ isOpen, onClose, isHome }: MobileMenuProps) => {
                 HISTORY
               </MobileMenuItem>
 
-              {/* user */}
               <Box
                 sx={{
                   p: 2,
