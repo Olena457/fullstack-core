@@ -1,78 +1,8 @@
-
 "use client";
 
 import { Box, Typography, Container } from "@mui/material";
-import { motion, AnimatePresence } from "framer-motion";
-import { useState, useEffect } from "react";
-
-const FadeInUp = ({
-  children,
-  delay = 0,
-  fullSize = false,
-}: {
-  children: React.ReactNode;
-  delay?: number;
-  fullSize?: boolean;
-}) => (
-  <motion.div
-    initial={{ opacity: 0, y: 40, filter: "blur(4px)" }}
-    whileInView={{ opacity: 1, y: 0, filter: "blur(0px)" }}
-    viewport={{ once: true, margin: "-50px" }}
-    transition={{ duration: 1.5, delay, ease: "easeOut" }}
-    style={fullSize ? { width: "100%", height: "100%" } : undefined}
-  >
-    {children}
-  </motion.div>
-);
-
-const sliderImages = [
-  "/images/style-1.png",
-  "/images/style-2.png",
-  "/images/style-3.png",
-  "/images/style-4.png",
-];
-
-const AutoSlider = () => {
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % sliderImages.length);
-    }, 4500);
-    return () => clearInterval(timer);
-  }, []);
-
-  return (
-    <Box
-      sx={{
-        position: "relative",
-        width: "100%",
-        aspectRatio: "3/4",
-        overflow: "hidden",
-      }}
-    >
-      <AnimatePresence mode="wait">
-        <motion.img
-          key={currentIndex}
-          src={sliderImages[currentIndex]}
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          transition={{ duration: 1.5, ease: "easeInOut" }}
-          style={{
-            position: "absolute",
-            top: 0,
-            left: 0,
-            width: "100%",
-            height: "100%",
-            objectFit: "contain",
-          }}
-          alt="Style Collection"
-        />
-      </AnimatePresence>
-    </Box>
-  );
-};
+import { FadeInUp } from "../../components/ui/FadeInUp";
+import { AutoSlider } from "../../components/ui/AutoSlider";
 
 export default function AboutPage() {
   return (
@@ -80,7 +10,7 @@ export default function AboutPage() {
       sx={{
         bgcolor: "background.default",
         color: "text.primary",
-        py: { xs: 4, md: 6 }, 
+        py: { xs: 4, md: 6 },
       }}
     >
       <Container maxWidth="lg">
@@ -89,14 +19,14 @@ export default function AboutPage() {
             variant="h1"
             sx={{
               fontWeight: 900,
-              fontSize: { xs: "2.5rem", md: "5rem" }, 
+              fontSize: { xs: "2.5rem", md: "5rem" },
               textTransform: "uppercase",
               letterSpacing: "-0.03em",
               mb: { xs: 6, md: 10 },
               textAlign: "center",
             }}
           >
-            WE ARE{" "}
+            WE ARE
             <Box component="span" sx={{ color: "#FF4500" }}>
               ALTEREGO
             </Box>
@@ -118,7 +48,7 @@ export default function AboutPage() {
               aspectRatio: { xs: "3/4", md: "4/5" },
             }}
           >
-            {/*main photo*/}
+            {/* main photo */}
             <Box
               sx={{
                 position: "absolute",
@@ -138,7 +68,7 @@ export default function AboutPage() {
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
-                    objectPosition: "top center", 
+                    objectPosition: "top center",
                     boxShadow: "0 20px 40px rgba(0,0,0,0.3)",
                   }}
                 />
@@ -192,7 +122,7 @@ export default function AboutPage() {
                     width: "100%",
                     height: "100%",
                     objectFit: "cover",
-                    objectPosition: "center", 
+                    objectPosition: "center",
                     boxShadow: "0 10px 25px rgba(0,0,0,0.5)",
                     border: "4px solid",
                     borderColor: "background.default",
@@ -202,7 +132,7 @@ export default function AboutPage() {
             </Box>
           </Box>
 
-          {/*block-1*/}
+          {/* block-1 */}
           <Box>
             <FadeInUp delay={0.3}>
               <Typography
@@ -245,7 +175,7 @@ export default function AboutPage() {
             </FadeInUp>
           </Box>
 
-          {/*block-2*/}
+          {/* block-2 */}
           <Box sx={{ order: { xs: 2, md: 1 } }}>
             <FadeInUp delay={0.2}>
               <Typography
@@ -321,7 +251,7 @@ export default function AboutPage() {
             </FadeInUp>
           </Box>
 
-          {/*block-2 slider*/}
+          {/* block-2 slider */}
           <Box sx={{ order: { xs: 1, md: 2 } }}>
             <FadeInUp delay={0.4}>
               <AutoSlider />
