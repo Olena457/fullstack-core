@@ -27,9 +27,9 @@ export const MenuButton = ({ children, href }: MenuButtonProps) => {
         sx={{
           borderRadius: 0,
           px: 2,
-          mr:1,
-         height: "100%",
-          color: "text.primary",
+          mr: 1,
+          height: "100%",
+          color: isActive ? "text.primary" : "text.secondary",
           bgcolor: isActive ? "action.selected" : "transparent",
           "&:hover": {
             bgcolor: isActive ? "action.selected" : "action.hover",

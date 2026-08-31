@@ -56,7 +56,7 @@ export const DesktopNav = () => {
               height: "100%",
               whiteSpace: "nowrap",
               textDecoration: "none",
-              color: "text.primary",
+              color: isActive ? "text.primary" : "text.secondary",
               bgcolor: isActive ? "action.selected" : "transparent",
               transition: "background-color 0.2s ease",
               "&:hover": {

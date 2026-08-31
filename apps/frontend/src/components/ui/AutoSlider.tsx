@@ -1,3 +1,4 @@
+
 "use client";
 
 import { Box } from "@mui/material";
@@ -26,7 +27,7 @@ export const AutoSlider = () => {
       sx={{
         position: "relative",
         width: "100%",
-        aspectRatio: "3/4",
+        aspectRatio: "1/1",
         overflow: "hidden",
       }}
     >
@@ -44,7 +45,7 @@ export const AutoSlider = () => {
             left: 0,
             width: "100%",
             height: "100%",
-            objectFit: "contain",
+            objectFit: "contain", 
           }}
           alt="Style Collection"
         />
