@@ -9,6 +9,7 @@ export interface Product {
   sizes: string[];
   colors: string[];
   gender: string;
+  tags: string[];
 }
 
 export interface CartItem extends Product {

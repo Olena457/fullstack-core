@@ -11,6 +11,7 @@ import { ReviewsModule } from './reviews/reviews.module';
 import { OrdersModule } from './orders/orders.module';
 import { DeliveryModule } from './delivery/delivery.module';
 import { WebhookModule } from './webhook/webhook.module';
+import { AiModule } from './ai/ai.module';
 
 @Module({
   imports: [
@@ -26,6 +27,7 @@ import { WebhookModule } from './webhook/webhook.module';
     OrdersModule,
     DeliveryModule,
     WebhookModule,
+    AiModule,
   ],
   controllers: [AppController],
   providers: [AppService],

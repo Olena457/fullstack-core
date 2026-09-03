@@ -81,6 +81,7 @@ async function main() {
       sizes: ['S', 'M', 'L', 'XL'],
       colors: ['White', 'Grey'],
       gender: "Women's",
+      tags: ['ECO', 'TOP'],
       description:
         'Clean and crisp. Crafted from breathable, thick-gauge cotton with a seamless construction for perfect fit.',
     },
@@ -94,6 +95,7 @@ async function main() {
       sizes: ['M', 'L', 'XL'],
       colors: ['Red', 'Black', 'White'],
       gender: "Women's",
+      tags: ['SALE', 'ECO'],
       description:
         'Make a statement. Bold high-top silhouette with premium vegan leather overlays and durable polyurethane sole.',
     },
@@ -107,6 +109,7 @@ async function main() {
       sizes: ['S', 'M', 'L'],
       colors: ['Navy', 'Black', 'Grey'],
       gender: "Men's",
+      tags: ['SALE', 'OVERSIZE'],
       description:
         'Your new armor. Heavyweight cotton fleece with an oversized boxy fit. Printed with eco-friendly water-based inks.',
     },
@@ -120,6 +123,7 @@ async function main() {
       sizes: ['S', 'M', 'L', 'XL'],
       colors: ['Black', 'Grey', 'Olive'],
       gender: 'Unisex',
+      tags: ['SALE', 'OVERSIZE'],
       description:
         'Perfect for the urban explorer. Features a relaxed silhouette with premium stitching and breathable fabric for all-day comfort.',
     },
@@ -132,6 +136,7 @@ async function main() {
       sizes: ['S', 'M', 'L', 'XL'],
       colors: ['Blue', 'Black'],
       gender: "Men's",
+      tags: ['TOP'],
       description:
         'A timeless classic reconstructed. Hand-distressed vintage wash denim with a relaxed fit. High-quality 14oz denim. Made in Morocco.',
     },
@@ -145,6 +150,7 @@ async function main() {
       sizes: ['M', 'L', 'XL', 'XXL'],
       colors: ['Black', 'Grey', 'Navy'],
       gender: 'Unisex',
+      tags: ['SALE', 'TOP'],
       description:
         'The foundation of any street look. A perfectly cut, mid-weight cotton t-shirt designed for a relaxed, natural drape and lasting durability.', // Новий опис, що підходить під фото
     },
@@ -158,6 +164,7 @@ async function main() {
       sizes: ['M', 'L', 'XL', 'XXL'],
       colors: ['Black', 'Green', 'Grey'],
       gender: "Men's",
+      tags: ['SALE'],
       description:
         'Maximum utility meets modern cut. Military-grade cargo pockets. PFC-free water-repellent coating. Made in Italy.',
     },
@@ -170,6 +177,7 @@ async function main() {
       sizes: ['S', 'M', 'L', 'XL', 'XXL'],
       colors: ['Black', 'Olive', 'Navy'],
       gender: "Men's",
+      tags: ['NEW', 'ECO'],
       description:
         'A modern take on a classic silhouette. This durable jacket features weather-resistant fabric, functional pockets, and a tailored street fit. Perfect for everyday layering.', // Новий опис
     },
@@ -182,6 +190,7 @@ async function main() {
       sizes: ['S', 'M', 'L'],
       colors: ['Blue', 'Black'],
       gender: "Women's",
+      tags: ['TOP', 'OVERSIZE', 'ECO'],
       description:
         'Raw and unapologetic. High-waisted street denim. 100% organic cotton without elastane for an authentic look. Made in Portugal.',
     },
@@ -195,6 +204,7 @@ async function main() {
       sizes: ['Unisex'],
       colors: ['Grey', 'Black', 'Navy', 'Red'],
       gender: 'Unisex',
+      tags: ['SALE', 'ECO'],
       description:
         'The finishing touch. Ribbed beanie made from 50% merino wool and 50% acrylic for durability. Seamless technology.',
     },
@@ -208,6 +218,7 @@ async function main() {
       sizes: ['XS', 'S', 'M', 'L'],
       colors: ['Black', 'Grey', 'Beige'],
       gender: "Women's",
+      tags: ['SALE'],
       description:
         'Elevate your everyday look. High-waisted, wide-leg trousers offering a relaxed fit with premium structural fabric. Designed for both absolute comfort and a bold street aesthetic.', // Новий опис для жіночих штанів
     },
@@ -220,6 +231,7 @@ async function main() {
       sizes: ['M', 'L', 'XL'],
       colors: ['Black', 'Grey'],
       gender: 'Unisex',
+      tags: ['NEW', 'TOP', 'ECO'],
       description:
         'Techwear at its peak. Modular tactical vest equipped with heavy-duty webbing. Cordura 500D fabric. Made in Germany.',
     },
@@ -232,6 +244,7 @@ async function main() {
       sizes: ['S', 'M', 'L'],
       colors: ['Blue', 'Grey'],
       gender: "Men's",
+      tags: [],
       description:
         'Built for movement. Slightly tapered leg with aggressive frayed edge detailing. Vintage hand-distressed finish.',
     },
@@ -245,6 +258,7 @@ async function main() {
       sizes: ['S', 'M', 'L', 'XL', 'XXL'],
       colors: ['Black', 'Navy'],
       gender: "Men's",
+      tags: ['SALE', 'ECO'],
       description:
         'Minimalist perfection. Pre-shrunk mid-weight jersey cotton. Smooth texture thanks to mercerization. Made in Italy.',
     },
@@ -257,6 +271,7 @@ async function main() {
       sizes: ['S', 'M', 'L', 'XL'],
       colors: ['Black', 'White', 'Red'],
       gender: 'Unisex',
+      tags: ['NEW', 'ECO'],
       description:
         'Wearable art. Features an exclusive high-density plastisol print. Pattern applied with fade-resistant eco-inks.',
     },
@@ -270,6 +285,7 @@ async function main() {
       sizes: ['S', 'M', 'L', 'XL'],
       colors: ['Red', 'Black', 'Grey'],
       gender: 'Unisex',
+      tags: ['SALE', 'ECO'],
       description:
         'Stay heated. Constructed from waffle-knit thermal fabric. Breathable and warm. Comfort-fit silhouette.',
     },
@@ -282,6 +298,7 @@ async function main() {
       sizes: ['S', 'M', 'L', 'XL'],
       colors: ['Red', 'White', 'Black'],
       gender: "Men's",
+      tags: ['TOP', 'NEW', 'ECO'],
       description:
         'Sportswear elevated. Two-piece set with striking color-blocking. Heavyweight tricot knit. Made in Morocco.',
     },
@@ -294,6 +311,7 @@ async function main() {
       sizes: ['XS', 'S', 'M', 'L'],
       colors: ['Grey', 'Blue', 'Black'],
       gender: "Women's",
+      tags: [],
       description:
         'Summer staple. Heavily washed denim offering a vintage feel. Enzyme-washed for maximum softness.',
     },
@@ -307,6 +325,7 @@ async function main() {
       sizes: ['M', 'L', 'XL'],
       colors: ['White', 'Navy', 'Green'],
       gender: "Men's",
+      tags: ['SALE', 'ECO'],
       description: 'Sharp but relaxed. Heavy cotton canvas shirt jacket. Breathable mesh lining.',
     },
     {
@@ -318,6 +337,7 @@ async function main() {
       sizes: ['S', 'M', 'L', 'XL', 'XXL'],
       colors: ['Black'],
       gender: 'Unisex',
+      tags: ['TOP', 'ECO'],
       description:
         'The only black tee you will ever need. Tonal embroidered logo. 100% Egyptian cotton. Made in Italy.',
     },
@@ -330,6 +350,7 @@ async function main() {
       sizes: ['M', 'L', 'XL'],
       colors: ['White', 'Grey', 'Navy'],
       gender: 'Unisex',
+      tags: ['NEW', 'TOP'],
       description:
         'Old school soul, modern tech. Suede and mesh upper combined with a shock-absorbing EVA midsole. Breathable lining.',
     },
@@ -342,6 +363,7 @@ async function main() {
       sizes: ['S', 'M', 'L'],
       colors: ['Red', 'Black', 'White'],
       gender: 'Unisex',
+      tags: ['TOP', 'OVERSIZE'],
       description:
         'Command attention. Extreme oversized summer T-shirt. 100% breathable cotton fabric. Perfect for hot temperatures.',
     },
@@ -355,6 +377,7 @@ async function main() {
       sizes: ['S', 'M', 'L', 'XL'],
       colors: ['Red', 'Black'],
       gender: "Men's",
+      tags: ['SALE', 'OVERSIZE'],
       description:
         'Winter-proof your fit. Weather-resistant shell. Utilizes thermoregulation technology developed in Germany.',
     },
@@ -367,6 +390,7 @@ async function main() {
       sizes: ['XS', 'S', 'M', 'L'],
       colors: ['Blue', 'White'],
       gender: "Women's",
+      tags: [],
       description:
         'Street meets botanical. Lightweight windbreaker with unique digital sublimation floral print.',
     },
@@ -379,6 +403,7 @@ async function main() {
       sizes: ['XS', 'S', 'M', 'L', 'XL'],
       colors: ['Navy', 'White', 'Black'],
       gender: 'Unisex',
+      tags: ['ECO'],
       description:
         'The foundation of your wardrobe. Premium 100% combed cotton. Basic boxy fit. Dyed with eco-friendly pigments.',
     },

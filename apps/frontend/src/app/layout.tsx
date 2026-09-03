@@ -18,8 +18,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "ALTEREGO",
-  description: "Define your style. No compromises.",
+  title: "ALTEREGO|UrbanTrends",
+  description: "Define your style.No compromises.",
   icons: {
     icon: "/icon.svg",
   },
