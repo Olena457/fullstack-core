@@ -1,8 +1,7 @@
-
 "use client";
 
 import { Box, Badge, IconButton, Typography, Tooltip } from "@mui/material";
-import { LogOut } from "lucide-react"; 
+import { LogOut } from "lucide-react";
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useCartStore } from "../../store/cartStore";
@@ -21,6 +20,8 @@ export const HeaderActions = () => {
   const totalItems = items.reduce((sum, item) => sum + item.cartQuantity, 0);
   const user = useAuthStore((state) => state.user);
   const logout = useAuthStore((state) => state.logout);
+
+  const isAdmin = user?.role === "ADMIN";
 
   const [isMounted, setIsMounted] = useState(false);
   const [isAiModalOpen, setIsAiModalOpen] = useState(false);
@@ -47,33 +48,37 @@ export const HeaderActions = () => {
     >
       {isMounted && user && (
         <>
-          <IconButton
-            onClick={() => setIsAiModalOpen(true)}
-            sx={{
-              borderRadius: 0,
-              px: 2,
-              mr: 1,
-              height: "100%",
-              color: "#ff4500", 
-              bgcolor: isAiModalOpen ? "action.selected" : "transparent",
-              "&:hover": { bgcolor: "action.hover" },
-            }}
-          >
-            <Typography
-              sx={{
-                fontWeight: 600,
-                textTransform: "uppercase",
-                fontSize: "16px",
-              }}
-            >
-              AI
-            </Typography>
-          </IconButton>
+          {!isAdmin && (
+            <>
+              <IconButton
+                onClick={() => setIsAiModalOpen(true)}
+                sx={{
+                  borderRadius: 0,
+                  px: 2,
+                  mr: 1,
+                  height: "100%",
+                  color: "#ff4500",
+                  bgcolor: isAiModalOpen ? "action.selected" : "transparent",
+                  "&:hover": { bgcolor: "action.hover" },
+                }}
+              >
+                <Typography
+                  sx={{
+                    fontWeight: 600,
+                    textTransform: "uppercase",
+                    fontSize: "16px",
+                  }}
+                >
+                  AI
+                </Typography>
+              </IconButton>
 
-          <AiChatModal
-            open={isAiModalOpen}
-            onClose={() => setIsAiModalOpen(false)}
-          />
+              <AiChatModal
+                open={isAiModalOpen}
+                onClose={() => setIsAiModalOpen(false)}
+              />
+            </>
+          )}
 
           <Link
             href="/cart"

@@ -1,3 +1,4 @@
+
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
@@ -107,7 +108,13 @@ export const AiChatModal: React.FC<AiChatModalProps> = ({ open, onClose }) => {
       maxWidth="sm"
       fullWidth
       disableRestoreFocus
-      sx={{ "& .MuiDialog-paper": { borderRadius: 2, height: "80vh" } }}
+      sx={{
+        "& .MuiDialog-paper": {
+          borderRadius: 2,
+          height: "80vh",
+          bgcolor: "background.paper",
+        },
+      }}
     >
       <DialogTitle
         sx={{
@@ -180,7 +187,7 @@ export const AiChatModal: React.FC<AiChatModalProps> = ({ open, onClose }) => {
 
       <DialogContent
         sx={{
-          bgcolor: "#fafafa",
+          bgcolor: "background.default", 
           display: "flex",
           flexDirection: "column",
           p: 0,
@@ -206,7 +213,13 @@ export const AiChatModal: React.FC<AiChatModalProps> = ({ open, onClose }) => {
       </DialogContent>
 
       <DialogActions
-        sx={{ p: 2, bgcolor: "white", borderTop: "1px solid #eee", gap: 1 }}
+        sx={{
+          p: 2,
+          bgcolor: "background.paper", 
+          borderTop: 1, 
+          borderColor: "divider", 
+          gap: 1,
+        }}
       >
         <TextField
           fullWidth
@@ -236,10 +249,10 @@ export const AiChatModal: React.FC<AiChatModalProps> = ({ open, onClose }) => {
             minWidth: 52,
             height: 40,
             borderRadius: 1,
-            bgcolor: "black",
-            color: "white",
-            "&:hover": { bgcolor: "#333" },
-            "&.Mui-disabled": { bgcolor: "#e0e0e0" },
+            bgcolor: "primary.main", 
+            color: "background.default", 
+            "&:hover": { opacity: 0.8 },
+            "&.Mui-disabled": { bgcolor: "action.disabledBackground" },
           }}
         >
           {isLoading ? (
