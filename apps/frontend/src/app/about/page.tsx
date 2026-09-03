@@ -13,30 +13,29 @@ export default function AboutPage() {
       sx={{
         bgcolor: "background.default",
         color: "text.primary",
-        py: { xs: 4, md: 6 }, 
+        py: { xs: 4, md: 6 },
       }}
     >
       <Container maxWidth="lg">
-        {/*title */}
         <FadeInUp>
           <Typography
             variant="h1"
             sx={{
               fontWeight: 900,
-              fontSize: { xs: "2.5rem", md: "5rem" },
+              fontSize: { xs: "1.5rem", sm: "3rem", md: "4.5rem" }, 
               textTransform: "uppercase",
-              letterSpacing: "-0.03em",
-              mb: { xs: 8, md: 12 },
+              letterSpacing: { xs: "-0.01em", md: "-0.03em" }, 
+              mb: { xs: 5, md: 12 },
               textAlign: "center",
+              wordBreak: "break-word",
             }}
           >
-            WE ARE
+            WE ARE&nbsp;
             <Box component="span" sx={{ color: "#FF4500" }}>
               ALTEREGO
             </Box>
           </Typography>
         </FadeInUp>
-
         <Box
           sx={{
             display: "grid",

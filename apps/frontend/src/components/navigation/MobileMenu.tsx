@@ -200,7 +200,7 @@ export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
                       fontSize: "1.2rem",
                     }}
                   >
-                    AI STYLIST
+                    AI ASSISTANT
                   </Typography>
                   <Bot size={24} />
                 </Box>

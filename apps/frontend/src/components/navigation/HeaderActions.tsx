@@ -2,7 +2,7 @@
 "use client";
 
 import { Box, Badge, IconButton, Typography, Tooltip } from "@mui/material";
-import { LogOut, Bot } from "lucide-react"; 
+import { LogOut } from "lucide-react"; 
 import Link from "next/link";
 import { useRouter, usePathname } from "next/navigation";
 import { useCartStore } from "../../store/cartStore";
@@ -10,7 +10,7 @@ import { useAuthStore } from "../../store/authStore";
 import { useState, useEffect } from "react";
 
 import { MenuButton } from "./MenuButton";
-import { AiChatModal } from "../ai/AiChatModal"; 
+import { AiChatModal } from "../ai/AiChatModal";
 
 export const HeaderActions = () => {
   const router = useRouter();
@@ -23,7 +23,7 @@ export const HeaderActions = () => {
   const logout = useAuthStore((state) => state.logout);
 
   const [isMounted, setIsMounted] = useState(false);
-  const [isAiModalOpen, setIsAiModalOpen] = useState(false); 
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false);
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -47,6 +47,34 @@ export const HeaderActions = () => {
     >
       {isMounted && user && (
         <>
+          <IconButton
+            onClick={() => setIsAiModalOpen(true)}
+            sx={{
+              borderRadius: 0,
+              px: 2,
+              mr: 1,
+              height: "100%",
+              color: "#ff4500", 
+              bgcolor: isAiModalOpen ? "action.selected" : "transparent",
+              "&:hover": { bgcolor: "action.hover" },
+            }}
+          >
+            <Typography
+              sx={{
+                fontWeight: 600,
+                textTransform: "uppercase",
+                fontSize: "16px",
+              }}
+            >
+              AI
+            </Typography>
+          </IconButton>
+
+          <AiChatModal
+            open={isAiModalOpen}
+            onClose={() => setIsAiModalOpen(false)}
+          />
+
           <Link
             href="/cart"
             style={{
@@ -57,7 +85,7 @@ export const HeaderActions = () => {
           >
             <IconButton
               sx={{
-                color: "text.primary",
+                color: isOrderActive ? "text.primary" : "text.secondary",
                 borderRadius: 0,
                 px: 2,
                 mr: 1,
@@ -80,40 +108,20 @@ export const HeaderActions = () => {
                 }}
               >
                 <Typography
-                  sx={{ fontWeight: 500, textTransform: "uppercase" }}
+                  sx={{
+                    fontWeight: 500,
+                    textTransform: "uppercase",
+                    fontSize: "16px",
+                  }}
                 >
                   ORDER
                 </Typography>
               </Badge>
             </IconButton>
           </Link>
+
           <MenuButton href="/favorites">FAVORITES</MenuButton>
           <MenuButton href="/history">HISTORY</MenuButton>
-
-          {/* НОВА КНОПКА AI */}
-          <IconButton
-            onClick={() => setIsAiModalOpen(true)}
-            sx={{
-              borderRadius: 0,
-              px: 2,
-              mr: 1,
-              height: "100%",
-              color: "text.primary",
-              bgcolor: "transparent",
-              "&:hover": { bgcolor: "action.hover" },
-            }}
-          >
-            <Bot size={20} style={{ marginRight: 6 }} />
-            <Typography sx={{ fontWeight: 500, textTransform: "uppercase" }}>
-              AI
-            </Typography>
-          </IconButton>
-
-          {/* modal */}
-          <AiChatModal
-            open={isAiModalOpen}
-            onClose={() => setIsAiModalOpen(false)}
-          />
         </>
       )}
 

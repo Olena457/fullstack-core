@@ -64,7 +64,7 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
         },
       }}
     >
-      {/*photo container */}
+     
       <Box
         sx={{
           position: "relative",
@@ -72,12 +72,48 @@ export const ProductCard = memo(function ProductCard({ product }: Props) {
           overflow: "hidden",
           bgcolor: "transparent",
           transition: "background-color 0.4s ease-out",
-
           "&:hover": {
             bgcolor: "secondary.main",
           },
         }}
       >
+        {product.tags && product.tags.length > 0 && (
+          <Box
+            sx={{
+              position: "absolute",
+              top: 12,
+              left: 12,
+              zIndex: 10,
+              display: "flex",
+              flexDirection: "column",
+              gap: 0.5,
+              pointerEvents: "none", 
+            }}
+          >
+            {product.tags.map((tag) => (
+              <Typography
+                key={tag}
+                sx={{
+                  bgcolor: tag === "SALE" ? "#ff4500" : "text.primary",
+                  color: "background.default",
+                  px: 1,
+                  py: 0.5,
+                  fontSize: "0.7rem",
+                  fontWeight: 900,
+                  textTransform: "uppercase",
+                  lineHeight: 1,
+                  letterSpacing: "0.5px",
+                  border: "1px solid",
+                  borderColor: tag === "SALE" ? "#ff4500" : "text.primary",
+                }}
+              >
+                {tag}
+              </Typography>
+            ))}
+          </Box>
+        )}
+
+       
         <Link
           href={`/products/${product.id}`}
           style={{

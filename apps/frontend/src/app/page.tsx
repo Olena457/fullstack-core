@@ -4,13 +4,14 @@
 import { Box } from "@mui/material";
 import BackgroundText from "../components/ui/BackgroundText";
 import HeroContent from "../components/ui/HeroContent";
+import { motion } from "framer-motion";
 
 export default function Home() {
   return (
     <Box
       sx={{
         position: "relative",
-        height: "100vh", 
+        height: "100vh",
         maxWidth: "100%",
         bgcolor: "background.default",
         overflow: "hidden",
@@ -42,7 +43,7 @@ export default function Home() {
         sx={{
           position: "absolute",
           right: { xs: "-25%", sm: "-4%", md: "8%", lg: "18%" },
-          top: { xs: 0, md: "-2%", lg: "-3%" }, 
+          top: { xs: 0, md: "-2%", lg: "-3%" },
           height: { xs: "90%", md: "95%", lg: "100%" },
           objectFit: "contain",
           zIndex: 2,
@@ -51,44 +52,57 @@ export default function Home() {
 
       <HeroContent />
 
-      <Box
-        component="img"
-        src="/images/glasses-1.png"
-        alt="Foreground Glasses"
-        sx={{
+      <motion.div
+        initial={{ opacity: 0, scale: 0.98, y: 10 }}
+        animate={{ opacity: 1, scale: 1, y: 0 }}
+        transition={{ duration: 1.5, delay: 0.5, ease: "easeOut" }}
+        style={{
           position: "absolute",
-          objectFit: "contain",
           zIndex: 6,
-
-          left: "-2%",
-          right: "0",
-          bottom: "2%",
-          width: "150%",
-
-          "@media (min-width: 375px)": { width: "160%", left: "-5%" },
-          "@media (min-width: 425px)": {
-            width: "140%",
-            left: "-2%",
-            bottom: "0%",
-          },
-          "@media (min-width: 768px)": {
-            width: "100%",
-            left: "auto",
-            right: "-42%",
-          },
-          "@media (min-width: 1024px)": {
-            width: "95%",
-            left: "auto",
-            right: "-25%",
-          },
-
-          "@media (min-width: 1200px)": {
-            left: "auto",
-            right: "-19.5%", 
-            width: "75%", 
-          },
+          left: 0,
+          right: 0,
+          bottom: 0,
+          width: "100%",
+          height: "100%",
+          pointerEvents: "none",
         }}
-      />
+      >
+        <Box
+          component="img"
+          src="/images/glasses-1.png"
+          alt="Foreground Glasses"
+          sx={{
+            position: "absolute",
+            objectFit: "contain",
+            left: "-2%",
+            right: "0",
+            bottom: "2%",
+            width: "150%",
+
+            "@media (min-width: 375px)": { width: "160%", left: "-5%" },
+            "@media (min-width: 425px)": {
+              width: "140%",
+              left: "-2%",
+              bottom: "0%",
+            },
+            "@media (min-width: 768px)": {
+              width: "100%",
+              left: "auto",
+              right: "-42%",
+            },
+            "@media (min-width: 1024px)": {
+              width: "95%",
+              left: "auto",
+              right: "-25%",
+            },
+            "@media (min-width: 1200px)": {
+              left: "auto",
+              right: "-19.5%",
+              width: "75%",
+            },
+          }}
+        />
+      </motion.div>
     </Box>
   );
 }

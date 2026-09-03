@@ -1,10 +1,9 @@
-
 "use client";
 
 import { Box, Typography, Button } from "@mui/material";
 import Link from "next/link";
 import { LogoIcon } from "../ui/icons/LogoIcon";
-import { ArrowRight } from "lucide-react"; 
+import { ArrowRight } from "lucide-react";
 
 export default function HeroContent() {
   return (
@@ -15,7 +14,6 @@ export default function HeroContent() {
         maxWidth: "500px",
         left: "5%",
         top: "24%",
-
         "@media (min-width: 375px)": { top: "30%" },
         "@media (min-width: 768px)": { top: "31%" },
         "@media (min-width: 1024px)": { top: "28%" },
@@ -30,6 +28,12 @@ export default function HeroContent() {
           textTransform: "uppercase",
           lineHeight: 1.1,
           fontSize: "2.4rem",
+          opacity: 0,
+          animation: "fadeInTitle 1.5s ease-out 0.5s forwards",
+          "@keyframes fadeInTitle": {
+            "0%": { opacity: 0, transform: "translateY(20px)" },
+            "100%": { opacity: 1, transform: "translateY(0)" },
+          },
 
           "@media (min-width: 375px)": { fontSize: "2.6rem" },
           "@media (min-width: 768px)": { fontSize: "3.2rem" },

@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useState, useRef, useEffect } from "react";
 import {
   Box,
@@ -12,9 +14,8 @@ import {
   Paper,
   CircularProgress,
   InputAdornment,
-  Tooltip,
 } from "@mui/material";
-import { Bot, X, Send, CircleX, Trash2 } from "lucide-react";
+import { X, Send, CircleX, Trash2 } from "lucide-react";
 import ReactMarkdown from "react-markdown";
 
 interface AiChatModalProps {
@@ -66,7 +67,7 @@ export const AiChatModal: React.FC<AiChatModalProps> = ({ open, onClose }) => {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
-            "Authorization": `Bearer ${localStorage.getItem('token')}`
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
           },
           body: JSON.stringify({
             question: userText,
@@ -90,7 +91,7 @@ export const AiChatModal: React.FC<AiChatModalProps> = ({ open, onClose }) => {
         ...prev,
         {
           role: "assistant",
-          text: "Connection error. Please try again later. 🖤",
+          text: "Connection error. Please try again later.",
         },
       ]);
     } finally {
@@ -120,29 +121,65 @@ export const AiChatModal: React.FC<AiChatModalProps> = ({ open, onClose }) => {
           justifyContent: "space-between",
           alignItems: "center",
           pb: 2,
-          borderBottom: "1px solid #eee",
+          borderBottom: 2,
+          borderColor: "divider",
+          px: { xs: 2, sm: 3 },
         }}
       >
-        <Box sx={{ display: "flex", alignItems: "center", gap: 1.5 }}>
-          <Bot size={24} color="black" />
+        <Box
+          sx={{
+            display: "flex",
+            alignItems: "center",
+            gap: { xs: 1, sm: 1.5 },
+          }}
+        >
+          <Box
+            component="img"
+            src="/icon.svg"
+            alt="Alterego Icon"
+            sx={{
+              width: { xs: 20, sm: 26 },
+              height: { xs: 20, sm: 26 },
+              display: "block",
+            }}
+          />
           <Typography
             variant="h6"
-            sx={{ fontWeight: 800, textTransform: "uppercase" }}
+            sx={{
+              fontWeight: 900,
+              textTransform: "uppercase",
+              fontSize: { xs: "0.75rem", sm: "1.1rem", md: "1.2rem" },
+              color: "text.primary",
+              lineHeight: 1,
+              letterSpacing: "-0.5px",
+            }}
           >
-            Personal Stylist
+            ALTEREGO AI ASSISTANT
           </Typography>
         </Box>
 
-        <Box sx={{ display: "flex", gap: 1 }}>
+        <Box sx={{ display: "flex", gap: { xs: 0, sm: 1 } }}>
           {messages.length > 0 && (
-            <Tooltip title="Clear chat">
-              <IconButton onClick={() => setMessages([])} size="small">
-                <Trash2 size={18} />
-              </IconButton>
-            </Tooltip>
+            <IconButton
+              onClick={() => setMessages([])}
+              sx={{
+                borderRadius: 0,
+                "&:hover": { bgcolor: "action.hover" },
+                p: { xs: 0.5, sm: 1 },
+              }}
+            >
+              <Trash2 size={20} />
+            </IconButton>
           )}
-          <IconButton onClick={onClose} size="small">
-            <X size={20} />
+          <IconButton
+            onClick={onClose}
+            sx={{
+              borderRadius: 0,
+              "&:hover": { bgcolor: "action.hover" },
+              p: { xs: 0.5, sm: 1 },
+            }}
+          >
+            <X size={24} />
           </IconButton>
         </Box>
       </DialogTitle>
@@ -167,17 +204,32 @@ export const AiChatModal: React.FC<AiChatModalProps> = ({ open, onClose }) => {
           }}
         >
           {messages.length === 0 && (
-            <Box sx={{ mt: 4, px: 2, textAlign: "center" }}>
-              <Typography variant="body1" sx={{ fontWeight: 600, mb: 1 }}>
-                Welcome to the style zone. 🖤
+            <Box
+              sx={{
+                mt: 4,
+                px: 2,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                textAlign: "center",
+              }}
+            >
+              <Typography
+                variant="body1"
+                sx={{ fontWeight: 700, mb: 1, textTransform: "uppercase" }}
+              >
+                Welcome to the store
               </Typography>
-              <Typography variant="body2" color="text.secondary">
+              <Typography
+                variant="body2"
+                color="text.secondary"
+                sx={{ maxWidth: { xs: "100%", sm: "80%" } }}
+              >
                 Looking for an oversized fit? Need to find something on SALE? Or
                 just want recommendations for a new drop? Ask me anything.
               </Typography>
             </Box>
           )}
-
           {messages.map((msg, i) => (
             <Box
               key={i}
@@ -186,7 +238,6 @@ export const AiChatModal: React.FC<AiChatModalProps> = ({ open, onClose }) => {
                 maxWidth: "85%",
               }}
             >
-              {/* ai theme */}
               <Paper
                 sx={{
                   p: 2,
