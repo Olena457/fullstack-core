@@ -1,4 +1,3 @@
-"use client";
 
 import { Paper, Typography } from "@mui/material";
 
@@ -17,7 +16,7 @@ export function SummaryCard({
     <Paper
       variant="outlined"
       sx={{
-        borderRadius: 0, 
+        borderRadius: 0,
         borderColor: "divider",
         p: 3,
         flex: 1,
@@ -30,8 +29,8 @@ export function SummaryCard({
       <Typography
         sx={{
           color: "text.secondary",
-          fontSize: "0.75rem",
-          fontWeight: 700,
+          fontSize: "1.1rem", 
+          fontWeight: 800,
           textTransform: "uppercase",
           letterSpacing: "0.05em",
         }}

@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState } from "react";
@@ -21,7 +22,7 @@ export const useLogin = () => {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(data),
-        credentials: "include", 
+        credentials: "include",
       });
 
       const result = await res.json();
@@ -31,7 +32,12 @@ export const useLogin = () => {
       }
 
       loginToStore(result.user, result.accessToken);
-      router.push("/products");
+
+      if (result.user.role === "ADMIN") {
+        router.push("/admin");
+      } else {
+        router.push("/products");
+      }
     } catch (error: unknown) {
       if (error instanceof Error) {
         setApiError(error.message);

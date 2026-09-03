@@ -1,9 +1,9 @@
-
 "use client";
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "../store/authStore";
+import { fetchWithAuth } from "../utils/fetchWithAuth";
 import type { AdminOrder } from "../types/admin";
 
 export function useAdminOrders() {
@@ -35,19 +35,13 @@ export function useAdminOrders() {
     const fetchOrders = async () => {
       setLoading(true);
       try {
-        const response = await fetch(
+        const response = await fetchWithAuth(
           `${process.env.NEXT_PUBLIC_API_URL}/orders/all`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          },
         );
 
         if (response.ok) {
           const data = await response.json();
           setOrders(data);
-        } else if (response.status === 401) {
-          useAuthStore.getState().logout();
-          router.push("/login");
         }
       } catch (error) {
         console.error("Failed to fetch orders:", error);

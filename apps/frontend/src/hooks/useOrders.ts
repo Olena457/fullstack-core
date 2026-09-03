@@ -1,8 +1,7 @@
-
 "use client";
+
 import { useEffect, useState } from "react";
-import { useRouter } from "next/navigation";
-import { useAuthStore } from "../store/authStore";
+import { fetchWithAuth } from "../utils/fetchWithAuth"; // Увага: перевір шлях до файлу fetchWithAuth!
 import type { Order } from "../types/order";
 
 export const useOrders = (
@@ -12,7 +11,6 @@ export const useOrders = (
   const [orders, setOrders] = useState<Order[]>([]);
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  const router = useRouter();
 
   useEffect(() => {
     if (!user || !token) return;
@@ -22,42 +20,9 @@ export const useOrders = (
       setError(null);
 
       try {
-        const makeRequest = async (currentToken: string | null) => {
-          return fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/my`, {
-            // Впевніться, що тут вірний шлях (у вас в контролері це 'orders/my')
-            headers: {
-              Authorization: `Bearer ${currentToken}`,
-              "Content-Type": "application/json",
-            },
-          });
-        };
-
-        let res = await makeRequest(token);
-
-        // Логіка оновлення токену, якщо отримали 401
-        if (res.status === 401) {
-          const refreshRes = await fetch(
-            `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`,
-            {
-              method: "POST",
-              credentials: "include",
-            },
-          );
-
-          if (refreshRes.ok) {
-            const { accessToken } = await refreshRes.json();
-            const currentUser = useAuthStore.getState().user;
-            if (currentUser) {
-              useAuthStore.getState().login(currentUser, accessToken);
-            }
-            // Повторюємо запит з новим токеном
-            res = await makeRequest(accessToken);
-          } else {
-            useAuthStore.getState().logout();
-            router.push("/login");
-            throw new Error("Session expired");
-          }
-        }
+        const res = await fetchWithAuth(
+          `${process.env.NEXT_PUBLIC_API_URL}/orders/my`,
+        );
 
         if (!res.ok) throw new Error("Failed to fetch orders");
 
@@ -72,7 +37,7 @@ export const useOrders = (
     };
 
     fetchOrders();
-  }, [user, token, router]);
+  }, [user, token]);
 
   return {
     orders,

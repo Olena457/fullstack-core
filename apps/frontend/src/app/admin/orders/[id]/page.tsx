@@ -10,28 +10,21 @@ import {
   Select,
   MenuItem,
   CircularProgress,
-  Paper,
-  Divider,
-  Table,
-  TableBody,
-  TableCell,
-  TableContainer,
-  TableHead,
-  TableRow,
 } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import LocalShippingOutlinedIcon from "@mui/icons-material/LocalShippingOutlined";
-import ReceiptOutlinedIcon from "@mui/icons-material/ReceiptOutlined";
 import { useRouter } from "next/navigation";
 import { useEffect, useState, use } from "react";
 import { useAuthStore } from "../../../../store/authStore";
+import { fetchWithAuth } from "../../../../utils/fetchWithAuth";
+import { CustomerDetailsCard } from "../../../../components/admin/CustomerDetailsCard";
+import { DeliveryDetailsCard } from "../../../../components/admin/DeliveryDetailsCard";
+import { OrderItemsTable } from "../../../../components/admin/OrderItemsTable";
+
 import type {
   AuthState,
   AdminOrder,
   OrderStatus,
 } from "../../../../types/admin";
-import type { OrderItemType } from "../../../../types/order";
 
 interface Props {
   params: Promise<{ id: string }>;
@@ -53,11 +46,8 @@ export default function OrderDetailsPage({ params }: Props) {
 
     const fetchSingleOrder = async () => {
       try {
-        const response = await fetch(
+        const response = await fetchWithAuth(
           `${process.env.NEXT_PUBLIC_API_URL}/orders/${id}`,
-          {
-            headers: { Authorization: `Bearer ${token}` },
-          },
         );
         if (response.ok) {
           const data = await response.json();
@@ -79,14 +69,13 @@ export default function OrderDetailsPage({ params }: Props) {
     setOrder({ ...order, status: newStatus as OrderStatus });
 
     try {
-      await fetch(`${process.env.NEXT_PUBLIC_API_URL}/orders/${id}/status`, {
-        method: "PATCH",
-        headers: {
-          "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+      await fetchWithAuth(
+        `${process.env.NEXT_PUBLIC_API_URL}/orders/${id}/status`,
+        {
+          method: "PATCH",
+          body: JSON.stringify({ status: newStatus }),
         },
-        body: JSON.stringify({ status: newStatus }),
-      });
+      );
     } catch (error) {
       console.error("Failed to update status:", error);
     }
@@ -177,165 +166,21 @@ export default function OrderDetailsPage({ params }: Props) {
           mb: 4,
         }}
       >
-        <Paper
-          variant="outlined"
-          sx={{ p: 3, borderRadius: 0, borderColor: "divider" }}
-        >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
-            <PersonOutlinedIcon />
-            <Typography
-              variant="h6"
-              sx={{ fontWeight: 800, textTransform: "uppercase" }}
-            >
-              Customer Details
-            </Typography>
-          </Box>
-          <Divider sx={{ mb: 2 }} />
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-            <Box sx={{ display: "flex", gap: 1, alignItems: "baseline" }}>
-              <Typography color="text.secondary">Name:</Typography>
-              <Typography sx={{ fontWeight: 600 }}>{customerName}</Typography>
-            </Box>
-            <Box sx={{ display: "flex", gap: 1, alignItems: "baseline" }}>
-              <Typography color="text.secondary">Email:</Typography>
-              <Typography sx={{ fontWeight: 600 }}>{customerEmail}</Typography>
-            </Box>
-            <Box sx={{ display: "flex", gap: 1, alignItems: "baseline" }}>
-              <Typography color="text.secondary">Phone:</Typography>
-              <Typography sx={{ fontWeight: 600 }}>
-                {order.phone || "—"}
-              </Typography>
-            </Box>
-          </Box>
-        </Paper>
-
-        <Paper
-          variant="outlined"
-          sx={{ p: 3, borderRadius: 0, borderColor: "divider" }}
-        >
-          <Box sx={{ display: "flex", alignItems: "center", gap: 1.5, mb: 2 }}>
-            <LocalShippingOutlinedIcon />
-            <Typography
-              variant="h6"
-              sx={{ fontWeight: 800, textTransform: "uppercase" }}
-            >
-              Nova Poshta Delivery
-            </Typography>
-          </Box>
-          <Divider sx={{ mb: 2 }} />
-          <Box sx={{ display: "flex", flexDirection: "column", gap: 1.5 }}>
-            <Box sx={{ display: "flex", gap: 1, alignItems: "baseline" }}>
-              <Typography color="text.secondary">City:</Typography>
-              <Typography sx={{ fontWeight: 600 }}>
-                {order.npCity || "—"}
-              </Typography>
-            </Box>
-            <Box sx={{ display: "flex", gap: 1, alignItems: "baseline" }}>
-              <Typography color="text.secondary">Branch:</Typography>
-              <Typography sx={{ fontWeight: 600 }}>
-                {order.npBranch || "—"}
-              </Typography>
-            </Box>
-          </Box>
-        </Paper>
+        <CustomerDetailsCard
+          name={customerName}
+          email={customerEmail}
+          phone={order.phone || undefined}
+        />
+        <DeliveryDetailsCard
+          city={order.npCity || undefined}
+          branch={order.npBranch || undefined}
+        />
       </Box>
 
-      <Paper
-        variant="outlined"
-        sx={{ borderRadius: 0, borderColor: "divider" }}
-      >
-        <Box
-          sx={{
-            p: 3,
-            borderBottom: 1,
-            borderColor: "divider",
-            display: "flex",
-            alignItems: "center",
-            gap: 1.5,
-          }}
-        >
-          <ReceiptOutlinedIcon />
-          <Typography
-            variant="h6"
-            sx={{ fontWeight: 800, textTransform: "uppercase" }}
-          >
-            Order Items
-          </Typography>
-        </Box>
-
-        <TableContainer>
-          <Table>
-            <TableHead sx={{ bgcolor: "action.hover" }}>
-              <TableRow>
-                <TableCell sx={{ fontWeight: 800 }}>PRODUCT</TableCell>
-                <TableCell sx={{ fontWeight: 800 }}>ATTRIBUTES</TableCell>
-                <TableCell align="center" sx={{ fontWeight: 800 }}>
-                  QTY
-                </TableCell>
-                <TableCell align="right" sx={{ fontWeight: 800 }}>
-                  PRICE
-                </TableCell>
-                <TableCell align="right" sx={{ fontWeight: 800 }}>
-                  TOTAL
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {order.items?.map((item: OrderItemType) => (
-                <TableRow key={item.id} hover>
-                  <TableCell>
-                    <Typography sx={{ fontWeight: 600 }}>
-                      {item.product?.title || "Unknown Product"}
-                    </Typography>
-                    <Typography variant="caption" color="text.secondary">
-                      SKU: {item.product?.sku || "—"}
-                    </Typography>
-                  </TableCell>
-                  <TableCell>
-                    {item.size && (
-                      <Typography variant="body2">
-                        Size: <strong>{item.size}</strong>
-                      </Typography>
-                    )}
-                    {item.color && (
-                      <Typography variant="body2">
-                        Color: <strong>{item.color}</strong>
-                      </Typography>
-                    )}
-                  </TableCell>
-                  <TableCell align="center">
-                    <Typography sx={{ fontWeight: 600 }}>
-                      x{item.quantity}
-                    </Typography>
-                  </TableCell>
-                  <TableCell align="right">
-                    ${Number(item.product?.price || 0).toFixed(2)}
-                  </TableCell>
-                  <TableCell align="right" sx={{ fontWeight: 700 }}>
-                    $
-                    {(Number(item.product?.price || 0) * item.quantity).toFixed(
-                      2,
-                    )}
-                  </TableCell>
-                </TableRow>
-              ))}
-            </TableBody>
-          </Table>
-        </TableContainer>
-
-        <Box
-          sx={{
-            p: 3,
-            display: "flex",
-            justifyContent: "flex-end",
-            bgcolor: "action.hover",
-          }}
-        >
-          <Typography variant="h5" sx={{ fontWeight: 900 }}>
-            TOTAL PAID: ${order.totalPrice.toFixed(2)}
-          </Typography>
-        </Box>
-      </Paper>
+      <OrderItemsTable
+        items={order.items || []}
+        totalPrice={order.totalPrice}
+      />
     </Box>
   );
 }

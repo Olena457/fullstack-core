@@ -1,4 +1,3 @@
-"use client";
 
 import { Box } from "@mui/material";
 
@@ -37,7 +36,7 @@ export const VerticalPromoSwiper = () => {
           display: "flex",
           flexDirection: "column",
           gap: 2,
-          animation: "verticalScroll 65s linear infinite",
+          animation: "verticalScroll 60s linear infinite",
           willChange: "transform", 
           "@keyframes verticalScroll": {
             "0%": { transform: "translate3d(0, 0, 0)" },

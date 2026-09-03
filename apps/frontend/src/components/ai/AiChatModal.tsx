@@ -11,21 +11,18 @@ import {
   DialogActions,
   Button,
   TextField,
-  Paper,
   CircularProgress,
   InputAdornment,
 } from "@mui/material";
 import { X, Send, CircleX, Trash2 } from "lucide-react";
-import ReactMarkdown from "react-markdown";
+
+import { fetchWithAuth } from "../../utils/fetchWithAuth";
+import { WelcomeMessage } from "./WelcomeMessage";
+import { ChatMessageBubble, type Message } from "./ChatMessageBubble";
 
 interface AiChatModalProps {
   open: boolean;
   onClose: () => void;
-}
-
-interface Message {
-  role: "user" | "assistant";
-  text: string;
 }
 
 export const AiChatModal: React.FC<AiChatModalProps> = ({ open, onClose }) => {
@@ -51,6 +48,7 @@ export const AiChatModal: React.FC<AiChatModalProps> = ({ open, onClose }) => {
       ...messages,
       { role: "user", text: userText },
     ];
+
     setMessages(updatedMessages);
     setInput("");
     setIsLoading(true);
@@ -61,14 +59,10 @@ export const AiChatModal: React.FC<AiChatModalProps> = ({ open, onClose }) => {
         content: msg.text,
       }));
 
-      const response = await fetch(
+      const response = await fetchWithAuth(
         `${process.env.NEXT_PUBLIC_API_URL}/ai/chat`,
         {
           method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
           body: JSON.stringify({
             question: userText,
             history: historyForBackend,
@@ -203,56 +197,11 @@ export const AiChatModal: React.FC<AiChatModalProps> = ({ open, onClose }) => {
             p: 2,
           }}
         >
-          {messages.length === 0 && (
-            <Box
-              sx={{
-                mt: 4,
-                px: 2,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                textAlign: "center",
-              }}
-            >
-              <Typography
-                variant="body1"
-                sx={{ fontWeight: 700, mb: 1, textTransform: "uppercase" }}
-              >
-                Welcome to the store
-              </Typography>
-              <Typography
-                variant="body2"
-                color="text.secondary"
-                sx={{ maxWidth: { xs: "100%", sm: "80%" } }}
-              >
-                Looking for an oversized fit? Need to find something on SALE? Or
-                just want recommendations for a new drop? Ask me anything.
-              </Typography>
-            </Box>
+          {messages.length === 0 ? (
+            <WelcomeMessage />
+          ) : (
+            messages.map((msg, i) => <ChatMessageBubble key={i} msg={msg} />)
           )}
-          {messages.map((msg, i) => (
-            <Box
-              key={i}
-              sx={{
-                alignSelf: msg.role === "user" ? "flex-end" : "flex-start",
-                maxWidth: "85%",
-              }}
-            >
-              <Paper
-                sx={{
-                  p: 2,
-                  borderRadius: 2,
-                  bgcolor: msg.role === "user" ? "black" : "white",
-                  color: msg.role === "user" ? "white" : "text.primary",
-                  boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
-                  "& p": { m: 0 },
-                  "& strong": { fontWeight: 700 },
-                }}
-              >
-                <ReactMarkdown>{msg.text}</ReactMarkdown>
-              </Paper>
-            </Box>
-          ))}
         </Box>
       </DialogContent>
 

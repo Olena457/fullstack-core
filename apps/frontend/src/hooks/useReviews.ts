@@ -1,8 +1,10 @@
 "use client";
+
 import { useEffect, useState } from "react";
+import { fetchWithAuth } from "../utils/fetchWithAuth"; // Увага: перевір шлях до файлу fetchWithAuth!
 import type { Review } from "../types/review";
 
-export const useReviews = (token: string | null) => {
+export const useReviews = () => {
   const [reviews, setReviews] = useState<Review[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -34,17 +36,16 @@ export const useReviews = (token: string | null) => {
     rating: number;
     comment: string;
   }) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/reviews`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
+    const res = await fetchWithAuth(
+      `${process.env.NEXT_PUBLIC_API_URL}/reviews`,
+      {
+        method: "POST",
+        body: JSON.stringify({
+          rating: data.rating,
+          text: data.comment,
+        }),
       },
-      body: JSON.stringify({
-        rating: data.rating,
-        text: data.comment,
-      }),
-    });
+    );
 
     if (!res.ok) {
       throw new Error("Failed to submit review");
