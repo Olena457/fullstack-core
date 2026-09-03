@@ -31,15 +31,17 @@ export const VerticalPromoSwiper = () => {
         display: "block",
       }}
     >
+     
       <Box
         sx={{
           display: "flex",
           flexDirection: "column",
           gap: 2,
-          animation: "verticalScroll 40s linear infinite",
+          animation: "verticalScroll 65s linear infinite",
+          willChange: "transform", 
           "@keyframes verticalScroll": {
-            "0%": { transform: "translateY(0)" },
-            "100%": { transform: "translateY(calc(-50% - 8px))" },
+            "0%": { transform: "translate3d(0, 0, 0)" },
+            "100%": { transform: "translate3d(0, calc(-50% - 8px), 0)" }, 
           },
           "&:hover": {
             animationPlayState: "paused",
