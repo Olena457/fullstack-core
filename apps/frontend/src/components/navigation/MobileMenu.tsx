@@ -1,7 +1,8 @@
+
 "use client";
 
 import { Box, Drawer, IconButton, Typography, Badge } from "@mui/material";
-import { X, LogOut } from "lucide-react";
+import { X, LogOut, Bot } from "lucide-react";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useAuthStore } from "../../../src/store/authStore";
@@ -9,6 +10,7 @@ import { useCartStore } from "../../../src/store/cartStore";
 import { useThemeStore } from "../../../src/store/themeStore";
 import { useState, useEffect } from "react";
 import { ThemeToggle } from "./ThemeToggle";
+import { AiChatModal } from "../ai/AiChatModal"; 
 
 import type {
   MobileMenuProps,
@@ -60,6 +62,7 @@ export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
   const toggleTheme = useThemeStore((state) => state.toggleTheme);
 
   const [isMounted, setIsMounted] = useState(false);
+  const [isAiModalOpen, setIsAiModalOpen] = useState(false); 
 
   useEffect(() => {
     const timer = setTimeout(() => {
@@ -69,149 +72,187 @@ export const MobileMenu = ({ isOpen, onClose }: MobileMenuProps) => {
     return () => clearTimeout(timer);
   }, []);
 
-const navItems = ["HOME", "PRODUCTS", "REVIEW", "ABOUT"];
+  const navItems = ["HOME", "PRODUCTS", "REVIEW", "ABOUT"];
   if (user?.role === "ADMIN") navItems.push("ADMIN");
 
   return (
-    <Drawer
-      anchor="right"
-      open={isOpen}
-      onClose={onClose}
-      sx={{
-        "& .MuiDrawer-paper": {
-          width: { xs: "100%", sm: 350 },
-          bgcolor: "background.paper",
-          backgroundImage: "none",
-        },
-      }}
-    >
-      <Box
+    <>
+      <Drawer
+        anchor="right"
+        open={isOpen}
+        onClose={onClose}
         sx={{
-          display: "flex",
-          justifyContent: "space-between",
-          alignItems: "center",
-          p: 2,
-          borderBottom: 2,
-          borderColor: "divider",
+          "& .MuiDrawer-paper": {
+            width: { xs: "100%", sm: 350 },
+            bgcolor: "background.paper",
+            backgroundImage: "none",
+          },
         }}
       >
-        <ThemeToggle onToggle={toggleTheme} />
-
-        <IconButton
-          onClick={onClose}
+        <Box
           sx={{
-            borderRadius: 0,
-            border: 1,
+            display: "flex",
+            justifyContent: "space-between",
+            alignItems: "center",
+            p: 2,
+            borderBottom: 2,
             borderColor: "divider",
-            color: "text.primary",
-            "&:hover": { bgcolor: "action.hover" },
           }}
         >
-          <X size={16} strokeWidth={2} />
-        </IconButton>
-      </Box>
+          <ThemeToggle onToggle={toggleTheme} />
 
-      <Box sx={{ display: "flex", flexDirection: "column" }}>
-        {navItems.map((item) => {
-          const href = item === "HOME" ? "/" : `/${item.toLowerCase()}`;
-          const isActive =
-            href === "/" ? pathname === href : pathname.startsWith(href);
-          return (
-            <MobileMenuItem
-              key={item}
-              href={href}
-              isActive={isActive}
-              onClick={onClose}
-            >
-              {item}
-            </MobileMenuItem>
-          );
-        })}
-      </Box>
+          <IconButton
+            onClick={onClose}
+            sx={{
+              borderRadius: 0,
+              border: 1,
+              borderColor: "divider",
+              color: "text.primary",
+              "&:hover": { bgcolor: "action.hover" },
+            }}
+          >
+            <X size={16} strokeWidth={2} />
+          </IconButton>
+        </Box>
 
-      <Box sx={{ mt: "auto", borderTop: 2, borderColor: "divider" }}>
-        {isMounted ? (
-          user ? (
-            <>
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          {navItems.map((item) => {
+            const href = item === "HOME" ? "/" : `/${item.toLowerCase()}`;
+            const isActive =
+              href === "/" ? pathname === href : pathname.startsWith(href);
+            return (
               <MobileMenuItem
-                href="/cart"
-                isActive={pathname === "/cart"}
-                onClick={onClose}
-                endIcon={
-                  <Badge
-                    badgeContent={totalItems}
-                    color="error"
-                    sx={{
-                      "& .MuiBadge-badge": {
-                        borderRadius: 0,
-                        fontWeight: "bold",
-                        border: 1,
-                        borderColor: "background.paper",
-                      },
-                    }}
-                  />
-                }
-              >
-                CART
-              </MobileMenuItem>
-
-              <MobileMenuItem
-                href="/favorites"
-                isActive={pathname === "/favorites"}
+                key={item}
+                href={href}
+                isActive={isActive}
                 onClick={onClose}
               >
-                FAVORITES
+                {item}
               </MobileMenuItem>
-              <MobileMenuItem
-                href="/history"
-                isActive={pathname === "/history"}
-                onClick={onClose}
-              >
-                HISTORY
-              </MobileMenuItem>
+            );
+          })}
+        </Box>
 
-              <Box
-                sx={{
-                  p: 2,
-                  display: "flex",
-                  alignItems: "center",
-                  justifyContent: "space-between",
-                  bgcolor: "action.hover",
-                }}
-              >
-                <Typography
-                  sx={{ fontWeight: 900, textTransform: "uppercase" }}
+        <Box sx={{ mt: "auto", borderTop: 2, borderColor: "divider" }}>
+          {isMounted ? (
+            user ? (
+              <>
+                <MobileMenuItem
+                  href="/cart"
+                  isActive={pathname === "/cart"}
+                  onClick={onClose}
+                  endIcon={
+                    <Badge
+                      badgeContent={totalItems}
+                      color="error"
+                      sx={{
+                        "& .MuiBadge-badge": {
+                          borderRadius: 0,
+                          fontWeight: "bold",
+                          border: 1,
+                          borderColor: "background.paper",
+                        },
+                      }}
+                    />
+                  }
                 >
-                  {user.name?.split(" ")[0] || "USER"}
-                </Typography>
-                <IconButton
+                  CART
+                </MobileMenuItem>
+
+                <MobileMenuItem
+                  href="/favorites"
+                  isActive={pathname === "/favorites"}
+                  onClick={onClose}
+                >
+                  FAVORITES
+                </MobileMenuItem>
+                <MobileMenuItem
+                  href="/history"
+                  isActive={pathname === "/history"}
+                  onClick={onClose}
+                >
+                  HISTORY
+                </MobileMenuItem>
+
+                {/* AI STYLIST */}
+                <Box
                   onClick={() => {
-                    logout();
-                    onClose();
-                    router.push("/login");
+                    onClose(); 
+                    setIsAiModalOpen(true);
                   }}
                   sx={{
-                    borderRadius: 0,
-                    color: "text.primary",
-                    border: 1,
+                    py: 2.5,
+                    px: 3,
+                    borderBottom: 1,
                     borderColor: "divider",
+                    color: "text.primary",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    cursor: "pointer",
+                    "&:hover": { bgcolor: "action.hover" },
                   }}
                 >
-                  <LogOut size={20} strokeWidth={2.5} />
-                </IconButton>
-              </Box>
-            </>
-          ) : (
-            <MobileMenuItem
-              href="/login"
-              isActive={pathname === "/login"}
-              onClick={onClose}
-            >
-              LOGIN
-            </MobileMenuItem>
-          )
-        ) : null}
-      </Box>
-    </Drawer>
+                  <Typography
+                    sx={{
+                      fontWeight: 900,
+                      textTransform: "uppercase",
+                      fontSize: "1.2rem",
+                    }}
+                  >
+                    AI STYLIST
+                  </Typography>
+                  <Bot size={24} />
+                </Box>
+
+                <Box
+                  sx={{
+                    p: 2,
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "space-between",
+                    bgcolor: "action.hover",
+                  }}
+                >
+                  <Typography
+                    sx={{ fontWeight: 900, textTransform: "uppercase" }}
+                  >
+                    {user.name?.split(" ")[0] || "USER"}
+                  </Typography>
+                  <IconButton
+                    onClick={() => {
+                      logout();
+                      onClose();
+                      router.push("/login");
+                    }}
+                    sx={{
+                      borderRadius: 0,
+                      color: "text.primary",
+                      border: 1,
+                      borderColor: "divider",
+                    }}
+                  >
+                    <LogOut size={20} strokeWidth={2.5} />
+                  </IconButton>
+                </Box>
+              </>
+            ) : (
+              <MobileMenuItem
+                href="/login"
+                isActive={pathname === "/login"}
+                onClick={onClose}
+              >
+                LOGIN
+              </MobileMenuItem>
+            )
+          ) : null}
+        </Box>
+      </Drawer>
+
+      <AiChatModal
+        open={isAiModalOpen}
+        onClose={() => setIsAiModalOpen(false)}
+      />
+    </>
   );
 };
