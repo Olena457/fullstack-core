@@ -1,3 +1,4 @@
+
 import {
   Box,
   Typography,
@@ -49,6 +50,32 @@ export const ProductInfo = ({
     }}
   >
     <Box sx={{ minWidth: 0, width: "100%" }}>
+      {/* --- ДОДАНИЙ БЛОК З ТЕГАМИ --- */}
+      {product.tags && product.tags.length > 0 && (
+        <Box sx={{ display: "flex", gap: 1, flexWrap: "wrap", mb: 1.5 }}>
+          {product.tags.map((tag) => (
+            <Typography
+              key={tag}
+              sx={{
+                bgcolor: tag === "SALE" ? "#ff4500" : "text.primary",
+                color: "background.default",
+                px: 1.5,
+                py: 0.5,
+                fontSize: "0.75rem",
+                fontWeight: 900,
+                textTransform: "uppercase",
+                letterSpacing: "1px",
+                border: "1px solid",
+                borderColor: tag === "SALE" ? "#ff4500" : "text.primary",
+              }}
+            >
+              {tag}
+            </Typography>
+          ))}
+        </Box>
+      )}
+      {/* ----------------------------- */}
+
       <Tooltip title={product.title} placement="bottom-start" arrow>
         <Typography
           variant="h1"

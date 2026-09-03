@@ -10,7 +10,13 @@ const prisma = new PrismaClient({ adapter });
 const getRandomItem = <T>(arr: T[]): T => arr[Math.floor(Math.random() * arr.length)];
 
 async function main() {
-  const hashedPassword = await bcrypt.hash('Password1!', 10);
+  const adminRawPassword = process.env.ADMIN_PASSWORD;
+  if (!adminRawPassword) {
+    throw new Error('CRITICAL ERROR: ADMIN_PASSWORD is not found in the .env file!');
+  }
+
+  const adminHashedPassword = await bcrypt.hash(adminRawPassword, 10);
+  const defaultHashedPassword = await bcrypt.hash('Password1!', 10);
 
   await prisma.review.deleteMany();
   await prisma.orderItem.deleteMany();
@@ -22,7 +28,7 @@ async function main() {
   const user1 = await prisma.user.create({
     data: {
       email: 'buyer@store.app',
-      password: hashedPassword,
+      password: defaultHashedPassword,
       name: 'Test Buyer',
     },
   });
@@ -30,7 +36,7 @@ async function main() {
   const user2 = await prisma.user.create({
     data: {
       email: 'reviewer@store.app',
-      password: hashedPassword,
+      password: defaultHashedPassword,
       name: 'Anna Style',
     },
   });
@@ -38,7 +44,7 @@ async function main() {
   await prisma.user.create({
     data: {
       email: 'admin@test.com',
-      password: hashedPassword,
+      password: adminHashedPassword,
       name: 'Admin User',
       role: 'ADMIN',
     },
@@ -61,10 +67,11 @@ async function main() {
     { email: 'arthur.curry@example.com', name: 'Arthur Curry' },
     { email: 'barry.allen@example.com', name: 'Barry Allen' },
   ];
+
   await prisma.user.createMany({
     data: fakeUsersData.map((u) => ({
       ...u,
-      password: hashedPassword,
+      password: defaultHashedPassword,
       role: 'USER',
     })),
   });
