@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { fetchWithAuth } from "../utils/fetchWithAuth"; // Увага: перевір шлях до файлу fetchWithAuth!
+import { fetchWithAuth } from "../utils/fetchWithAuth"; 
 import type { Review } from "../types/review";
 
 export const useReviews = () => {
@@ -55,10 +55,28 @@ export const useReviews = () => {
     setReviews((prev) => [newReview, ...prev]);
   };
 
+  const handleDeleteReview = async (id: number) => {
+    try {
+      const res = await fetchWithAuth(
+        `${process.env.NEXT_PUBLIC_API_URL}/reviews/${id}`,
+        { method: "DELETE" },
+      );
+
+      if (!res.ok) {
+        throw new Error("Failed to delete review");
+      }
+
+      setReviews((prev) => prev.filter((review) => review.id !== id));
+    } catch (err) {
+      console.error("Error deleting review:", err);
+    }
+  };
+
   return {
     reviews,
     isLoading,
     error,
     handleReviewSubmit,
+    handleDeleteReview, 
   };
 };
