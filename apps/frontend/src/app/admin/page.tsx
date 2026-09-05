@@ -1,8 +1,9 @@
 
 "use client";
 
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, IconButton } from "@mui/material";
 import { useState, useMemo } from "react";
+import { Bell, Settings } from "lucide-react";
 import { AdminSummary } from "../../components/admin/AdminSummary";
 import { AdminOrdersTable } from "../../components/admin/AdminOrdersTable";
 import { Pagination } from "../../components/admin/Pagination";
@@ -156,17 +157,58 @@ export default function AdminPage() {
 
   return (
     <Box sx={{ maxWidth: 1400, mx: "auto", p: { xs: 1, md: 2 } }}>
-      <Typography
-        variant="h4"
+      <Box
         sx={{
-          fontWeight: 900,
+          display: "flex",
+          justifyContent: "space-between",
+          alignItems: "center",
+          borderBottom: "1px solid",
+          borderColor: "divider",
+          pb: 2,
           mb: { xs: 2.5, md: 4 },
-          fontSize: { xs: "1.25rem", sm: "1.5rem" },
-          textTransform: "uppercase",
         }}
       >
-        Admin Dashboard
-      </Typography>
+        <Typography
+          variant="h4"
+          sx={{
+            fontWeight: 900,
+            fontSize: { xs: "1.25rem", sm: "1.5rem" },
+            textTransform: "uppercase",
+            m: 0,
+          }}
+        >
+          Admin Dashboard
+        </Typography>
+
+        <Box sx={{ display: "flex", gap: 1 }}>
+          <IconButton
+            sx={{
+              borderRadius: 2,
+              color: "text.secondary",
+              transition: "all 0.2s ease-in-out",
+              "&:hover": {
+                color: "secondary.main",
+                backgroundColor: "action.hover",
+              },
+            }}
+          >
+            <Bell size={22} />
+          </IconButton>
+          <IconButton
+            sx={{
+              borderRadius: 2,
+              color: "text.secondary",
+              transition: "all 0.2s ease-in-out",
+              "&:hover": {
+                color: "secondary.main",
+                backgroundColor: "action.hover",
+              },
+            }}
+          >
+            <Settings size={22} />
+          </IconButton>
+        </Box>
+      </Box>
 
       <Box
         sx={{

@@ -27,7 +27,7 @@ export function OrderFilters({
   return (
     <Box
       sx={{
-              display: "flex",
+        display: "flex",
         alignItems: "flex-start",
         flexWrap: "nowrap",
         gap: 2,
@@ -38,7 +38,7 @@ export function OrderFilters({
         <SearchInput
           value={searchQuery}
           onChange={onSearchChange}
-          placeholder="SEARCH ORDERS BY ID, NAME OR EMAIL..."
+          placeholder="SEARCH NAME OR EMAIL,ORDERS BY ID..."
         />
       </Box>
 
@@ -54,7 +54,7 @@ export function OrderFilters({
                 borderRadius: 0,
                 fontWeight: 700,
                 fontSize: "0.75rem",
-                px: 1.5, 
+                px: 1.5,
                 py: 1.1,
                 borderColor: "divider",
                 backgroundColor: isActive ? "text.primary" : "background.paper",
