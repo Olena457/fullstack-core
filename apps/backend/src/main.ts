@@ -4,11 +4,14 @@ import { AppModule } from './app.module';
 import { DocumentBuilder, SwaggerModule } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import cookieParser from 'cookie-parser';
+import { NestExpressApplication } from '@nestjs/platform-express';
 
 async function bootstrap() {
-  const app = await NestFactory.create(AppModule, {
+  const app = await NestFactory.create<NestExpressApplication>(AppModule, {
     rawBody: true,
   });
+
+  app.set('trust proxy', 1);
   app.useGlobalPipes(
     new ValidationPipe({
       whitelist: true,
@@ -19,12 +22,15 @@ async function bootstrap() {
 
   app.use(cookieParser());
 
+  const allowedOrigins = [process.env.FRONTEND_URL, 'http://localhost:3000'].filter(
+    Boolean,
+  ) as string[];
+
   app.enableCors({
-    origin: [process.env.FRONTEND_URL, 'http://localhost:3000'].filter(Boolean),
-    methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
+    origin: allowedOrigins,
+    methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE'],
     credentials: true,
   });
-
   const config = new DocumentBuilder()
     .setTitle('ENTROPIC API')
     .setDescription('API documentation for the ENTROPIC streetwear store')

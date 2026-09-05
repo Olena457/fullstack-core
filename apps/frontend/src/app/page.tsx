@@ -101,7 +101,7 @@ export default function Home() {
               "@media (min-width: 1024px)": {
                 width: "95%",
                 left: "auto",
-                right: "-25%",
+                right: "-35%",
               },
               "@media (min-width: 1200px)": {
                 left: "auto",

@@ -11,20 +11,22 @@ export const StatsSection = () => {
   return (
     <Box
       sx={{
-        bgcolor: "background.default",
-        py: { xs: 1.5, sm: 2 },
+        px: { xs: 2, md: 3 },
+     
+        bgcolor: "transparent",
+        mb: { xs: 2 },
       }}
     >
       <Box
         sx={{
           maxWidth: "1200px",
           margin: { xs: "0 auto", md: "0 auto 0 8%" },
-          px: { xs: 1, sm: 2 },
+          px: { xs: 1 },
           display: "flex",
           flexDirection: { xs: "row", md: "row" },
-          justifyContent: { xs: "space-between", md: "flex-start" },
+          justifyContent: { xs: "space-between" },
           alignItems: "center",
-          gap: { xs: 2, md: 3 }, 
+          gap: { xs: 2, md: 3 },
           textAlign: { xs: "left", md: "left", lg: "left" },
         }}
       >
@@ -33,7 +35,7 @@ export const StatsSection = () => {
             key={index}
             sx={{
               display: "flex",
-              flexDirection: { xs: "column", md: "row" },
+              flexDirection: { xs: "column", sm: "row", md: "row" },
               alignItems: { xs: "flex-start", md: "center" },
               gap: { xs: 0.2, md: 1 },
             }}
@@ -42,7 +44,7 @@ export const StatsSection = () => {
               component="span"
               sx={{
                 fontWeight: 700,
-                color: "text.primary",
+                color: "secondary.main",
                 fontSize: { xs: "0.7rem", md: "0.9rem" },
                 lineHeight: 1.2,
               }}
@@ -54,9 +56,9 @@ export const StatsSection = () => {
               sx={{
                 color: "text.secondary",
                 textTransform: "uppercase",
-                letterSpacing: "0.06em",
+                letterSpacing: { xs: "0.04rem", sm: "0.07rem", lg: "0.08rem" },
                 fontWeight: 600,
-                fontSize: { xs: "0.45rem", sm: "0.75rem" },
+                fontSize: { xs: "0.4rem", sm: "0.75rem" },
                 lineHeight: 1.2,
               }}
             >

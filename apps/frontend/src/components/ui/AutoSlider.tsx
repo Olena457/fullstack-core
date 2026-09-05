@@ -9,7 +9,6 @@ const sliderImages = [
   "/images/style-1.png",
   "/images/style-3.png",
   "/images/style-4.png",
-  "/images/style-2.png",
 ];
 
 export const AutoSlider = () => {
