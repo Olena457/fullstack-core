@@ -1,5 +1,4 @@
 
-
 "use client";
 
 import { Box, Typography } from "@mui/material";
@@ -7,18 +6,25 @@ import { useState, useMemo } from "react";
 import { AdminSummary } from "../../components/admin/AdminSummary";
 import { AdminOrdersTable } from "../../components/admin/AdminOrdersTable";
 import { Pagination } from "../../components/admin/Pagination";
-import { SearchInput } from "../../components/product/SearchInput";
+import { OrderFilters } from "../../components/admin/OrderFilters";
 import { useAdminOrders } from "../../hooks/useAdminOrders";
 import type { AdminOrder } from "../../types/admin";
+import { AdminOrderStatus } from "../../components/admin/AdminOrderStatus";
 
 function useOrderTableLogic(orders: AdminOrder[], limit: number = 8) {
   const [searchQuery, setSearchQuery] = useState("");
+  const [statusFilter, setStatusFilter] = useState("ALL");
   const [sortBy, setSortBy] = useState("createdAt");
   const [sortOrder, setSortOrder] = useState<"asc" | "desc">("desc");
   const [page, setPage] = useState(1);
 
   const handleSearchChange = (value: string) => {
     setSearchQuery(value);
+    setPage(1);
+  };
+
+  const handleStatusChange = (status: string) => {
+    setStatusFilter(status);
     setPage(1);
   };
 
@@ -35,11 +41,25 @@ function useOrderTableLogic(orders: AdminOrder[], limit: number = 8) {
   const filteredAndSortedOrders = useMemo(() => {
     let result = [...orders];
 
+    if (statusFilter !== "ALL") {
+      result = result.filter(
+        (order) => order.status?.toLowerCase() === statusFilter.toLowerCase(),
+      );
+    }
+
     if (searchQuery.trim() !== "") {
       const query = searchQuery.toLowerCase();
       result = result.filter((order) => {
-        const customerName = (order.user?.name || order.firstName || "").toLowerCase();
-        const customerEmail = (order.user?.email || order.email || "").toLowerCase();
+        const customerName = (
+          order.user?.name ||
+          order.firstName ||
+          ""
+        ).toLowerCase();
+        const customerEmail = (
+          order.user?.email ||
+          order.email ||
+          ""
+        ).toLowerCase();
         const orderId = order.id.toLowerCase();
 
         return (
@@ -74,7 +94,7 @@ function useOrderTableLogic(orders: AdminOrder[], limit: number = 8) {
     });
 
     return result;
-  }, [orders, sortBy, sortOrder, searchQuery]);
+  }, [orders, sortBy, sortOrder, searchQuery, statusFilter]);
 
   const total = filteredAndSortedOrders.length;
   const totalPages = Math.max(1, Math.ceil(total / limit));
@@ -88,6 +108,7 @@ function useOrderTableLogic(orders: AdminOrder[], limit: number = 8) {
 
   return {
     searchQuery,
+    statusFilter,
     sortBy,
     sortOrder,
     page,
@@ -97,6 +118,7 @@ function useOrderTableLogic(orders: AdminOrder[], limit: number = 8) {
     to,
     paginatedOrders,
     handleSearchChange,
+    handleStatusChange,
     handleSort,
     setPage,
   };
@@ -108,6 +130,7 @@ export default function AdminPage() {
 
   const {
     searchQuery,
+    statusFilter,
     sortBy,
     sortOrder,
     page,
@@ -117,12 +140,13 @@ export default function AdminPage() {
     to,
     paginatedOrders,
     handleSearchChange,
+    handleStatusChange,
     handleSort,
     setPage,
   } = useOrderTableLogic(safeOrders);
 
   if (!isMounted) return null;
-  
+
   if (loading || !Array.isArray(orders))
     return (
       <Box sx={{ p: 4 }}>
@@ -131,27 +155,50 @@ export default function AdminPage() {
     );
 
   return (
-    <Box sx={{ maxWidth: 1400, mx: "auto", p: { xs: 2, md: 4 } }}>
+    <Box sx={{ maxWidth: 1400, mx: "auto", p: { xs: 1, md: 2 } }}>
       <Typography
         variant="h4"
         sx={{
           fontWeight: 900,
           mb: { xs: 2.5, md: 4 },
-          fontSize: { xs: "1.75rem", sm: "2.125rem", md: "2.25rem" },
+          fontSize: { xs: "1.25rem", sm: "1.5rem" },
           textTransform: "uppercase",
         }}
       >
         Admin Dashboard
       </Typography>
 
-      <AdminSummary orders={safeOrders} />
+      <Box
+        sx={{
+          display: "grid",
+          gridTemplateColumns: { xs: "1fr", xl: "500px 1fr" },
+          gap: 3,
+          mb: 3,
+          alignItems: "stretch",
+        }}
+      >
+        <Box sx={{ display: "flex", flexDirection: "column" }}>
+          <AdminOrderStatus orders={safeOrders} />
+        </Box>
 
-      <Box sx={{ maxWidth: { xs: "100%", md: 500 } }}>
-        <SearchInput
-          value={searchQuery}
-          onChange={handleSearchChange}
-          placeholder="SEARCH ORDERS BY ID, NAME OR EMAIL..."
-        />
+        <Box
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            justifyContent: "space-between",
+          }}
+        >
+          <AdminSummary orders={safeOrders} />
+
+          <Box sx={{ mt: { xs: 3, xl: 0 } }}>
+            <OrderFilters
+              searchQuery={searchQuery}
+              statusFilter={statusFilter}
+              onSearchChange={handleSearchChange}
+              onStatusChange={handleStatusChange}
+            />
+          </Box>
+        </Box>
       </Box>
 
       <AdminOrdersTable

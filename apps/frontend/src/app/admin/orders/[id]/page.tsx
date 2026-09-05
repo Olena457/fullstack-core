@@ -111,11 +111,11 @@ export default function OrderDetailsPage({ params }: Props) {
   const customerEmail = order.user?.email || order.email || "No email provided";
 
   return (
-    <Box sx={{ maxWidth: 1200, mx: "auto", p: { xs: 2, md: 4 } }}>
+    <Box sx={{ maxWidth: 1200, mx: "auto", p: { xs: 2, md: 2 } }}>
       <Button
         startIcon={<ArrowBackIcon />}
         onClick={() => router.push("/admin")}
-        sx={{ mb: 4, color: "text.primary", borderRadius: 0, fontWeight: 700 }}
+        sx={{ mb: 3, color: "text.primary", borderRadius: 0, fontWeight: 700 }}
       >
         BACK TO ADMIN PANEL
       </Button>
@@ -132,8 +132,8 @@ export default function OrderDetailsPage({ params }: Props) {
       >
         <Box>
           <Typography
-            variant="h4"
-            sx={{ fontWeight: 900, textTransform: "uppercase" }}
+            variant="h5"
+            sx={{ fontWeight: 800, textTransform: "uppercase" }}
           >
             Order #{order.id.slice(0, 8)}
           </Typography>

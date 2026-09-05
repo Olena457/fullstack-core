@@ -1,5 +1,3 @@
-
-
 "use client";
 
 import { useState } from "react";
@@ -13,7 +11,7 @@ import {
   Alert,
   IconButton,
   InputAdornment,
-  CircularProgress, 
+  CircularProgress,
 } from "@mui/material";
 import { Eye, EyeOff } from "lucide-react";
 import Link from "next/link";
@@ -53,22 +51,41 @@ export const LoginForm = ({
         bgcolor: "background.paper",
       }}
     >
-      <Typography
-        variant="h4"
-        sx={(theme) => ({
-          fontWeight: 900,
-          textTransform: "uppercase",
+       <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 2,
           mb: 4,
-          textAlign: "center",
-          color: theme.palette.mode === "dark" ? "#b3b3b3" : "text.primary",
-          fontSize: {
-            xs: "1.75rem",
-            sm: "2.125rem",
-          },
-        })}
+        }}
       >
-        Login
-      </Typography>
+        <Box
+          component="img"
+          src="./icon.svg"
+          alt="Logo Icon"
+          sx={{
+            width: { xs: 24, sm: 30 },
+            height: { xs: 24, sm: 30 },
+            objectFit: "contain",
+          }}
+        />
+        <Typography
+          variant="h4"
+          sx={(theme) => ({
+            fontWeight: 900,
+            textTransform: "uppercase",
+            color: theme.palette.mode === "dark" ? "#b3b3b3" : "text.primary",
+            fontSize: {
+              xs: "1.8rem",
+              sm: "1.95rem",
+            },
+            lineHeight: 1.2,
+          })}
+        >
+          Login
+        </Typography>
+      </Box>
 
       <Box
         component="form"
@@ -103,7 +120,7 @@ export const LoginForm = ({
                     onClick={() => setShowPassword(!showPassword)}
                     edge="end"
                     sx={{ color: "text.secondary" }}
-                    disabled={isLoading} 
+                    disabled={isLoading}
                   >
                     {showPassword ? <EyeOff size={20} /> : <Eye size={20} />}
                   </IconButton>

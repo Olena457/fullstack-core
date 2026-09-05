@@ -11,7 +11,7 @@ export function StatusBadge({ status }: { status: OrderStatus }) {
       case "PAID":
         return { bg: "success.main", color: "#fff" };
       case "SHIPPED":
-        return { bg: "primary.main", color: "background.default" };
+        return { bg: "#0288d1", color: "background.default" };
       case "CANCELLED":
         return { bg: "error.main", color: "#fff" };
       default:
@@ -28,8 +28,8 @@ export function StatusBadge({ status }: { status: OrderStatus }) {
         px: 1.5,
         py: 0.5,
         display: "inline-flex",
-        minWidth: "110px", 
-        justifyContent: "center", 
+        minWidth: "110px",
+        justifyContent: "center",
       }}
     >
       <Typography

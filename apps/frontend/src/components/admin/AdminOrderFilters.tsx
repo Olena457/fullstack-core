@@ -28,20 +28,20 @@ export function AdminOrderFilters({
     <Box
       sx={{
         display: "flex",
-        flexWrap: "wrap",
+        flexWrap: "nowrap",
         gap: 2,
         mb: 3,
         alignItems: "center",
       }}
     >
       <TextField
-        placeholder="Search orders, names, emails..."
+        placeholder="Search orders..."
         value={search}
         onChange={(e) => onSearchChange(e.target.value)}
         size="small"
         sx={{
           flexGrow: 1,
-          maxWidth: 320,
+          maxWidth: 200,
           "& .MuiOutlinedInput-root": { borderRadius: 0 },
         }}
         slotProps={{
@@ -66,6 +66,8 @@ export function AdminOrderFilters({
               sx={{
                 borderRadius: 0,
                 boxShadow: "none",
+                fontSize: "0.7rem",
+                px: 1.2,
                 fontWeight: 600,
                 color: isActive ? "background.paper" : "text.secondary",
                 borderColor: isActive ? "transparent" : "divider",

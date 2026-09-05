@@ -52,23 +52,23 @@ export const ReviewCard = ({
           right: 0,
           bottom: 0,
           zIndex: 0,
-          transition: "opacity 0.5s ease", 
+          transition: "opacity 0.5s ease",
         },
 
         "&::before": {
           background: (theme) =>
             `linear-gradient(135deg, ${alpha(theme.palette.primary.main, 0.15)} 0%, ${alpha(theme.palette.primary.main, 0)} 60%)`,
-          opacity: 1, 
+          opacity: 1,
         },
 
         "&::after": {
           background: (theme) =>
             `linear-gradient(315deg, ${alpha(theme.palette.primary.main, 0.15)} 0%, ${alpha(theme.palette.primary.main, 0)} 60%)`,
-          opacity: 0, 
+          opacity: 0,
         },
 
         "&:hover, &:focus-within": {
-          borderColor: "primary.main",
+          borderColor: "secondary.main",
           boxShadow: "0 8px 24px rgba(0,0,0,0.12)",
 
           "&::before": {

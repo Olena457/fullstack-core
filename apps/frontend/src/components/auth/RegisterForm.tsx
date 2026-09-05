@@ -51,26 +51,44 @@ export const RegisterForm = ({
         bgcolor: "background.paper",
       }}
     >
-      <Typography
-        variant="h5"
-        sx={(theme) => ({
-          fontWeight: 900,
-          textTransform: "uppercase",
+      
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 1,
           mb: 4,
-          textAlign: "center",
-          color: theme.palette.mode === "dark" ? "#b3b3b3" : "text.primary", 
-          fontSize: {
-            xs: "1rem",
-            md: "1.25rem",
-            sm: "1.5rem", 
-            lg: "1.75rem",
-            
-          },
-        })}
+        }}
       >
-        Create Account
-      </Typography>
-
+        <Box
+          component="img"
+          src="./icon.svg"
+          alt="Logo Icon"
+          sx={{
+            width: { xs: 24, sm: 30 },
+            height: { xs: 24, sm: 30 },
+            objectFit: "contain",
+          }}
+        />
+        <Typography
+          variant="h4"
+          sx={(theme) => ({
+            fontWeight: 900,
+            textTransform: "uppercase",
+            color: theme.palette.mode === "dark" ? "#b3b3b3" : "text.primary",
+            fontSize: {
+              xs: "0.875rem",
+              md: "1rem",
+              sm: "1.25rem",
+              lg: "1.5rem",
+            },
+            lineHeight: 1.2,
+          })}
+        >
+          Create Account
+        </Typography>
+      </Box>
       <Box
         component="form"
         onSubmit={handleSubmit(onSubmit)}
@@ -136,7 +154,7 @@ export const RegisterForm = ({
           fullWidth
           variant="contained"
           disabled={isLoading}
-        sx={(theme) => ({
+          sx={(theme) => ({
             mt: 2,
             py: 1.5,
             borderRadius: 0,
