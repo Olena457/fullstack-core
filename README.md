@@ -1,13 +1,6 @@
-
-
-
-
-# "🚧 Please note: This project is currently under development."
-
 # Alter Ego - Full-Stack E-Commerce Platform
 
 _A professional, full-stack e-commerce application tailored for the Alter Ego clothing brand. This project features a robust, scalable NestJS backend and a highly responsive Next.js frontend, engineered for seamless shopping, secure payments, and a premium user experience._
-
 
 ---
 
@@ -25,6 +18,10 @@ This application **Alter Ego** brand looking for a fast, intuitive, and secure o
 * **Responsive & Accessible UI:** Fully responsive design featuring a dedicated **Mobile Menu** for smooth navigation on smaller screens.
 * **Theming:** Integrated **Light and Dark mode** capabilities, allowing users to customize their visual experience.
 * **Interactive API Documentation (Swagger):** Fully documented RESTful API with an interactive UI available via Swagger.
+* **Admin Panel:** A secure **Admin Dashboard** for managing products, orders, and users.
+* **Reviews Page:** A dedicated page for customer feedback and product reviews.
+* **About Page:** Informational page describing the brand and its mission.
+* **AI Assistant Integration:** Built-in AI assistant providing product recommendations and interactive guidance.
 
 ---
 
@@ -38,6 +35,8 @@ This project is separated into a high-performance backend and a modern frontend,
 * **State Management:** Zustand
 * **Form Handling & Validation:** React Hook Form & Yup
 * **Icons & Notifications:** Lucide React, React Toastify
+* **Animations:** Framer Motion
+* **Markdown Rendering:** React Markdown
 
 ### Backend (Server)
 * **Framework:** NestJS (v11)
@@ -45,6 +44,17 @@ This project is separated into a high-performance backend and a modern frontend,
 * **Authentication:** Passport.js, JWT, Bcrypt
 * **Payment Processing:** Stripe SDK
 * **API Documentation:** Swagger UI
+* **Validation:** Class-validator & Class-transformer
+* **Security:** Sanitize-html
+* **Testing:** Jest & Supertest for unit and e2e tests
+
+---
+
+## Integrations
+
+* **Stripe Sandbox:** Secure payment gateway with test and live transaction support.
+* **Nova Poshta API:** Real-time shipping data for cities and branch locations.
+* **AI Assistant (ALTEREGO AI):** Intelligent product recommendations and shopping guidance.
 
 ---
 
@@ -57,11 +67,6 @@ Follow these instructions to set up the project locally.
 ```bash
 git clone https://github.com/USERNAME/REPOSITORY_NAME.git
 cd REPOSITORY_NAME
-```
-
-### 2. Backend Setup
-
-```bash
 # Navigate to the backend directory
 cd apps/backend
 
@@ -76,11 +81,6 @@ npm run seed
 
 # Run the development server
 npm run start:dev
-```
-
-### 3. Frontend Setup
-
-```bash
 # Open a new terminal and navigate to the frontend directory
 cd apps/frontend
 
@@ -92,5 +92,3 @@ npm install
 
 # Start the development server
 npm run dev
-```
-
