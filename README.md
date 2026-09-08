@@ -16,22 +16,22 @@ This application **Alter Ego** brand looking for a fast, intuitive, and secure o
 
   <img src="apps/frontend/public/images/photo-1.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 1"/>
   <img src="apps/frontend/public/images/photo-2.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 2"/>
+  <img src="apps/frontend/public/images/photo-6.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 5"/>
   <img src="apps/frontend/public/images/photo-3.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 3"/>
   <img src="apps/frontend/public/images/photo-4.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 4"/>
-  <img src="apps/frontend/public/images/photo-6.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 5"/>
+  <img src="apps/frontend/public/images/photo-11.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 12"/>
+   <img src="apps/frontend/public/images/photo-15.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 16"/>
   <img src="apps/frontend/public/images/photo-5.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 7"/>
   <img src="apps/frontend/public/images/photo-7.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 8"/>
   <img src="apps/frontend/public/images/photo-8.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 9"/>
-  <img src="apps/frontend/public/images/photo-9.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 10"/>
   <img src="apps/frontend/public/images/photo-10.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 11"/>
-  <img src="apps/frontend/public/images/photo-11.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 12"/>
+  <img src="apps/frontend/public/images/photo-9.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 10"/>
   <img src="apps/frontend/public/images/photo-12.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 13"/>
   <img src="apps/frontend/public/images/photo-13.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 14"/>
   <img src="apps/frontend/public/images/photo-14.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 15"/>
-  <img src="apps/frontend/public/images/photo-15.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 16"/>
-  <img src="apps/frontend/public/images/photo-16.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 17"/>
-  <img src="apps/frontend/public/images/photo-17.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 18"/>
   <img src="apps/frontend/public/images/photo-18.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 18"/>
+  <img src="apps/frontend/public/images/photo-17.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 17"/>
+  <img src="apps/frontend/public/images/photo-16.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 16"/>
   <img src="apps/frontend/public/images/photo-19.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 19"/>
   <img src="apps/frontend/public/images/photo-20.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 20"/>
   <img src="apps/frontend/public/images/photo-21.jpg" style="width: 30%; height: 150px; object-fit: cover;" alt="photoshot 21"/>
@@ -103,9 +103,7 @@ This project is separated into a high-performance backend and a modern frontend,
 * **Authentication:** Passport.js, JWT, Bcrypt
 * **Payment Processing:** Stripe SDK
 * **API Documentation:** Swagger UI
-* **Validation:** Class-validator & Class-transformer
 * **Security:** Sanitize-html
-* **Testing:** Jest & Supertest for unit and e2e tests
 
 ---
 
@@ -136,7 +134,7 @@ npm install
 # Create a .env file and add your PostgreSQL URI, Stripe Secret Key, and JWT Secrets
 
 # Seed the database with initial products/data
-npm run seed
+npx prisma db seed
 
 # Run the development server
 npm run start:dev
