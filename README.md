@@ -1,13 +1,48 @@
-# Alter Ego - Full-Stack E-Commerce Platform
+# *Alter Ego - Full-Stack E-Commerce Platform*
 
 _A professional, full-stack e-commerce application tailored for the Alter Ego clothing brand. This project features a robust, scalable NestJS backend and a highly responsive Next.js frontend, engineered for seamless shopping, secure payments, and a premium user experience._
 
 ---
 
-## Target Audience
+## *Target Audience*
 This application **Alter Ego** brand looking for a fast, intuitive, and secure online shopping experience across both desktop and mobile devices.
 
-## Key Features
+
+
+## *photoshots*
+
+
+<div style="display: flex; flex-wrap: wrap; gap: 15px;">
+
+  <img src="apps/frontend/public/images/photo-1.jpg" width="30%" height="150px" alt="photoshot 1"/>
+  <img src="apps/frontend/public/images/photo-2.jpg" width="30%" height="150px" alt="photoshot 2"/>
+  <img src="apps/frontend/public/images/photo-3.jpg" width="30%" height="150px" alt="photoshot 3"/>
+  <img src="apps/frontend/public/images/photo-4.jpg" width="30%" height="150px" alt="photoshot 4"/>
+  <img src="apps/frontend/public/images/photo-6.jpg" width="30%" height="150px" alt="photoshot 5"/>
+  <img src="apps/frontend/public/images/photo-5.jpg" width="30%" height="150px" alt="photoshot 7"/>
+  <img src="apps/frontend/public/images/photo-7.jpg" width="30%" height="150px" alt="photoshot 8"/>
+  <img src="apps/frontend/public/images/photo-8.jpg" width="30%" height="150px" alt="photoshot 9"/>
+  <img src="apps/frontend/public/images/photo-9.jpg" width="30%" height="150px" alt="photoshot 10"/>
+  <img src="apps/frontend/public/images/photo-10.jpg" width="30%" height="150px" alt="photoshot 11"/>
+  <img src="apps/frontend/public/images/photo-11.jpg" width="30%" height="150px" alt="photoshot 12"/>
+  <img src="apps/frontend/public/images/photo-12.jpg" width="30%" height="150px" alt="photoshot 13"/>
+  <img src="apps/frontend/public/images/photo-13.jpg" width="30%" height="150px" alt="photoshot 14"/>
+  <img src="apps/frontend/public/images/photo-14.jpg" width="30%" height="150px" alt="photoshot 15"/>
+  <img src="apps/frontend/public/images/photo-15.jpg" width="30%" height="150px" alt="photoshot 16"/>
+  <img src="apps/frontend/public/images/photo-16.jpg" width="30%" height="150px" alt="photoshot 17"/>
+  <img src="apps/frontend/public/images/photo-17.jpg" width="30%" height="150px" alt="photoshot 18"/>
+  <img src="apps/frontend/public/images/photo-18.jpg" width="30%" height="150px" alt="photoshot 19"/>
+  <img src="apps/frontend/public/images/photo-19.jpg" width="30%" height="150px" alt="photoshot 20"/>
+  <img src="apps/frontend/public/images/photo-20.jpg" width="30%" height="150px" alt="photoshot 21"/>
+  <img src="apps/frontend/public/images/photo-21.jpg" width="30%" height="150px" alt="photoshot 21"/>
+  <img src="apps/frontend/public/images/photo-22.jpg" width="30%" height="150px" alt="photoshot 21"/>
+  <img src="apps/frontend/public/images/photo-23.jpg" width="30%" height="150px" alt="photoshot 21"/>
+  <img src="apps/frontend/public/images/photo-24.jpg" width="30%" height="150px" alt="photoshot 21"/>
+  <img src="apps/frontend/public/images/photo-25.jpg" width="30%" height="150px" alt="photoshot 21"/>
+
+</div>
+
+## *Key Features*
 
 * **Comprehensive Shopping Flow:** Browse products on the main catalog, view specific item details on the **Product Page (by ID)**, and manage intended purchases.
 * **User Authentication:** Secure **Login and Registration** pages utilizing JWT and Passport for safe user sessions.
@@ -15,7 +50,7 @@ This application **Alter Ego** brand looking for a fast, intuitive, and secure o
 * **Advanced Checkout & Payments:** A streamlined **Checkout page** integrated with the **Stripe API** for secure, real-time credit card processing and transaction handling.
 * **Nova Poshta Integration:** Seamless connection with the **Nova Poshta API** to fetch up-to-date cities and branch locations, ensuring accurate shipping details during checkout.
 * **Order History:** A dedicated page where authenticated users can view their past purchases and order statuses.
-* **Responsive & Accessible UI:** Fully responsive design featuring a dedicated **Mobile Menu** for smooth navigation on smaller screens.
+* **Responsive & Accessible UI:** Fully responsive design featuring a dedicated **Mobile Menu** for smooth navigation on smaller photos.
 * **Theming:** Integrated **Light and Dark mode** capabilities, allowing users to customize their visual experience.
 * **Interactive API Documentation (Swagger):** Fully documented RESTful API with an interactive UI available via Swagger.
 * **Admin Panel:** A secure **Admin Dashboard** for managing products, orders, and users.
