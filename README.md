@@ -47,6 +47,25 @@ This application **Alter Ego** brand looking for a fast, intuitive, and secure o
 
 </div>
 
+
+---
+
+## *Demo Video*
+
+You can watch a short demo of my application at this link:  
+[Watch the video](https://drive.google.com/file/d/1UduA4QWhBxuAPO8UgDfy-Dx4n3VR6l_S/view?usp=sharing)
+
+
+## *Demo Video (CRM Page)*
+
+You can watch a short demo of the CRM page of this application here:  
+[Watch the video](https://drive.google.com/file/d/15SBZFHjqZ5Ez7HtAEl6TueAWqEKudLAm/view?usp=sharing)
+
+
+---
+
+
+
 ## *Key Features*
 
 * **Comprehensive Shopping Flow:** Browse products on the main catalog, view specific item details on the **Product Page (by ID)**, and manage intended purchases.
