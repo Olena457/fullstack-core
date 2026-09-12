@@ -1,6 +1,7 @@
 
 "use client";
 
+import { useState, useEffect } from "react";
 import { Box, Typography } from "@mui/material";
 import { PaginationControls } from "../../components/product/PaginationControls";
 import { FilterSidebar } from "../../components/product/FilterSidebar";
@@ -8,6 +9,8 @@ import { ProductCard } from "../../components/product/ProductCard";
 import { ProductSkeletonCard } from "../../components/product/ProductSkeletonCard";
 import { useProducts } from "../../hooks/useProducts";
 import { VerticalPromoSwiper } from "../../components/product/VerticalPromoSwiper";
+
+import { AnimatedGreyText } from "../../components/product/AnimatedGreyText";
 
 export default function ProductsPage() {
   const {
@@ -29,6 +32,23 @@ export default function ProductsPage() {
     handleFilterChange,
   } = useProducts();
 
+  const [showDelayedMessage, setShowDelayedMessage] = useState(false);
+
+  useEffect(() => {
+    let timer: NodeJS.Timeout;
+
+    if (isLoading) {
+      timer = setTimeout(() => {
+        setShowDelayedMessage(true);
+      }, 6000);
+    } else {
+      timer = setTimeout(() => {
+        setShowDelayedMessage(false);
+      }, 0);
+    }
+
+    return () => clearTimeout(timer);
+  }, [isLoading]);
   return (
     <Box
       sx={{
@@ -77,26 +97,48 @@ export default function ProductsPage() {
           <VerticalPromoSwiper />
         </Box>
 
-        {/* RIGHT products */}
         <Box sx={{ flexGrow: 1, mt: 1 }}>
           {isLoading ? (
-            <Box
-              sx={{
-                display: "grid",
-                gridTemplateColumns: {
-                  xs: "repeat(1, minmax(0, 1fr))", 
-                  sm: "repeat(2, minmax(0, 1fr))", 
-                  md: "repeat(2, minmax(0, 1fr))", 
-                  lg: "repeat(3, minmax(0, 1fr))", 
-                },
-                gap: 3,
-              }}
-            >
-              {Array.from(new Array(6)).map((_, index) => (
-                <Box key={index}>
-                  <ProductSkeletonCard />
+            <Box sx={{ position: "relative", width: "100%" }}>
+              {showDelayedMessage && (
+                <Box
+                  sx={{
+                    position: "absolute",
+                    top: "25%",
+                    left: "50%",
+                    transform: "translate(-50%, -50%)",
+                    zIndex: 100, 
+                    pointerEvents: "none",
+                    animation: "fadeIn 0.5s ease-out",
+                    "@keyframes fadeIn": {
+                      "0%": { opacity: 0 },
+                      "100%": { opacity: 1 },
+                    },
+                  }}
+                >
+                  <AnimatedGreyText />
                 </Box>
-              ))}
+              )}
+
+              {/* Твоя сітка скелетонів */}
+              <Box
+                sx={{
+                  display: "grid",
+                  gridTemplateColumns: {
+                    xs: "repeat(1, minmax(0, 1fr))",
+                    sm: "repeat(2, minmax(0, 1fr))",
+                    md: "repeat(2, minmax(0, 1fr))",
+                    lg: "repeat(3, minmax(0, 1fr))",
+                  },
+                  gap: 3,
+                }}
+              >
+                {Array.from(new Array(6)).map((_, index) => (
+                  <Box key={index}>
+                    <ProductSkeletonCard />
+                  </Box>
+                ))}
+              </Box>
             </Box>
           ) : products.length === 0 ? (
             <Typography
